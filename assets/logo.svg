@@ -1,37 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" width="320" height="96" role="img" aria-label="Lumoxia">
-  <defs>
-    <linearGradient id="lmx-gold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#e8c66a"/>
-      <stop offset="0.5" stop-color="#c9922f"/>
-      <stop offset="1" stop-color="#9c6a1e"/>
-    </linearGradient>
-    <linearGradient id="lmx-lapis" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#2a4a86"/>
-      <stop offset="1" stop-color="#16274d"/>
-    </linearGradient>
-  </defs>
-
-  <!-- Emblem: an eight-point Sumerian rosette (star of Ishtar / Royal Game of Ur rosette) -->
-  <g transform="translate(48 48)">
-    <circle r="42" fill="url(#lmx-lapis)"/>
-    <circle r="42" fill="none" stroke="url(#lmx-gold)" stroke-width="2.5"/>
-    <!-- eight petals -->
-    <g fill="url(#lmx-gold)">
-      <g id="lmx-petal">
-        <path d="M0 -34 C 7 -20, 7 -12, 0 -4 C -7 -12, -7 -20, 0 -34 Z"/>
-      </g>
-      <use href="#lmx-petal" transform="rotate(45)"/>
-      <use href="#lmx-petal" transform="rotate(90)"/>
-      <use href="#lmx-petal" transform="rotate(135)"/>
-      <use href="#lmx-petal" transform="rotate(180)"/>
-      <use href="#lmx-petal" transform="rotate(225)"/>
-      <use href="#lmx-petal" transform="rotate(270)"/>
-      <use href="#lmx-petal" transform="rotate(315)"/>
-    </g>
-    <circle r="9" fill="#f2e4b8"/>
-    <circle r="9" fill="none" stroke="#9c6a1e" stroke-width="1.5"/>
+  <!-- Emblem: the central rosette of the Yangshao board -->
+  <g transform="translate(2 0)">
+    <circle cx="48" cy="48" r="46" fill="#8a2a18"/>
+    <circle cx="48" cy="48" r="46" fill="none" stroke="#150f0c" stroke-width="4"/><circle cx="48" cy="48" r="46" fill="none" stroke="#efe0b8" stroke-width="2"/><circle cx="48" cy="48" r="40" fill="none" stroke="#150f0c" stroke-width="3.5"/><circle cx="48" cy="48" r="40" fill="none" stroke="#a8321e" stroke-width="1.5"/><g transform="rotate(0 48 48) translate(13.4 13.4) scale(0.7)"><path d="M48 48C30 42 28 16 48 8C54 24 56 38 48 48Z" fill="#efe0b8" stroke="#150f0c" stroke-width="3.3" stroke-linejoin="round"/></g><g transform="rotate(45 48 48) translate(13.4 13.4) scale(0.7)"><path d="M48 48C30 42 28 16 48 8C54 24 56 38 48 48Z" fill="#efe0b8" stroke="#150f0c" stroke-width="3.3" stroke-linejoin="round"/></g><g transform="rotate(90 48 48) translate(13.4 13.4) scale(0.7)"><path d="M48 48C30 42 28 16 48 8C54 24 56 38 48 48Z" fill="#efe0b8" stroke="#150f0c" stroke-width="3.3" stroke-linejoin="round"/></g><g transform="rotate(135 48 48) translate(13.4 13.4) scale(0.7)"><path d="M48 48C30 42 28 16 48 8C54 24 56 38 48 48Z" fill="#efe0b8" stroke="#150f0c" stroke-width="3.3" stroke-linejoin="round"/></g><g transform="rotate(180 48 48) translate(13.4 13.4) scale(0.7)"><path d="M48 48C30 42 28 16 48 8C54 24 56 38 48 48Z" fill="#efe0b8" stroke="#150f0c" stroke-width="3.3" stroke-linejoin="round"/></g><g transform="rotate(225 48 48) translate(13.4 13.4) scale(0.7)"><path d="M48 48C30 42 28 16 48 8C54 24 56 38 48 48Z" fill="#efe0b8" stroke="#150f0c" stroke-width="3.3" stroke-linejoin="round"/></g><g transform="rotate(270 48 48) translate(13.4 13.4) scale(0.7)"><path d="M48 48C30 42 28 16 48 8C54 24 56 38 48 48Z" fill="#efe0b8" stroke="#150f0c" stroke-width="3.3" stroke-linejoin="round"/></g><g transform="rotate(315 48 48) translate(13.4 13.4) scale(0.7)"><path d="M48 48C30 42 28 16 48 8C54 24 56 38 48 48Z" fill="#efe0b8" stroke="#150f0c" stroke-width="3.3" stroke-linejoin="round"/></g><circle cx="48" cy="48" r="13" fill="#1f1713" stroke="#efe0b8" stroke-width="2"/><path d="M50 48L50.1 48.7L49.9 49.5L49.4 50.3L48.7 50.9L47.7 51.1L46.6 51.1L45.5 50.6L44.5 49.7L43.9 48.5L43.8 47.1L44.1 45.6L44.9 44.3L46.2 43.3L47.9 42.7L49.7 42.8L51.5 43.4L53 44.7L54 46.5L54.4 48.5L54.1 50.7L53 52.7L51.3 54.3L49.1 55.3L46.6 55.5L44.1 54.8L41.9 53.3L40.3 51.1L39.5 48.4L39.6 45.5L40.7 42.7" fill="none" stroke="#efe0b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
 
   <!-- Wordmark -->
-  <text x="104" y="58" font-family="'Cinzel','Trajan Pro',Georgia,serif" font-size="34" letter-spacing="2" fill="#f2e4b8">LUMOXIA</text>
+  <text x="112" y="58" font-family="'Cinzel','Trajan Pro',Georgia,serif" font-size="34" letter-spacing="2" fill="#f3ead8">LUMOXIA</text>
 </svg>
