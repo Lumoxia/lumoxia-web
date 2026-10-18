@@ -1,13 +1,13 @@
 # lumoxia-web
 
-The public marketing website for **Lumoxia** — an indie software studio reviving
-ancient games through art and software, and makers of *The Royal Game of Ur*.
+The public marketing website for **Lumoxia**, a small indie studio that rebuilds
+ancient games as apps. Makers of *The Royal Game of Ur*.
 
 Live site: **[lumoxia.art](https://lumoxia.art)** (served via GitHub Pages).
 
 ## Stack
 
-A dependency-free static site — just HTML, CSS, and a touch of inline SVG/JS.
+A dependency-free static site: HTML, CSS and a little inline SVG and JavaScript.
 Nothing to build.
 
 ```
