@@ -279,3 +279,13 @@ section { padding: 72px 0; }
   html { scroll-behavior: auto; }
   .btn { transition: none; }
 }
+
+/* ---- Document pages (privacy, support) ---- */
+.doc { padding-top: 56px; padding-bottom: 72px; max-width: 760px; }
+.doc h1 { font-family: var(--serif); font-size: clamp(1.8rem, 5vw, 2.6rem); color: var(--gold-400); margin: 0 0 4px; }
+.doc h2 { font-family: var(--serif); font-size: 1.3rem; color: var(--gold-400); margin: 2rem 0 0.5rem; }
+.doc h3 { font-size: 1.05rem; margin: 1.2rem 0 0.2rem; }
+.doc p, .doc li { color: var(--ink); }
+.doc ul { padding-left: 1.2rem; }
+.doc-meta { color: var(--muted); margin: 0 0 1.5rem; }
+.doc-contact { margin: 1.2rem 0; }
