@@ -52,3 +52,9 @@ AAAA  2606:50c0:8003::153
 ## License
 
 © Lumoxia. All rights reserved.
+
+## Publishing
+
+Every push to `main`, including a merged pull request, publishes the site through `.github/workflows/pages.yml`.
+There is nothing to tag or release. The workflow can also be run by hand from the Actions tab. In the repository
+settings, Pages must use "GitHub Actions" as its source; the custom domain `lumoxia.art` is kept by the `CNAME` file.
