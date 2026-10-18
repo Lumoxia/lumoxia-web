@@ -12,7 +12,7 @@ Nothing to build.
 
 ```
 index.html      # single-page landing site
-styles.css      # Mesopotamian-inspired theme (lapis + gold + carved stone)
+styles.css      # Mesopotamian-inspired theme (the colours of the Lumoxia board: brown, sand and gold)
 assets/
   logo.svg      # full horizontal wordmark + emblem
   mark.svg      # square emblem (favicon / OG / avatar)

@@ -1,19 +1,19 @@
 /* Lumoxia — static marketing site
-   Aesthetic: ancient Mesopotamian — lapis blue, gold, carved stone. */
+   Colours are those of the Lumoxia board in the app: bitumen brown frame, shell and sand tiles, gold. */
 
 :root {
-  --lapis-900: #0f1b33;
-  --lapis-800: #16274d;
-  --lapis-700: #1e345f;
-  --lapis-600: #2a4a86;
-  --gold-400: #e8c66a;
-  --gold-500: #c9922f;
+  --night-900: #1d1a16;
+  --night-800: #2a251f;
+  --night-700: #3b2414;
+  --night-600: #5a3b22;
+  --gold-400: #e3b54a;
+  --gold-500: #d4a442;
   --gold-600: #9c6a1e;
-  --sand-100: #f4ecd8;
-  --sand-200: #e7d9b6;
+  --sand-100: #f3ead8;
+  --sand-200: #efe3c8;
   --stone-700: #3a3528;
-  --ink: #f2e4b8;
-  --muted: #c7b98f;
+  --ink: #f3ead8;
+  --muted: #c8bba3;
 
   --maxw: 1080px;
   --radius: 16px;
@@ -32,8 +32,8 @@ body {
   font-family: var(--sans);
   color: var(--ink);
   background:
-    radial-gradient(1200px 600px at 50% -10%, rgba(42, 74, 134, 0.55), transparent 60%),
-    linear-gradient(180deg, var(--lapis-900), var(--lapis-800) 40%, var(--lapis-900));
+    radial-gradient(1200px 600px at 50% -10%, rgba(90, 59, 34, 0.5), transparent 60%),
+    linear-gradient(180deg, var(--night-900), var(--night-800) 40%, var(--night-900));
   background-attachment: fixed;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -55,7 +55,7 @@ a:hover { color: var(--gold-500); }
   top: 0;
   z-index: 10;
   backdrop-filter: blur(8px);
-  background: rgba(15, 27, 51, 0.72);
+  background: rgba(29, 26, 22, 0.8);
   border-bottom: 1px solid rgba(201, 146, 47, 0.25);
 }
 .nav {
@@ -93,10 +93,10 @@ a:hover { color: var(--gold-500); }
 }
 .btn-primary {
   background: linear-gradient(180deg, var(--gold-400), var(--gold-500));
-  color: var(--lapis-900);
+  color: var(--night-900);
   box-shadow: 0 6px 20px rgba(201, 146, 47, 0.35);
 }
-.btn-primary:hover { transform: translateY(-2px); color: var(--lapis-900); }
+.btn-primary:hover { transform: translateY(-2px); color: var(--night-900); }
 .btn-ghost {
   border-color: rgba(232, 198, 106, 0.5);
   color: var(--gold-400);
@@ -161,7 +161,7 @@ section { padding: 72px 0; }
   gap: 22px;
 }
 .card {
-  background: linear-gradient(180deg, rgba(30, 52, 95, 0.55), rgba(22, 39, 77, 0.55));
+  background: linear-gradient(180deg, rgba(59, 36, 20, 0.55), rgba(42, 37, 31, 0.55));
   border: 1px solid rgba(201, 146, 47, 0.22);
   border-radius: var(--radius);
   padding: 28px;
@@ -229,7 +229,7 @@ section { padding: 72px 0; }
   grid-template-columns: 160px 1fr;
   gap: 32px;
   align-items: center;
-  background: linear-gradient(180deg, rgba(30, 52, 95, 0.5), rgba(22, 39, 77, 0.5));
+  background: linear-gradient(180deg, rgba(59, 36, 20, 0.5), rgba(42, 37, 31, 0.5));
   border: 1px solid rgba(201, 146, 47, 0.22);
   border-radius: var(--radius);
   padding: 32px;
@@ -239,7 +239,7 @@ section { padding: 72px 0; }
   width: 160px; height: 160px; border-radius: 50%;
   background:
     radial-gradient(circle at 35% 30%, rgba(232, 198, 106, 0.25), transparent 60%),
-    linear-gradient(160deg, var(--lapis-600), var(--lapis-900));
+    linear-gradient(160deg, var(--night-600), var(--night-900));
   border: 2px solid var(--gold-500);
   object-fit: cover; /* the photo is cropped to the circle */
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
@@ -253,7 +253,7 @@ section { padding: 72px 0; }
   text-align: center;
   background:
     radial-gradient(800px 300px at 50% 0%, rgba(201, 146, 47, 0.18), transparent 60%),
-    linear-gradient(180deg, rgba(30, 52, 95, 0.4), transparent);
+    linear-gradient(180deg, rgba(59, 36, 20, 0.4), transparent);
   border-top: 1px solid rgba(201, 146, 47, 0.2);
   border-bottom: 1px solid rgba(201, 146, 47, 0.2);
 }
@@ -299,8 +299,8 @@ section { padding: 72px 0; }
   padding: 10px 22px 10px 14px;
   border: 1px solid var(--gold-500);
   border-radius: 999px;
-  background: linear-gradient(180deg, rgba(42, 74, 134, 0.55), rgba(22, 39, 77, 0.8));
-  box-shadow: inset 0 0 0 3px rgba(15, 27, 51, 0.6), 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(180deg, rgba(90, 59, 34, 0.5), rgba(42, 37, 31, 0.8));
+  box-shadow: inset 0 0 0 3px rgba(29, 26, 22, 0.6), 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 .soon img { display: block; }
 .soon span { display: flex; flex-direction: column; line-height: 1.2; text-align: left; }
@@ -318,7 +318,7 @@ section { padding: 72px 0; }
   font-size: 0.8rem;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--lapis-900);
+  color: var(--night-900);
   background: linear-gradient(180deg, var(--gold-400), var(--gold-500));
   border-radius: 4px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
