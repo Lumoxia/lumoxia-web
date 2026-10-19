@@ -7,12 +7,12 @@ Live site: **[lumoxia.art](https://lumoxia.art)** (served via GitHub Pages).
 
 ## Stack
 
-A dependency-free static site: HTML, CSS and a little inline SVG and JavaScript. It is available in nine languages
-(the same ones as the app). Each language is a pre-generated page committed to the repository, so the deployed site
+A dependency-free static site: HTML, CSS and a little inline SVG and JavaScript. It is available in thirteen languages
+(the app's nine plus Turkish, Russian, Hebrew and Portuguese). Each language is a pre-generated page committed to the repository, so the deployed site
 needs no build step. The pages are generated from templates and translation files by a small Python script.
 
 ```
-index.html      # generated: landing page (English). Other languages: fr/ es/ de/ ar/ zh/ it/ hi/ tl/
+index.html      # generated: landing page (English). Other languages: fr/ es/ de/ ar/ zh/ it/ hi/ tl/ tr/ ru/ he/ pt/
 royal-game-of-ur/  # generated: Privacy and Support pages (English)
 templates/      # page templates the pages are generated from
 i18n/           # languages.json, strings/<code>.json, app-terms.json (see i18n/README.md)

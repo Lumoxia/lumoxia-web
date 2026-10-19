@@ -63,7 +63,7 @@ class StringChecks(unittest.TestCase):
 
 
 class LanguageChecks(unittest.TestCase):
-    PINNED = ["en", "fr", "es", "de", "ar", "zh", "it", "hi", "tl"]
+    PINNED = ["en", "fr", "es", "de", "ar", "zh", "it", "hi", "tl", "tr", "ru", "he", "pt"]
 
     def langs(self, codes):
         return [{"code": k} for k in codes]
@@ -80,7 +80,7 @@ class LanguageChecks(unittest.TestCase):
         self.assertTrue(any("strings" in x for x in e))
 
     def test_extra_language(self):
-        e = c.check_languages(self.langs(self.PINNED + ["pt"]), self.PINNED + ["pt"], self.PINNED)
+        e = c.check_languages(self.langs(self.PINNED + ["ja"]), self.PINNED + ["ja"], self.PINNED)
         self.assertTrue(e)
 
 

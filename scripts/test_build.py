@@ -133,13 +133,13 @@ class Generated(unittest.TestCase):
             prefix = "" if l["code"] == "en" else l["code"] + "/"
             html = self.out[prefix + "royal-game-of-ur/support/index.html"]
             self.assertIn(f'<html lang="{l["htmlLang"]}" dir="{l["dir"]}"', html)
-            self.assertEqual(html.count('dir="rtl"') >= 1, l["code"] == "ar", l["code"])
+            self.assertEqual(html.count('dir="rtl"') >= 1, l["code"] in ("ar", "he"), l["code"])
             canon = "https://lumoxia.art/" + prefix + "royal-game-of-ur/support/"
             self.assertIn(f'<link rel="canonical" href="{canon}" />', html)
-            self.assertEqual(len(re.findall(r'rel="alternate" hreflang="', html)), 10)
+            self.assertEqual(len(re.findall(r'rel="alternate" hreflang="', html)), len(self.langs) + 1)
             self.assertIn('hreflang="x-default" href="https://lumoxia.art/royal-game-of-ur/support/"', html)
 
-    def test_menu_has_nine_in_order_one_current(self):
+    def test_menu_has_all_languages_in_order_one_current(self):
         for l in self.langs:
             prefix = "" if l["code"] == "en" else l["code"] + "/"
             html = self.out[prefix + "index.html"]
@@ -147,6 +147,25 @@ class Generated(unittest.TestCase):
             self.assertEqual(codes, [x["code"] for x in self.langs])
             self.assertEqual(html.count('aria-current="true"'), 1)
             self.assertRegex(html, rf'aria-current="true"[^>]*data-lang="{l["code"]}"|data-lang="{l["code"]}"[^>]*aria-current="true"')
+
+    def test_thirteen_languages_in_order(self):
+        self.assertEqual([l["code"] for l in self.langs],
+                         ["en", "fr", "es", "de", "ar", "zh", "it", "hi", "tl", "tr", "ru", "he", "pt"])
+
+    def test_hebrew_is_rtl_with_hebrew_font(self):
+        html = self.out["he/index.html"]
+        self.assertIn('dir="rtl"', html)
+        self.assertIn('class="fs-hebrew"', html)
+        self.assertIn("Noto+Sans+Hebrew", html)
+
+    def test_russian_loads_cyrillic_fonts(self):
+        html = self.out["ru/index.html"]
+        self.assertIn('lang="ru"', html)
+        self.assertIn("cyrillic", html)
+
+    def test_turkish_and_portuguese_tags(self):
+        self.assertIn('<html lang="tr" dir="ltr"', self.out["tr/index.html"])
+        self.assertIn('<html lang="pt" dir="ltr"', self.out["pt/index.html"])
 
     def test_detect_script_only_on_english(self):
         for path, html in self.out.items():

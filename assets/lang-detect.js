@@ -8,6 +8,7 @@ function lumoxiaDetect(saved, search, prefs, codes) {
   for (var i = 0; i < (prefs || []).length; i++) {
     var p = String(prefs[i]).toLowerCase().split('-')[0];
     if (p === 'fil') p = 'tl';
+    if (p === 'iw') p = 'he';
     if (codes.indexOf(p) > -1) return { target: p, save: null };
   }
   return { target: null, save: null };

@@ -15,6 +15,7 @@
     for (var i = 0; i < (prefs || []).length; i++) {
       var p = String(prefs[i]).toLowerCase().split('-')[0];
       if (p === 'fil') p = 'tl';
+      if (p === 'iw') p = 'he';
       if (codes.indexOf(p) > -1) return { target: p, save: null };
     }
     return { target: null, save: null };
@@ -23,7 +24,7 @@
   (function () {
     var saved = null;
     try { saved = localStorage.getItem('lumoxia.lang'); } catch (e) {}
-    var r = lumoxiaDetect(saved, location.search, navigator.languages || [navigator.language || 'en'], ["en","fr","es","de","ar","zh","it","hi","tl"]);
+    var r = lumoxiaDetect(saved, location.search, navigator.languages || [navigator.language || 'en'], ["en","fr","es","de","ar","zh","it","hi","tl","tr","ru","he","pt"]);
     if (r.save) { try { localStorage.setItem('lumoxia.lang', r.save); } catch (e) {} }
     if (r.target && r.target !== 'en') location.replace('/' + r.target + location.pathname + location.hash);
   })();
@@ -51,6 +52,10 @@
   <link rel="alternate" hreflang="it" href="https://lumoxia.art/it/" />
   <link rel="alternate" hreflang="hi" href="https://lumoxia.art/hi/" />
   <link rel="alternate" hreflang="fil" href="https://lumoxia.art/tl/" />
+  <link rel="alternate" hreflang="tr" href="https://lumoxia.art/tr/" />
+  <link rel="alternate" hreflang="ru" href="https://lumoxia.art/ru/" />
+  <link rel="alternate" hreflang="he" href="https://lumoxia.art/he/" />
+  <link rel="alternate" hreflang="pt" href="https://lumoxia.art/pt/" />
   <link rel="alternate" hreflang="x-default" href="https://lumoxia.art/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -83,6 +88,10 @@
         <li><a class="lang-option" href="/it/" hreflang="it" lang="it" data-lang="it"><span class="lang-chip" aria-hidden="true">IT</span><span>Italiano</span></a></li>
         <li><a class="lang-option" href="/hi/" hreflang="hi" lang="hi" data-lang="hi"><span class="lang-chip" aria-hidden="true">हि</span><span>हिन्दी</span></a></li>
         <li><a class="lang-option" href="/tl/" hreflang="fil" lang="fil" data-lang="tl"><span class="lang-chip" aria-hidden="true">TL</span><span>Tagalog</span></a></li>
+        <li><a class="lang-option" href="/tr/" hreflang="tr" lang="tr" data-lang="tr"><span class="lang-chip" aria-hidden="true">TR</span><span>Türkçe</span></a></li>
+        <li><a class="lang-option" href="/ru/" hreflang="ru" lang="ru" data-lang="ru"><span class="lang-chip" aria-hidden="true">RU</span><span>Русский</span></a></li>
+        <li><a class="lang-option" href="/he/" hreflang="he" lang="he" data-lang="he"><span class="lang-chip" aria-hidden="true">עב</span><span>עברית</span></a></li>
+        <li><a class="lang-option" href="/pt/" hreflang="pt" lang="pt" data-lang="pt"><span class="lang-chip" aria-hidden="true">PT</span><span>Português</span></a></li>
         </ul>
       </details>
     </nav>
