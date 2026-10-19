@@ -108,6 +108,14 @@ class AppRepoParse(unittest.TestCase):
         self.assertEqual(got[0], {"code": "ar", "label": "العربية", "short": "ع", "dir": "rtl"})
         self.assertEqual(got[1]["code"], "tl")
 
+    def test_pending_languages_are_skipped(self):
+        swift = 'LocaleInfo(code: "en", label: "English", short: "EN", direction: .ltr),'
+        langs = [{"code": "en", "label": "English", "short": "EN", "dir": "ltr"},
+                 {"code": "tr", "label": "Türkçe", "short": "TR", "dir": "ltr"}]
+        self.assertEqual(c.check_against_app(langs, swift), [])
+        langs[0]["short"] = "XX"
+        self.assertTrue(c.check_against_app(langs, swift))
+
 
 if __name__ == "__main__":
     unittest.main()

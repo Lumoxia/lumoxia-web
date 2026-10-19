@@ -11,6 +11,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PINNED_CODES = ["en", "fr", "es", "de", "ar", "zh", "it", "hi", "tl", "tr", "ru", "he", "pt"]
+# Site languages the app does not ship yet; drop a code from here once the app has it.
+PENDING_APP_CODES = {"tr", "ru", "he", "pt"}
 DASHES = ("—", "–")
 SIMPLE_TOKENS = {"base", "root", "lang", "dir", "htmllang", "canonical", "alternates", "langmenu", "fonts",
                  "detect", "fsclass", "oglocale", "path"}
@@ -95,7 +97,8 @@ def check_against_app(languages, swift):
     app = parse_app_locales(swift)
     if not app:
         return ["could not find any LocaleInfo entries in the app source"]
-    mine = [{k: l[k] for k in ("code", "label", "short", "dir")} for l in languages]
+    mine = [{k: l[k] for k in ("code", "label", "short", "dir")} for l in languages
+            if l["code"] not in PENDING_APP_CODES]
     if app != mine:
         errors.append(f"languages.json differs from the app's LocaleInfo.all:\n  app:  {app}\n  site: {mine}")
     return errors

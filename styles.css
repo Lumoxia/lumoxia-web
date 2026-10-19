@@ -400,6 +400,7 @@ html.fs-han {
   --sans: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans SC', sans-serif;
 }
 html.fs-arabic *, html.fs-hebrew *, html.fs-devanagari *, html.fs-han * { letter-spacing: normal !important; }
+/* Cinzel has no Cyrillic: fs-cyrillic only restyles the Latin wordmark, not the hero heading */
 html.fs-arabic .brand span, html.fs-hebrew .brand span, html.fs-cyrillic .brand span, html.fs-devanagari .brand span, html.fs-han .brand span,
 html.fs-arabic .hero h1, html.fs-hebrew .hero h1, html.fs-devanagari .hero h1, html.fs-han .hero h1 { font-family: 'Cinzel', var(--serif); letter-spacing: 2px !important; }
 html.fs-han h1, html.fs-han h2, html.fs-han h3 { font-weight: 700; }
