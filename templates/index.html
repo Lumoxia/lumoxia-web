@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="{{htmllang}}" dir="{{dir}}"{{fsclass}}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{{detect}}
+  <title>{{t:meta.index.title}}</title>
+  <meta name="description" content="{{attr:meta.index.description}}" />
+
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{{attr:meta.index.title}}" />
+  <meta property="og:description" content="{{attr:meta.index.og}}" />
+  <meta property="og:url" content="{{canonical}}" />
+  <meta property="og:locale" content="{{oglocale}}" />
+  <meta property="og:image" content="https://lumoxia.art/assets/royal-game-of-ur.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+{{include:partials/head.html}}
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="#top" aria-label="{{attr:nav.home}}">
+        <img src="{{root}}assets/mark.svg" alt="{{attr:brand.emblem}}" />
+        <span>LUMOXIA</span>
+      </a>
+      <div class="nav-links">
+        <a href="#mission">{{t:nav.mission}}</a>
+        <a href="#game">{{t:nav.game}}</a>
+        <a href="#founder">{{t:nav.about}}</a>
+        <a href="#contact">{{t:nav.contact}}</a>
+      </div>
+{{langmenu}}
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <img class="emblem" src="{{root}}assets/mark.svg" alt="{{attr:hero.emblem}}" />
+        <h1>LUMOXIA</h1>
+        <p class="tagline">{{t:hero.tagline}}</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#game">{{t:hero.first}}</a>
+          <a class="btn btn-ghost" href="#mission">{{t:nav.mission}}</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSION -->
+    <section id="mission">
+      <div class="container">
+        <h2 class="section-title">{{t:nav.mission}}</h2>
+        <div class="divider"></div>
+        <p class="section-lead">{{t:mission.lead}}</p>
+        <div class="grid">
+          <article class="card">
+            <h3>{{t:mission.c1.h}}</h3>
+            <p>{{t:mission.c1.p}}</p>
+          </article>
+          <article class="card">
+            <h3>{{t:mission.c2.h}}</h3>
+            <p>{{t:mission.c2.p}}</p>
+          </article>
+          <article class="card">
+            <h3>{{t:mission.c3.h}}</h3>
+            <p>{{t:mission.c3.p}}</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT: THE ROYAL GAME OF UR -->
+    <section id="game">
+      <div class="container">
+        <div class="product">
+          <div class="shot">
+            <div class="phone">
+              <span class="ribbon">{{t:game.soon}}</span>
+              <img src="{{root}}assets/royal-game-of-ur.png" alt="{{attr:game.shot}}" loading="lazy" width="620" height="1348" />
+            </div>
+          </div>
+          <div>
+            <p class="eyebrow">{{t:game.eyebrow}}</p>
+            <h2>{{t:nav.game}}</h2>
+            <p>{{t:game.p}}</p>
+            <ul>
+              <li>{{t:game.b1}}</li>
+              <li>{{t:game.b2}}</li>
+              <li>{{t:game.b3}}</li>
+            </ul>
+            <div class="soon" role="note">
+              <img src="{{root}}assets/mark.svg" alt="" width="40" height="40" />
+              <span><strong>{{t:game.soon}}</strong><small>{{t:game.platforms}}</small></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOUNDER -->
+    <section id="founder">
+      <div class="container">
+        <h2 class="section-title">{{t:nav.about}}</h2>
+        <div class="divider"></div>
+        <div class="founder">
+          <img class="avatar" src="{{root}}assets/giorgio.jpg" alt="{{attr:about.avatar}}" width="160" height="160" loading="lazy" />
+          <div>
+            <h3>Giorgio Orsi</h3>
+            <p class="role">{{t:about.role}}</p>
+            <p>{{t:about.p}}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA BAND -->
+    <section class="cta-band" id="contact">
+      <div class="container">
+        <h2>{{t:contact.h}}</h2>
+        <p class="section-lead">{{t:contact.lead}}</p>
+        <div class="cta" style="justify-content:center;">
+          <a class="btn btn-primary" href="https://github.com/Lumoxia" target="_blank" rel="noopener">{{t:contact.github}}</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <a class="brand" href="#top" aria-label="{{attr:nav.home}}">
+        <img src="{{root}}assets/mark.svg" alt="{{attr:brand.emblem}}" />
+        <span>LUMOXIA</span>
+      </a>
+      <p>{{t:footer.tagline}}</p>
+      <p>
+        <a href="https://lumoxia.art">lumoxia.art</a> &middot;
+        <a href="https://github.com/Lumoxia" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <p>&copy; <span id="year">2026</span> {{t:footer.rights}}</p>
+    </div>
+  </footer>
+</body>
+</html>

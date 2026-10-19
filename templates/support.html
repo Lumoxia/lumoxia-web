@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="{{htmllang}}" dir="{{dir}}"{{fsclass}}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{{detect}}
+  <title>{{t:meta.support.title}}</title>
+  <meta name="description" content="{{attr:meta.support.description}}" />
+{{include:partials/head.html}}
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="{{base}}" aria-label="{{attr:nav.home}}">
+        <img src="{{root}}assets/mark.svg" alt="{{attr:brand.emblem}}" />
+        <span>LUMOXIA</span>
+      </a>
+      <div class="nav-links">
+        <a href="{{base}}#game">{{t:nav.game}}</a>
+        <a href="{{base}}royal-game-of-ur/privacy/">{{t:nav.privacy}}</a>
+        <a href="{{base}}royal-game-of-ur/support/">{{t:nav.support}}</a>
+      </div>
+{{langmenu}}
+    </nav>
+  </header>
+
+  <main>
+    <article class="container doc">
+      <h1>{{t:nav.support}}</h1>
+      <p class="doc-meta">{{t:support.meta}}</p>
+      <p>{{t:support.intro}}</p>
+      <p class="doc-contact"><a class="btn btn-primary" href="mailto:rgur-support@lumoxia.art?subject={{url:support.subject}}"><bdi dir="ltr">rgur-support@lumoxia.art</bdi></a></p>
+
+      <h2>{{t:support.include.h}}</h2>
+      <ul>
+        <li>{{t:support.include.l1}}</li>
+        <li>{{t:support.include.l2}}</li>
+        <li>{{t:support.include.l3}}</li>
+      </ul>
+
+      <h2>{{t:support.faq.h}}</h2>
+      <h3>{{t:support.q1.q}}</h3>
+      <p>{{t:support.q1.a}}</p>
+      <h3>{{t:support.q2.q}}</h3>
+      <p>{{t:support.q2.a}}</p>
+      <h3>{{t:support.q3.q}}</h3>
+      <p>{{t:support.q3.a}}</p>
+      <h3>{{t:support.q4.q}}</h3>
+      <p>{{t:support.q4.a}}</p>
+      <h3>{{t:support.q5.q}}</h3>
+      <p>{{t:support.q5.a}}</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Lumoxia. <a href="{{base}}royal-game-of-ur/privacy/">{{t:footer.privacy}}</a> &middot; <a href="{{base}}royal-game-of-ur/support/">{{t:nav.support}}</a> &middot; <a href="mailto:rgur-support@lumoxia.art"><bdi dir="ltr">rgur-support@lumoxia.art</bdi></a></p>
+    </div>
+  </footer>
+</body>
+</html>

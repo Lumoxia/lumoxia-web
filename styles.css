@@ -220,7 +220,7 @@ section { padding: 72px 0; }
   margin: 0 0 6px;
 }
 .product p { color: var(--sand-100); }
-.product ul { color: var(--sand-100); padding-left: 20px; margin: 16px 0 24px; }
+.product ul { color: var(--sand-100); padding-inline-start: 20px; margin: 16px 0 24px; }
 .product li { margin: 6px 0; }
 
 /* ---- Founder ---- */
@@ -287,7 +287,7 @@ section { padding: 72px 0; }
 .doc h2 { font-family: var(--serif); font-size: 1.3rem; color: var(--gold-400); margin: 2rem 0 0.5rem; }
 .doc h3 { font-size: 1.05rem; margin: 1.2rem 0 0.2rem; }
 .doc p, .doc li { color: var(--ink); }
-.doc ul { padding-left: 1.2rem; }
+.doc ul { padding-inline-start: 1.2rem; }
 .doc-meta { color: var(--muted); margin: 0 0 1.5rem; }
 .doc-contact { margin: 1.2rem 0; }
 
@@ -303,14 +303,14 @@ section { padding: 72px 0; }
   box-shadow: inset 0 0 0 3px rgba(29, 26, 22, 0.6), 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 .soon img { display: block; }
-.soon span { display: flex; flex-direction: column; line-height: 1.2; text-align: left; }
+.soon span { display: flex; flex-direction: column; line-height: 1.2; text-align: start; }
 .soon strong { font-family: var(--serif); letter-spacing: 2px; text-transform: uppercase; font-size: 1.05rem; color: var(--gold-400); }
 .soon small { color: var(--muted); font-size: 0.85rem; }
 .phone { position: relative; }
 .ribbon {
   position: absolute;
   top: 18px;
-  left: -10px;
+  inset-inline-start: -10px;
   z-index: 2;
   padding: 6px 16px;
   font-family: var(--serif);
@@ -323,3 +323,85 @@ section { padding: 72px 0; }
   border-radius: 4px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
 }
+
+/* ---- Language control (modelled on the app's language menu) ---- */
+.nav-links { margin-inline-start: auto; }
+.lang { position: relative; flex: none; }
+.lang-button {
+  list-style: none;
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 10px;
+  border: 1px solid rgba(232, 198, 106, 0.5);
+  border-radius: 16px;
+  background: rgba(232, 198, 106, 0.06);
+  color: var(--gold-400);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  user-select: none;
+}
+.lang-button::-webkit-details-marker { display: none; }
+.lang-button:hover, .lang[open] .lang-button { background: rgba(232, 198, 106, 0.16); }
+.lang-button:focus-visible, .lang-option:focus-visible { outline: 2px solid var(--gold-400); outline-offset: 2px; }
+.lang-list {
+  position: absolute;
+  inset-inline-end: 0;
+  top: calc(100% + 8px);
+  z-index: 20;
+  list-style: none;
+  margin: 0;
+  padding: 5px;
+  min-width: 170px;
+  max-height: min(70vh, 460px);
+  overflow-y: auto;
+  background: var(--night-800);
+  border: 1px solid var(--night-600);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+.lang-option:hover { background: rgba(232, 198, 106, 0.18); color: var(--ink); }
+.lang-option[aria-current] { background: rgba(232, 198, 106, 0.28); color: var(--gold-400); }
+.lang-chip {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border: 1px solid var(--night-600);
+  border-radius: 5px;
+  background: var(--night-900);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* ---- Right to left (Arabic) ---- */
+bdi[dir="ltr"] { unicode-bidi: isolate; }
+
+/* ---- Scripts the display and body fonts do not cover ---- */
+html.fs-arabic { --serif: 'Noto Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif; --sans: 'Noto Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif; }
+html.fs-devanagari { --serif: 'Noto Sans Devanagari', 'Kohinoor Devanagari', 'Nirmala UI', sans-serif; --sans: 'Noto Sans Devanagari', 'Kohinoor Devanagari', 'Nirmala UI', sans-serif; }
+html.fs-han {
+  --serif: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans SC', sans-serif;
+  --sans: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans SC', sans-serif;
+}
+html.fs-arabic *, html.fs-devanagari *, html.fs-han * { letter-spacing: normal !important; }
+html.fs-arabic .brand span, html.fs-devanagari .brand span, html.fs-han .brand span,
+html.fs-arabic .hero h1, html.fs-devanagari .hero h1, html.fs-han .hero h1 { font-family: 'Cinzel', var(--serif); letter-spacing: 2px !important; }
+html.fs-han h1, html.fs-han h2, html.fs-han h3 { font-weight: 700; }
+
+/* ---- Long words in longer languages (for example German) must wrap, not overflow ---- */
+h1, h2, h3, p, li { overflow-wrap: break-word; }
+h1, h2, h3 { hyphens: auto; }

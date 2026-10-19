@@ -1,0 +1,11 @@
+[
+  {"code": "en", "htmlLang": "en", "label": "English", "short": "EN", "dir": "ltr", "fontSet": "latin", "ogLocale": "en_US"},
+  {"code": "fr", "htmlLang": "fr", "label": "Français", "short": "FR", "dir": "ltr", "fontSet": "latin", "ogLocale": "fr_FR"},
+  {"code": "es", "htmlLang": "es", "label": "Español", "short": "ES", "dir": "ltr", "fontSet": "latin", "ogLocale": "es_ES"},
+  {"code": "de", "htmlLang": "de", "label": "Deutsch", "short": "DE", "dir": "ltr", "fontSet": "latin", "ogLocale": "de_DE"},
+  {"code": "ar", "htmlLang": "ar", "label": "العربية", "short": "ع", "dir": "rtl", "fontSet": "arabic", "ogLocale": "ar_AR"},
+  {"code": "zh", "htmlLang": "zh-Hans", "label": "中文", "short": "中", "dir": "ltr", "fontSet": "han", "ogLocale": "zh_CN"},
+  {"code": "it", "htmlLang": "it", "label": "Italiano", "short": "IT", "dir": "ltr", "fontSet": "latin", "ogLocale": "it_IT"},
+  {"code": "hi", "htmlLang": "hi", "label": "हिन्दी", "short": "हि", "dir": "ltr", "fontSet": "devanagari", "ogLocale": "hi_IN"},
+  {"code": "tl", "htmlLang": "fil", "label": "Tagalog", "short": "TL", "dir": "ltr", "fontSet": "latin", "ogLocale": "tl_PH"}
+]
