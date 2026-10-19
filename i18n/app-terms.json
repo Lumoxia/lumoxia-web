@@ -1,0 +1,110 @@
+{
+  "en": {
+    "title": "The Royal Game of Ur",
+    "modeShortHvc": "Single Player",
+    "modeShortHvh": "2 Players",
+    "statsLabel": "Stats",
+    "statsReset": "Reset all statistics",
+    "rules": "Rules",
+    "settingsLabel": "Settings",
+    "soundLabel": "Sound",
+    "shakeLabel": "Shake to roll",
+    "langLabel": "Language:"
+  },
+  "fr": {
+    "title": "Le Jeu Royal d’Ur",
+    "modeShortHvc": "Solo",
+    "modeShortHvh": "2 joueurs",
+    "statsLabel": "Stats",
+    "statsReset": "Réinitialiser toutes les statistiques",
+    "rules": "Règles",
+    "settingsLabel": "Réglages",
+    "soundLabel": "Son",
+    "shakeLabel": "Secouer pour lancer",
+    "langLabel": "Langue :"
+  },
+  "es": {
+    "title": "El Juego Real de Ur",
+    "modeShortHvc": "Un jugador",
+    "modeShortHvh": "2 jugadores",
+    "statsLabel": "Estadísticas",
+    "statsReset": "Restablecer todas las estadísticas",
+    "rules": "Reglas",
+    "settingsLabel": "Ajustes",
+    "soundLabel": "Sonido",
+    "shakeLabel": "Agitar para tirar",
+    "langLabel": "Idioma:"
+  },
+  "de": {
+    "title": "Das Königliche Spiel von Ur",
+    "modeShortHvc": "Einzelspieler",
+    "modeShortHvh": "2 Spieler",
+    "statsLabel": "Statistik",
+    "statsReset": "Alle Statistiken zurücksetzen",
+    "rules": "Regeln",
+    "settingsLabel": "Einstellungen",
+    "soundLabel": "Ton",
+    "shakeLabel": "Schütteln zum Würfeln",
+    "langLabel": "Sprache:"
+  },
+  "ar": {
+    "title": "لعبة أور الملكية",
+    "modeShortHvc": "لاعب واحد",
+    "modeShortHvh": "لاعبان",
+    "statsLabel": "الإحصائيات",
+    "statsReset": "إعادة تعيين كل الإحصائيات",
+    "rules": "القواعد",
+    "settingsLabel": "الإعدادات",
+    "soundLabel": "الصوت",
+    "shakeLabel": "هز للرمي",
+    "langLabel": "اللغة:"
+  },
+  "zh": {
+    "title": "乌尔王室游戏",
+    "modeShortHvc": "单人",
+    "modeShortHvh": "双人对战",
+    "statsLabel": "统计",
+    "statsReset": "重置所有统计数据",
+    "rules": "规则",
+    "settingsLabel": "设置",
+    "soundLabel": "声音",
+    "shakeLabel": "摇一摇掷骰",
+    "langLabel": "语言："
+  },
+  "it": {
+    "title": "Il Gioco Reale di Ur",
+    "modeShortHvc": "Giocatore singolo",
+    "modeShortHvh": "2 giocatori",
+    "statsLabel": "Statistiche",
+    "statsReset": "Azzera tutte le statistiche",
+    "rules": "Regole",
+    "settingsLabel": "Impostazioni",
+    "soundLabel": "Audio",
+    "shakeLabel": "Scuoti per tirare",
+    "langLabel": "Lingua:"
+  },
+  "hi": {
+    "title": "उर का शाही खेल",
+    "modeShortHvc": "एकल खिलाड़ी",
+    "modeShortHvh": "2 खिलाड़ी",
+    "statsLabel": "आँकड़े",
+    "statsReset": "सभी आँकड़े रीसेट करें",
+    "rules": "नियम",
+    "settingsLabel": "सेटिंग",
+    "soundLabel": "ध्वनि",
+    "shakeLabel": "हिलाकर फेंकें",
+    "langLabel": "भाषा:"
+  },
+  "tl": {
+    "title": "Ang Maharlikang Laro ng Ur",
+    "modeShortHvc": "Solo",
+    "modeShortHvh": "2 manlalaro",
+    "statsLabel": "Stats",
+    "statsReset": "I-reset ang lahat ng estadistika",
+    "rules": "Mga Patakaran",
+    "settingsLabel": "Mga Setting",
+    "soundLabel": "Tunog",
+    "shakeLabel": "Iyugyog para magpagulong",
+    "langLabel": "Wika:"
+  }
+}

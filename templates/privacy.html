@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="{{htmllang}}" dir="{{dir}}"{{fsclass}}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{{detect}}
+  <title>{{t:meta.privacy.title}}</title>
+  <meta name="description" content="{{attr:meta.privacy.description}}" />
+{{include:partials/head.html}}
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="{{base}}" aria-label="{{attr:nav.home}}">
+        <img src="{{root}}assets/mark.svg" alt="{{attr:brand.emblem}}" />
+        <span>LUMOXIA</span>
+      </a>
+      <div class="nav-links">
+        <a href="{{base}}#game">{{t:nav.game}}</a>
+        <a href="{{base}}royal-game-of-ur/privacy/">{{t:nav.privacy}}</a>
+        <a href="{{base}}royal-game-of-ur/support/">{{t:nav.support}}</a>
+      </div>
+{{langmenu}}
+    </nav>
+  </header>
+
+  <main>
+    <article class="container doc">
+      <h1>{{t:privacy.h1}}</h1>
+      <p class="doc-meta">{{t:privacy.meta}}</p>
+      <p><strong>{{t:privacy.short}}</strong></p>
+
+      <h2>{{t:privacy.stores.h}}</h2>
+      <p>{{t:privacy.stores.p1}}</p>
+      <ul>
+        <li>{{t:privacy.stores.l1}}</li>
+        <li>{{t:privacy.stores.l2}}</li>
+      </ul>
+      <p>{{t:privacy.stores.p2}}</p>
+
+      <h2>{{t:privacy.not.h}}</h2>
+      <ul>
+        <li>{{t:privacy.not.l1}}</li>
+        <li>{{t:privacy.not.l2}}</li>
+        <li>{{t:privacy.not.l3}}</li>
+        <li>{{t:privacy.not.l4}}</li>
+        <li>{{t:privacy.not.l5}}</li>
+      </ul>
+
+      <h2>{{t:privacy.motion.h}}</h2>
+      <p>{{t:privacy.motion.p}}</p>
+
+      <h2>{{t:privacy.links.h}}</h2>
+      <p>{{t:privacy.links.p}}</p>
+
+      <h2>{{t:privacy.children.h}}</h2>
+      <p>{{t:privacy.children.p}}</p>
+
+      <h2>{{t:privacy.site.h}}</h2>
+      <p>{{t:privacy.site.p}}</p>
+
+      <h2>{{t:privacy.changes.h}}</h2>
+      <p>{{t:privacy.changes.p}}</p>
+
+      <h2>{{t:privacy.contact.h}}</h2>
+      <p>{{t:privacy.contact.p}}</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Lumoxia. <a href="{{base}}royal-game-of-ur/privacy/">{{t:footer.privacy}}</a> &middot; <a href="{{base}}royal-game-of-ur/support/">{{t:nav.support}}</a> &middot; <a href="mailto:rgur-support@lumoxia.art"><bdi dir="ltr">rgur-support@lumoxia.art</bdi></a></p>
+    </div>
+  </footer>
+</body>
+</html>
