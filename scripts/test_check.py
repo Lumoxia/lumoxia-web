@@ -63,7 +63,7 @@ class StringChecks(unittest.TestCase):
 
 
 class LanguageChecks(unittest.TestCase):
-    PINNED = ["en", "fr", "es", "de", "ar", "zh", "it", "hi", "tl"]
+    PINNED = ["en", "fr", "es", "de", "ar", "zh", "it", "hi", "tl", "tr", "ru", "he", "pt"]
 
     def langs(self, codes):
         return [{"code": k} for k in codes]
@@ -80,7 +80,7 @@ class LanguageChecks(unittest.TestCase):
         self.assertTrue(any("strings" in x for x in e))
 
     def test_extra_language(self):
-        e = c.check_languages(self.langs(self.PINNED + ["pt"]), self.PINNED + ["pt"], self.PINNED)
+        e = c.check_languages(self.langs(self.PINNED + ["ja"]), self.PINNED + ["ja"], self.PINNED)
         self.assertTrue(e)
 
 
@@ -107,6 +107,14 @@ class AppRepoParse(unittest.TestCase):
         got = c.parse_app_locales(swift)
         self.assertEqual(got[0], {"code": "ar", "label": "العربية", "short": "ع", "dir": "rtl"})
         self.assertEqual(got[1]["code"], "tl")
+
+    def test_pending_languages_are_skipped(self):
+        swift = 'LocaleInfo(code: "en", label: "English", short: "EN", direction: .ltr),'
+        langs = [{"code": "en", "label": "English", "short": "EN", "dir": "ltr"},
+                 {"code": "tr", "label": "Türkçe", "short": "TR", "dir": "ltr"}]
+        self.assertEqual(c.check_against_app(langs, swift), [])
+        langs[0]["short"] = "XX"
+        self.assertTrue(c.check_against_app(langs, swift))
 
 
 if __name__ == "__main__":

@@ -7,5 +7,9 @@
   {"code": "zh", "htmlLang": "zh-Hans", "label": "中文", "short": "中", "dir": "ltr", "fontSet": "han", "ogLocale": "zh_CN"},
   {"code": "it", "htmlLang": "it", "label": "Italiano", "short": "IT", "dir": "ltr", "fontSet": "latin", "ogLocale": "it_IT"},
   {"code": "hi", "htmlLang": "hi", "label": "हिन्दी", "short": "हि", "dir": "ltr", "fontSet": "devanagari", "ogLocale": "hi_IN"},
-  {"code": "tl", "htmlLang": "fil", "label": "Tagalog", "short": "TL", "dir": "ltr", "fontSet": "latin", "ogLocale": "tl_PH"}
+  {"code": "tl", "htmlLang": "fil", "label": "Tagalog", "short": "TL", "dir": "ltr", "fontSet": "latin", "ogLocale": "tl_PH"},
+  {"code": "tr", "htmlLang": "tr", "label": "Türkçe", "short": "TR", "dir": "ltr", "fontSet": "latin", "ogLocale": "tr_TR"},
+  {"code": "ru", "htmlLang": "ru", "label": "Русский", "short": "RU", "dir": "ltr", "fontSet": "cyrillic", "ogLocale": "ru_RU"},
+  {"code": "he", "htmlLang": "he", "label": "עברית", "short": "עב", "dir": "rtl", "fontSet": "hebrew", "ogLocale": "he_IL"},
+  {"code": "pt", "htmlLang": "pt", "label": "Português", "short": "PT", "dir": "ltr", "fontSet": "latin", "ogLocale": "pt_BR"}
 ]

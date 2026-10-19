@@ -387,19 +387,22 @@ section { padding: 72px 0; }
   font-size: 0.9rem;
 }
 
-/* ---- Right to left (Arabic) ---- */
+/* ---- Right to left (Arabic, Hebrew) ---- */
 bdi[dir="ltr"] { unicode-bidi: isolate; }
 
 /* ---- Scripts the display and body fonts do not cover ---- */
 html.fs-arabic { --serif: 'Noto Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif; --sans: 'Noto Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif; }
 html.fs-devanagari { --serif: 'Noto Sans Devanagari', 'Kohinoor Devanagari', 'Nirmala UI', sans-serif; --sans: 'Noto Sans Devanagari', 'Kohinoor Devanagari', 'Nirmala UI', sans-serif; }
+html.fs-hebrew { --serif: 'Noto Sans Hebrew', 'Arial Hebrew', 'Segoe UI', Arial, sans-serif; --sans: 'Noto Sans Hebrew', 'Arial Hebrew', 'Segoe UI', Arial, sans-serif; }
+html.fs-cyrillic { --serif: 'Noto Serif', 'Times New Roman', Georgia, serif; --sans: 'Inter', system-ui, 'Segoe UI', Arial, sans-serif; }
 html.fs-han {
   --serif: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans SC', sans-serif;
   --sans: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans SC', sans-serif;
 }
-html.fs-arabic *, html.fs-devanagari *, html.fs-han * { letter-spacing: normal !important; }
-html.fs-arabic .brand span, html.fs-devanagari .brand span, html.fs-han .brand span,
-html.fs-arabic .hero h1, html.fs-devanagari .hero h1, html.fs-han .hero h1 { font-family: 'Cinzel', var(--serif); letter-spacing: 2px !important; }
+html.fs-arabic *, html.fs-hebrew *, html.fs-devanagari *, html.fs-han * { letter-spacing: normal !important; }
+/* Cinzel has no Cyrillic: fs-cyrillic only restyles the Latin wordmark, not the hero heading */
+html.fs-arabic .brand span, html.fs-hebrew .brand span, html.fs-cyrillic .brand span, html.fs-devanagari .brand span, html.fs-han .brand span,
+html.fs-arabic .hero h1, html.fs-hebrew .hero h1, html.fs-devanagari .hero h1, html.fs-han .hero h1 { font-family: 'Cinzel', var(--serif); letter-spacing: 2px !important; }
 html.fs-han h1, html.fs-han h2, html.fs-han h3 { font-weight: 700; }
 
 /* ---- Long words in longer languages (for example German) must wrap, not overflow ---- */

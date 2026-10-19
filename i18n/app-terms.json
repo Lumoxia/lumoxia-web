@@ -106,5 +106,53 @@
     "soundLabel": "Tunog",
     "shakeLabel": "Iyugyog para magpagulong",
     "langLabel": "Wika:"
+  },
+  "tr": {
+    "title": "Kraliyet Ur Oyunu",
+    "modeShortHvc": "Tek Oyunculu",
+    "modeShortHvh": "2 Oyuncu",
+    "statsLabel": "İstatistikler",
+    "statsReset": "Tüm istatistikleri sıfırla",
+    "rules": "Kurallar",
+    "settingsLabel": "Ayarlar",
+    "soundLabel": "Ses",
+    "shakeLabel": "Sallayarak at",
+    "langLabel": "Dil:"
+  },
+  "ru": {
+    "title": "Царская игра Ура",
+    "modeShortHvc": "Один игрок",
+    "modeShortHvh": "2 игрока",
+    "statsLabel": "Статистика",
+    "statsReset": "Сбросить всю статистику",
+    "rules": "Правила",
+    "settingsLabel": "Настройки",
+    "soundLabel": "Звук",
+    "shakeLabel": "Встряхнуть, чтобы бросить",
+    "langLabel": "Язык:"
+  },
+  "he": {
+    "title": "המשחק המלכותי של אור",
+    "modeShortHvc": "שחקן יחיד",
+    "modeShortHvh": "2 שחקנים",
+    "statsLabel": "סטטיסטיקה",
+    "statsReset": "איפוס כל הסטטיסטיקות",
+    "rules": "כללים",
+    "settingsLabel": "הגדרות",
+    "soundLabel": "צליל",
+    "shakeLabel": "ניעור להטלה",
+    "langLabel": "שפה:"
+  },
+  "pt": {
+    "title": "O Jogo Real de Ur",
+    "modeShortHvc": "Um jogador",
+    "modeShortHvh": "2 jogadores",
+    "statsLabel": "Estatísticas",
+    "statsReset": "Apagar todas as estatísticas",
+    "rules": "Regras",
+    "settingsLabel": "Definições",
+    "soundLabel": "Som",
+    "shakeLabel": "Agitar para lançar",
+    "langLabel": "Idioma:"
   }
 }

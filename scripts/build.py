@@ -27,7 +27,9 @@ LATIN_FONTS = (
     '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n'
     '  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />'
 )
-FONT_FAMILIES = {"arabic": "Noto+Sans+Arabic:wght@400;500;700", "devanagari": "Noto+Sans+Devanagari:wght@400;500;700"}
+FONT_FAMILIES = {"arabic": "Noto+Sans+Arabic:wght@400;500;700", "devanagari": "Noto+Sans+Devanagari:wght@400;500;700",
+                 "hebrew": "Noto+Sans+Hebrew:wght@400;500;700",
+                 "cyrillic": "Noto+Serif:wght@500;600;700&family=Inter:wght@400;500;600"}
 
 
 class BuildError(Exception):
