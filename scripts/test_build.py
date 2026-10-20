@@ -122,6 +122,22 @@ class Generated(unittest.TestCase):
                 after = after[:i] + after[i + 2:]
             self.assertEqual(after, before, name)
 
+    def test_android_and_store_attribution(self):
+        home = " ".join(visible(self.out["index.html"]))
+        self.assertIn("to iPhone, iPad and Android", home)
+        self.assertIn("It is not in the App Store or on Google Play yet.", home)
+        for rel in ("royal-game-of-ur/privacy/index.html", "royal-game-of-ur/support/index.html"):
+            self.assertIn("for iPhone, iPad and Android", " ".join(visible(self.out[rel])), rel)
+        for rel, text in self.out.items():
+            if rel.endswith("index.html"):
+                self.assertIn("trademarks of Google LLC", " ".join(visible(text)), rel)
+
+    def test_badges_stored_but_not_shown(self):
+        for name in ("app-store.svg", "google-play.png"):
+            self.assertTrue((ROOT / "assets/badges" / name).is_file(), name)
+        for rel, text in self.out.items():
+            self.assertNotIn("assets/badges", text, rel)
+
     def test_english_growth_under_15kb(self):
         for name, rel in [("index", "index.html"), ("privacy", "royal-game-of-ur/privacy/index.html"),
                           ("support", "royal-game-of-ur/support/index.html")]:
