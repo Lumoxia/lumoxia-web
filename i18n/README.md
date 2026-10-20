@@ -54,3 +54,7 @@ Portuguese is written to read naturally in both Brazil and Portugal, so a review
 Where the two differ (the iOS Settings app is Ajustes in Brazil and Definições in Portugal), both are named or a shared
 word is used; see its `_review` key. Hebrew uses plural or neutral phrasing where it can and masculine imperatives for
 buttons. The "Nine languages" line on the home page describes the app, which does not yet include the four new languages.
+
+## Store attribution
+
+`footer.trademarks` (Apple and Google trademark lines) is kept in English in every language on purpose. The App Store and Google Play badges live in `assets/badges/` and are not shown yet; see `assets/badges/README.md` for how to add them once the listings exist.

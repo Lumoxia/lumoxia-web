@@ -19,6 +19,7 @@ i18n/           # languages.json, strings/<code>.json, app-terms.json (see i18n/
 scripts/        # build.py (generator), check_i18n.py, tests
 styles.css      # Mesopotamian-inspired theme (the colours of the Lumoxia board: brown, sand and gold)
 assets/
+  badges/       # official App Store and Google Play badges, stored but not shown until the listings exist (see its README)
   logo.svg      # full horizontal wordmark + emblem
   mark.svg      # square emblem (favicon / OG / avatar)
   lang.js       # language menu behaviour
