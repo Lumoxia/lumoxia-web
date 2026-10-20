@@ -124,10 +124,10 @@ class Generated(unittest.TestCase):
 
     def test_android_and_store_attribution(self):
         home = " ".join(visible(self.out["index.html"]))
-        self.assertIn("to iPhone, iPad and Android", home)
+        self.assertIn("to iOS and Android", home)
         self.assertIn("It is not in the App Store or on Google Play yet.", home)
         for rel in ("royal-game-of-ur/privacy/index.html", "royal-game-of-ur/support/index.html"):
-            self.assertIn("for iPhone, iPad and Android", " ".join(visible(self.out[rel])), rel)
+            self.assertIn("for iOS and Android", " ".join(visible(self.out[rel])), rel)
         for rel, text in self.out.items():
             if rel.endswith("index.html"):
                 self.assertIn("trademarks of Google LLC", " ".join(visible(text)), rel)
