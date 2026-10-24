@@ -1,4 +1,5 @@
 """Tests for scripts/build.py and the generated site. Run: python3 scripts/test_build.py"""
+import html
 import json
 import re
 import subprocess
@@ -70,6 +71,10 @@ class Engine(unittest.TestCase):
     def test_url_encodes(self):
         self.assertEqual(build.expand("{{url:a}}", self.ctx()), "Hello%20Ur")
 
+    def test_patreon_token(self):
+        self.assertEqual(build.expand("{{patreon}}", self.ctx(simple={"patreon": build.PATREON_URL})),
+                         "https://www.patreon.com/lumoxia_art")
+
     def test_unknown_token_fails(self):
         with self.assertRaises(build.BuildError):
             build.expand("{{nope}}", self.ctx())
@@ -116,6 +121,20 @@ class Generated(unittest.TestCase):
         for name, rel in pairs:
             before = visible((BEFORE / PAGES[name]).read_text("utf-8"))
             after = visible(self.out[rel])
+            if name == "index":
+                # the intended additions: Music section, Patreon button and footer link
+                en = self.site.strings["en"]
+                added = [html.unescape(en[k]) for k in ("nav.music", "music.h", "music.p1", "music.p2", "music.btn",
+                                                        "contact.patreon", "contact.patreon.btn", "footer.patreon")]
+                cleaned = []
+                for t in after:
+                    if t == en["footer.patreon"] and cleaned and cleaned[-1] == "\u00b7":
+                        cleaned.pop()  # the separator in front of the Patreon footer link
+                    for v in sorted(added, key=len, reverse=True):
+                        t = t.replace(v, "").strip()
+                    if t:
+                        cleaned.append(t)
+                after = cleaned
             if name == "privacy":
                 # the one intended addition: the "This website" section
                 i = after.index("This website")
@@ -131,6 +150,29 @@ class Generated(unittest.TestCase):
         for rel, text in self.out.items():
             if rel.endswith("index.html"):
                 self.assertIn("trademarks of Google LLC", " ".join(visible(text)), rel)
+
+    def test_music_section_and_patreon_links(self):
+        for l in self.langs:
+            prefix = "" if l["code"] == "en" else l["code"] + "/"
+            text = self.out[prefix + "index.html"]
+            self.assertLess(text.index('id="game"'), text.index('id="music"'), l["code"])
+            self.assertLess(text.index('id="music"'), text.index('id="founder"'), l["code"])
+            self.assertIn('href="#music"', text, l["code"])
+            links = re.findall(r'<a [^>]*href="https://www\.patreon\.com/[^"]*"[^>]*>', text)
+            self.assertEqual(len(links), 3, l["code"])  # music button, contact button, footer link
+            for a in links:
+                self.assertIn('href="https://www.patreon.com/lumoxia_art"', a)
+                self.assertIn('target="_blank"', a)
+                self.assertIn('rel="noopener"', a)
+            for rel in ("royal-game-of-ur/privacy/index.html", "royal-game-of-ur/support/index.html"):
+                self.assertNotIn("patreon", self.out[prefix + rel].lower(), rel)
+
+    def test_no_embeds(self):
+        for rel, text in self.out.items():
+            if rel.endswith(".html"):
+                self.assertNotIn("<audio", text, rel)
+                self.assertNotIn("<iframe", text, rel)
+                self.assertEqual(re.findall(r'<script[^>]+src="https?://[^"]*"', text), [], rel)
 
     def test_badges_stored_but_not_shown(self):
         for name in ("app-store.svg", "google-play.png"):

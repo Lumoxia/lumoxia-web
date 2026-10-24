@@ -41,6 +41,8 @@ python3 scripts/test_build.py     # generated pages, links, language menu
 Commit the sources and the generated pages together. CI (`.github/workflows/check.yml`) fails a pull request if the
 committed pages differ from what the generator produces. Python 3 is the only requirement.
 
+The Patreon page URL lives in `scripts/build.py` as `PATREON_URL` and is used through the `{{patreon}}` token, so it is never typed into a template or string.
+
 ## Local preview
 
 ```bash

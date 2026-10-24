@@ -14,6 +14,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lumoxia.art"
+PATREON_URL = "https://www.patreon.com/lumoxia_art"
 PAGES = {  # page name -> (template, address inside a language tree)
     "index": ("index.html", ""),
     "privacy": ("privacy.html", "royal-game-of-ur/privacy/"),
@@ -128,7 +129,7 @@ class Site:
             "fsclass": "" if lang["fontSet"] == "latin" else f' class="fs-{lang["fontSet"]}"',
             "alternates": self.alternates(addr), "fonts": self.fonts(lang["fontSet"]),
             "detect": self.detect() if code == "en" else "",
-            "langmenu": self.langmenu(code, addr, button),
+            "langmenu": self.langmenu(code, addr, button), "patreon": PATREON_URL,
         }
         strings = dict(self.strings[code])
         ctx = Context(strings=strings, app=app, simple=simple, partials=self.partials)
