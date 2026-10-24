@@ -28,6 +28,7 @@
       <div class="nav-links">
         <a href="#mission">{{t:nav.mission}}</a>
         <a href="#game">{{t:nav.game}}</a>
+        <a href="#music">{{t:nav.music}}</a>
         <a href="#founder">{{t:nav.about}}</a>
         <a href="#contact">{{t:nav.contact}}</a>
       </div>
@@ -100,6 +101,19 @@
       </div>
     </section>
 
+    <!-- MUSIC -->
+    <section id="music">
+      <div class="container">
+        <h2 class="section-title">{{t:music.h}}</h2>
+        <div class="divider"></div>
+        <p class="section-lead">{{t:music.p1}}</p>
+        <p class="section-lead">{{t:music.p2}}</p>
+        <div class="cta" style="justify-content:center;">
+          <a class="btn btn-primary" href="{{patreon}}" target="_blank" rel="noopener">{{t:music.btn}}</a>
+        </div>
+      </div>
+    </section>
+
     <!-- FOUNDER -->
     <section id="founder">
       <div class="container">
@@ -120,9 +134,10 @@
     <section class="cta-band" id="contact">
       <div class="container">
         <h2>{{t:contact.h}}</h2>
-        <p class="section-lead">{{t:contact.lead}}</p>
+        <p class="section-lead">{{t:contact.lead}} {{t:contact.patreon}}</p>
         <div class="cta" style="justify-content:center;">
           <a class="btn btn-primary" href="https://github.com/Lumoxia" target="_blank" rel="noopener">{{t:contact.github}}</a>
+          <a class="btn btn-ghost" href="{{patreon}}" target="_blank" rel="noopener">{{t:contact.patreon.btn}}</a>
         </div>
       </div>
     </section>
@@ -137,7 +152,8 @@
       <p>{{t:footer.tagline}}</p>
       <p>
         <a href="https://lumoxia.art">lumoxia.art</a> &middot;
-        <a href="https://github.com/Lumoxia" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/Lumoxia" target="_blank" rel="noopener">GitHub</a> &middot;
+        <a href="{{patreon}}" target="_blank" rel="noopener">{{t:footer.patreon}}</a>
       </p>
       <p>&copy; <span id="year">2026</span> {{t:footer.rights}}</p>
       <p class="trademarks">{{t:footer.trademarks}}</p>

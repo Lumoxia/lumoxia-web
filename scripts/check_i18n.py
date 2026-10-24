@@ -15,7 +15,7 @@ PINNED_CODES = ["en", "fr", "es", "de", "ar", "zh", "it", "hi", "tl", "tr", "ru"
 PENDING_APP_CODES = {"tr", "ru", "he", "pt"}
 DASHES = ("—", "–")
 SIMPLE_TOKENS = {"base", "root", "lang", "dir", "htmllang", "canonical", "alternates", "langmenu", "fonts",
-                 "detect", "fsclass", "oglocale", "path"}
+                 "detect", "fsclass", "oglocale", "path", "patreon"}
 TAG_RE = re.compile(r"<\s*(/?)\s*([a-zA-Z][a-zA-Z0-9]*)([^>]*)>")
 HREF_RE = re.compile(r'href\s*=\s*"([^"]*)"')
 TOKEN_RE = re.compile(r"\{\{[^}]+\}\}|\{app:[A-Za-z0-9]+\}")
