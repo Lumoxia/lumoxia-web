@@ -128,11 +128,12 @@ class Generated(unittest.TestCase):
                                                         "contact.patreon", "contact.patreon.btn", "footer.patreon")]
                 cleaned = []
                 for t in after:
+                    if t == en["footer.patreon"] and cleaned and cleaned[-1] == "\u00b7":
+                        cleaned.pop()  # the separator in front of the Patreon footer link
                     for v in sorted(added, key=len, reverse=True):
                         t = t.replace(v, "").strip()
                     if t:
                         cleaned.append(t)
-                del cleaned[len(cleaned) - 1 - cleaned[::-1].index("\u00b7")]  # the last separator, before the Patreon footer link
                 after = cleaned
             if name == "privacy":
                 # the one intended addition: the "This website" section
@@ -158,7 +159,7 @@ class Generated(unittest.TestCase):
             self.assertLess(text.index('id="music"'), text.index('id="founder"'), l["code"])
             self.assertIn('href="#music"', text, l["code"])
             links = re.findall(r'<a [^>]*href="https://www\.patreon\.com/[^"]*"[^>]*>', text)
-            self.assertEqual(len(links), 3, l["code"])
+            self.assertEqual(len(links), 3, l["code"])  # music button, contact button, footer link
             for a in links:
                 self.assertIn('href="https://www.patreon.com/lumoxia_art"', a)
                 self.assertIn('target="_blank"', a)
