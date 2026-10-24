@@ -167,6 +167,20 @@ class Generated(unittest.TestCase):
             for rel in ("royal-game-of-ur/privacy/index.html", "royal-game-of-ur/support/index.html"):
                 self.assertNotIn("patreon", self.out[prefix + rel].lower(), rel)
 
+    def test_contact_buttons_are_spaced(self):
+        css = (ROOT / "styles.css").read_text()
+        rule = re.search(r"([^{}]*\.cta-band \.cta[^{}]*)\{([^}]*)\}", css)
+        self.assertIsNotNone(rule, "no .cta-band .cta rule in styles.css")
+        for decl in ("display: flex", "gap: 14px", "flex-wrap: wrap"):
+            self.assertIn(decl, rule.group(2))
+        for l in self.langs:
+            prefix = "" if l["code"] == "en" else l["code"] + "/"
+            text = self.out[prefix + "index.html"]
+            contact = text[text.index('id="contact"'):]
+            row = re.search(r'<div class="cta"[^>]*>', contact)
+            self.assertIsNotNone(row, l["code"])
+            self.assertNotIn("style=", row.group(0), l["code"])
+
     def test_no_embeds(self):
         for rel, text in self.out.items():
             if rel.endswith(".html"):
