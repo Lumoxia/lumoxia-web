@@ -115,6 +115,29 @@ class Generated(unittest.TestCase):
                 self.assertIn(prefix + rel, self.out)
         self.assertIn("sitemap.xml", self.out)
 
+    def undo_iap_changes(self, items):
+        """Put the pre-purchase English wording back in place of the intended in-app purchase edits."""
+        spec = json.loads((BEFORE / "iap-changes.json").read_text("utf-8"))
+        strings = self.site.strings["en"]
+
+        def chunks(key, source):
+            ctx = build.Context(strings=dict(source), app=self.site.app["en"], simple={"base": "", "root": ""})
+            return visible("<p>" + build.expand("{{t:%s}}" % key, ctx) + "</p>")
+
+        def swap(items, new, old):
+            for i in range(len(items) - len(new) + 1):
+                if items[i:i + len(new)] == new:
+                    return items[:i] + old + items[i + len(new):], True
+            return items, False
+
+        for key, old_text in spec["changed"].items():
+            new = chunks(key, strings)
+            old = chunks(key, {key: old_text})
+            items, _ = swap(items, new, old)  # a key may live on another page
+        for key in spec["added"]:
+            items, _ = swap(items, chunks(key, strings), [])
+        return items
+
     def test_english_text_unchanged(self):
         pairs = [("index", "index.html"), ("privacy", "royal-game-of-ur/privacy/index.html"),
                  ("support", "royal-game-of-ur/support/index.html")]
@@ -135,11 +158,24 @@ class Generated(unittest.TestCase):
                     if t:
                         cleaned.append(t)
                 after = cleaned
+            after = self.undo_iap_changes(after)
             if name == "privacy":
                 # the one intended addition: the "This website" section
                 i = after.index("This website")
                 after = after[:i] + after[i + 2:]
             self.assertEqual(after, before, name)
+
+    def test_privacy_describes_the_optional_purchase(self):
+        text = " ".join(visible(self.out["royal-game-of-ur/privacy/index.html"]))
+        self.assertNotIn("no in-app purchases", text.lower())
+        self.assertNotIn("does not connect to the internet", text.lower())
+        self.assertIn("one optional", text)
+        self.assertIn("Apple or Google", text)
+        support = " ".join(visible(self.out["royal-game-of-ur/support/index.html"]))
+        self.assertIn("Restore purchases", support)
+        for rel, page in self.out.items():
+            if rel.endswith("privacy/index.html"):
+                self.assertIn("2026", page, rel)
 
     def test_android_and_store_attribution(self):
         home = " ".join(visible(self.out["index.html"]))

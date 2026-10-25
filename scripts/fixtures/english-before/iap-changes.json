@@ -1,0 +1,24 @@
+{
+  "changed": {
+    "meta.privacy.description": "{app:title} collects no data: no accounts, no ads, no tracking, fully offline.",
+    "game.b3": "Nine languages. Works offline, with no account, no ads and no tracking.",
+    "privacy.meta": "{app:title} for iOS and Android. Last updated 21 October 2026.",
+    "privacy.short": "In short: {app:title} does not collect any data about you. It has no accounts, no ads, no analytics and no tracking, and it works completely offline.",
+    "privacy.not.l1": "It does not connect to the internet or to any server of ours.",
+    "privacy.not.l5": "It has no in-app purchases.",
+    "privacy.children.p": "Because the app collects no personal information, it collects none from children either.",
+    "support.meta": "{app:title} for iOS and Android. Last updated 21 October 2026.",
+    "support.q5.a": "No. It works offline and collects no data. See the <a href=\"{{base}}royal-game-of-ur/privacy/\">Privacy Policy</a>."
+  },
+  "added": [
+    "privacy.iap.h",
+    "privacy.iap.p1",
+    "privacy.iap.p2",
+    "support.q6.q",
+    "support.q6.a",
+    "support.q7.q",
+    "support.q7.a",
+    "support.q8.q",
+    "support.q8.a"
+  ]
+}
