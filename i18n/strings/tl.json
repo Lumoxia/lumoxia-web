@@ -53,7 +53,7 @@
   "footer.patreon": "Patreon",
   "privacy.h1": "Patakaran sa Privacy",
   "privacy.meta": "Ang {app:title} para sa iOS at Android. Huling na-update noong 25 Oktubre 2026.",
-  "privacy.short": "Sa madaling sabi: walang kinokolektang data tungkol sa iyo ang {app:title}. Walang account, walang ad, walang analytics at walang pagsubaybay, at gumagana ang laro offline. Isang opsyonal na unlock lang ang ibinebenta nito, na binabayaran sa pamamagitan ng App Store o Google Play.",
+  "privacy.short": "Sa madaling sabi: walang kinokolektang data tungkol sa iyo ang {app:title}. Walang account, walang ad, walang analytics at walang pagsubaybay, at gumagana ang laro offline. May isang opsyonal na pagbili na nagbubukas sa lahat ng board at kulay ng bato, na binabayaran sa pamamagitan ng App Store o Google Play.",
   "privacy.stores.h": "Ang itinatago ng app sa iyong device",
   "privacy.stores.p1": "Ilang bagay lang ang itinatago ng app sa iyong device, para maalala ito ng laro sa susunod:",
   "privacy.stores.l1": "ang iyong mga setting: pangalan ng manlalaro, kulay ng bato, disenyo ng board, wika, tunog at ang switch ng shake-to-roll;",
@@ -75,7 +75,7 @@
   "privacy.links.h": "Mga link na bumubukas sa iyong browser",
   "privacy.links.p": "May mga link ang panel ng Mga Patakaran sa ibang website (halimbawa ang mga pahina ng Lumoxia, isang video ng kasaysayan at ang mga kredito para sa mga tool ng tunog) at sa mga pahinang ito. Kapag pinindot mo ang isa, bubuksan ito ng iyong browser. Ang website na iyon na ang makikitungo sa iyo ayon sa sarili nitong patakaran sa privacy, na hindi kontrolado ng Lumoxia.",
   "privacy.children.h": "Mga bata",
-  "privacy.children.p": "Dahil walang kinokolektang personal na impormasyon ang app, wala rin itong kinokolekta mula sa mga bata. Sa App Store o Google Play ginagawa ang mga pagbili, kaya ang sarili nilang parental controls ang nagpapasya kung makabibili ang bata. Hindi ito kontrolado ng Lumoxia.",
+  "privacy.children.p": "Dahil walang kinokolektang personal na impormasyon ang app, wala rin itong kinokolekta mula sa mga bata. Ang parental controls ng Apple at Google ang nagpapasya kung makabibili ang bata, at walang kontrol dito ang Lumoxia.",
   "privacy.site.h": "Ang website na ito",
   "privacy.site.p": "Kung pipili ka ng wika, naaalala ng site na ito ang iyong pinili sa browser sa sarili mong device. Hindi ito ipinapadala saanman. Walang cookie na itinatakda ang site.",
   "privacy.changes.h": "Mga pagbabago sa patakarang ito",
@@ -105,5 +105,5 @@
   "support.q7.q": "Paano ko ire-restore ang aking pagbili?",
   "support.q7.a": "Buksan ang screen ng pagbili at i-tap ang &ldquo;I-restore ang mga binili&rdquo;, na naka-sign in sa Apple ID o Google account na ginamit mo sa pagbili. Gumagana rin ito pagkatapos mag-reinstall ng app o sa bagong device.",
   "support.q8.q": "Maaari ba akong humingi ng refund?",
-  "support.q8.a": "Si Apple ang humahawak ng refund para sa mga pagbili sa App Store at si Google para sa mga pagbili sa Google Play. Hindi makapagbibigay ng refund ang Lumoxia. Kung may mali sa mismong unlock, sumulat sa amin at tutulungan ka namin."
+  "support.q8.a": "Si Apple ang humahawak ng refund para sa mga pagbili sa App Store at si Google para sa mga pagbili sa Google Play. Hindi makapagbibigay ng refund ang Lumoxia. Kung may mali sa mismong unlock, sumulat sa amin at tutulungan ka namin. Apple: <a href=\"https://reportaproblem.apple.com/\"><bdi dir=\"ltr\">reportaproblem.apple.com</bdi></a>. Google: <a href=\"https://support.google.com/googleplay/answer/2479637\"><bdi dir=\"ltr\">support.google.com/googleplay</bdi></a>."
 }

@@ -53,7 +53,7 @@
   "footer.patreon": "Patreon",
   "privacy.h1": "Gizlilik Politikası",
   "privacy.meta": "iOS ve Android için {app:title}. Son güncelleme: 25 Ekim 2026. Bu sayfa otomatik olarak çevrilmiştir; çeviri ile İngilizce sürüm arasında fark olursa İngilizce sürüm geçerlidir.",
-  "privacy.short": "Kısacası: {app:title} hakkınızda hiçbir veri toplamaz. Hesap, reklam, analiz ve izleme yoktur; oyun çevrimdışı çalışır. Sattığı tek şey isteğe bağlı bir kilit açmadır ve ödemesi App Store veya Google Play üzerinden yapılır.",
+  "privacy.short": "Kısacası: {app:title} hakkınızda hiçbir veri toplamaz. Hesap, reklam, analiz ve izleme yoktur; oyun çevrimdışı çalışır. Tüm tahtaları ve taş renklerini açan isteğe bağlı tek bir satın alma vardır ve ödemesi App Store veya Google Play üzerinden yapılır.",
   "privacy.stores.h": "Uygulamanın cihazınızda sakladıkları",
   "privacy.stores.p1": "Uygulama, oyun bir dahaki sefere bunları hatırlasın diye birkaç şeyi yalnızca cihazınızda tutar:",
   "privacy.stores.l1": "ayarlarınız: oyuncu adları, taş renkleri, tahta tasarımı, dil, ses ve sallayarak zar atma anahtarı;",
@@ -75,7 +75,7 @@
   "privacy.links.h": "Tarayıcınızda açılan bağlantılar",
   "privacy.links.p": "Kurallar panelinde başka web sitelerine (örneğin Lumoxia sayfaları, bir tarih videosu ve ses araçlarının katkı sayfaları) ve bu sayfalara bağlantılar vardır. Birine dokunduğunuzda tarayıcınız onu açar. O web sitesi sizinle kendi gizlilik politikası çerçevesinde ilgilenir; Lumoxia bunu denetlemez.",
   "privacy.children.h": "Çocuklar",
-  "privacy.children.p": "Uygulama kişisel bilgi toplamadığı için çocuklardan da toplamaz. Satın alımlar App Store veya Google Play üzerinden yapılır; bir çocuğun satın alıp alamayacağına onların kendi ebeveyn denetimleri karar verir. Lumoxia bunları denetlemez.",
+  "privacy.children.p": "Uygulama kişisel bilgi toplamadığı için çocuklardan da toplamaz. Bir çocuğun satın alıp alamayacağına Apple ve Google’ın ebeveyn denetimleri karar verir, Lumoxia’nın bunda söz hakkı yoktur.",
   "privacy.site.h": "Bu web sitesi",
   "privacy.site.p": "Bir dil seçerseniz bu site seçiminizi kendi cihazınızdaki tarayıcıda hatırlar. Hiçbir yere gönderilmez. Site çerez kullanmaz.",
   "privacy.changes.h": "Bu politikadaki değişiklikler",
@@ -105,5 +105,5 @@
   "support.q7.q": "Satın alımımı nasıl geri yüklerim?",
   "support.q7.a": "Satın alma ekranını açın ve satın alırken kullandığınız Apple Kimliği ya da Google hesabıyla oturum açıkken &ldquo;Satın alımları geri yükle&rdquo; düğmesine dokunun. Bu, uygulamayı yeniden yükledikten sonra veya yeni bir cihazda da çalışır.",
   "support.q8.q": "Para iadesi alabilir miyim?",
-  "support.q8.a": "App Store satın alımlarının iadesini Apple, Google Play satın alımlarının iadesini Google yürütür. Lumoxia iade yapamaz. Kilidin kendisinde bir sorun olursa bize yazın, yardımcı olalım."
+  "support.q8.a": "App Store satın alımlarının iadesini Apple, Google Play satın alımlarının iadesini Google yürütür. Lumoxia iade yapamaz. Kilidin kendisinde bir sorun olursa bize yazın, yardımcı olalım. Apple: <a href=\"https://reportaproblem.apple.com/\"><bdi dir=\"ltr\">reportaproblem.apple.com</bdi></a>. Google: <a href=\"https://support.google.com/googleplay/answer/2479637\"><bdi dir=\"ltr\">support.google.com/googleplay</bdi></a>."
 }

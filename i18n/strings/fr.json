@@ -53,7 +53,7 @@
   "footer.patreon": "Patreon",
   "privacy.h1": "Politique de confidentialité",
   "privacy.meta": "{app:title} pour iOS et Android. Dernière mise à jour le 25 octobre 2026.",
-  "privacy.short": "En bref : l’app {app:title} ne collecte aucune donnée vous concernant. Elle n’a ni compte, ni publicité, ni outil d’analyse, ni suivi, et le jeu fonctionne hors ligne. Elle ne vend qu’un seul déblocage facultatif, payé via l’App Store ou Google Play.",
+  "privacy.short": "En bref : l’app {app:title} ne collecte aucune donnée vous concernant. Elle n’a ni compte, ni publicité, ni outil d’analyse, ni suivi, et le jeu fonctionne hors ligne. Elle propose un achat facultatif qui débloque tous les plateaux et toutes les couleurs de pions, payé via l’App Store ou Google Play.",
   "privacy.stores.h": "Ce que l’app conserve sur votre appareil",
   "privacy.stores.p1": "L’app conserve quelques éléments sur votre appareil uniquement, pour que le jeu s’en souvienne la fois suivante :",
   "privacy.stores.l1": "vos réglages : noms des joueurs, couleurs des pions, plateau, langue, son et l’option secouer pour lancer ;",
@@ -75,7 +75,7 @@
   "privacy.links.h": "Liens qui s’ouvrent dans votre navigateur",
   "privacy.links.p": "Le panneau des règles contient des liens vers d’autres sites web (par exemple les pages de Lumoxia, une vidéo sur l’histoire du jeu et les crédits des outils sonores) et vers ces pages. Quand vous touchez l’un d’eux, votre navigateur l’ouvre. Ce site web vous traite alors selon sa propre politique de confidentialité, que Lumoxia ne contrôle pas.",
   "privacy.children.h": "Enfants",
-  "privacy.children.p": "Comme l’app ne collecte aucune information personnelle, elle n’en collecte pas non plus auprès des enfants. Les achats passent par l’App Store ou Google Play : leur contrôle parental décide si un enfant peut acheter, et Lumoxia ne le contrôle pas.",
+  "privacy.children.p": "Comme l’app ne collecte aucune information personnelle, elle n’en collecte pas non plus auprès des enfants. Le contrôle parental d’Apple et de Google décide si un enfant peut acheter, et Lumoxia n’a aucune prise dessus.",
   "privacy.site.h": "Ce site web",
   "privacy.site.p": "Si vous choisissez une langue, ce site mémorise votre choix dans votre navigateur, sur votre propre appareil. Il n’est jamais envoyé nulle part. Le site n’utilise aucun cookie.",
   "privacy.changes.h": "Modifications de cette politique",
@@ -105,5 +105,5 @@
   "support.q7.q": "Comment restaurer mon achat ?",
   "support.q7.a": "Ouvrez l’écran d’achat et touchez &ldquo;Restaurer les achats&rdquo;, connecté avec l’identifiant Apple ou le compte Google utilisé pour l’achat. Cela fonctionne aussi après une réinstallation ou sur un nouvel appareil.",
   "support.q8.q": "Puis-je être remboursé ?",
-  "support.q8.a": "Les remboursements sont traités par Apple pour l’App Store et par Google pour Google Play. Lumoxia ne peut pas en accorder. Si le déblocage lui-même pose problème, écrivez-nous et nous vous aiderons."
+  "support.q8.a": "Les remboursements sont traités par Apple pour l’App Store et par Google pour Google Play. Lumoxia ne peut pas en accorder. Si le déblocage lui-même pose problème, écrivez-nous et nous vous aiderons. Apple: <a href=\"https://reportaproblem.apple.com/\"><bdi dir=\"ltr\">reportaproblem.apple.com</bdi></a>. Google: <a href=\"https://support.google.com/googleplay/answer/2479637\"><bdi dir=\"ltr\">support.google.com/googleplay</bdi></a>."
 }

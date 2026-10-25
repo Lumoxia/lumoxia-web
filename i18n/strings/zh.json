@@ -53,7 +53,7 @@
   "footer.patreon": "Patreon",
   "privacy.h1": "隐私政策",
   "privacy.meta": "适用于 iOS 和 Android 的 {app:title}。最后更新于 2026年10月25日。",
-  "privacy.short": "简而言之：{app:title} 不会收集任何关于你的数据。它没有账号，没有广告，没有分析，也没有追踪，游戏可离线运行。它只出售一项可选的解锁，通过 App Store 或 Google Play 付款。",
+  "privacy.short": "简而言之：{app:title} 不会收集任何关于你的数据。它没有账号，没有广告，没有分析，也没有追踪，游戏可离线运行。它有一项可选的购买，可解锁所有棋盘和棋子颜色，通过 App Store 或 Google Play 付款。",
   "privacy.stores.h": "应用在你的设备上保存什么",
   "privacy.stores.p1": "应用只在你的设备上保存少量内容，这样下次打开时游戏还记得它们：",
   "privacy.stores.l1": "你的设置：玩家名称、棋子颜色、棋盘样式、语言、声音和摇一摇掷骰开关；",
@@ -75,7 +75,7 @@
   "privacy.links.h": "在浏览器中打开的链接",
   "privacy.links.p": "规则面板中有指向其他网站的链接（例如 Lumoxia 的页面、一个历史视频和声音工具的致谢），也有指向这些页面的链接。当你点按其中一个，浏览器会打开它。之后该网站将按其自己的隐私政策与你打交道，Lumoxia 无法控制。",
   "privacy.children.h": "儿童",
-  "privacy.children.p": "由于应用不收集任何个人信息，也就不会收集儿童的信息。购买通过 App Store 或 Google Play 完成，因此儿童能否购买由它们自己的家长控制决定，Lumoxia 无法控制。",
+  "privacy.children.p": "由于应用不收集任何个人信息，也就不会收集儿童的信息。儿童能否购买由 Apple 和 Google 的家长控制决定，Lumoxia 无法干预。",
   "privacy.site.h": "本网站",
   "privacy.site.p": "如果你选择了语言，本网站会在你自己设备的浏览器中记住你的选择，它绝不会被发送到任何地方。本网站不设置 Cookie。",
   "privacy.changes.h": "本政策的变更",
@@ -105,5 +105,5 @@
   "support.q7.q": "如何恢复我的购买？",
   "support.q7.a": "打开购买界面并点按“恢复购买”，并使用购买时的 Apple ID 或 Google 账号登录。重新安装应用或换新设备后同样适用。",
   "support.q8.q": "可以退款吗？",
-  "support.q8.a": "App Store 的购买由 Apple 处理退款，Google Play 的购买由 Google 处理退款，Lumoxia 无法办理。如果解锁本身出了问题，请写信给我们，我们会帮你处理。"
+  "support.q8.a": "App Store 的购买由 Apple 处理退款，Google Play 的购买由 Google 处理退款，Lumoxia 无法办理。如果解锁本身出了问题，请写信给我们，我们会帮你处理。 Apple: <a href=\"https://reportaproblem.apple.com/\"><bdi dir=\"ltr\">reportaproblem.apple.com</bdi></a>. Google: <a href=\"https://support.google.com/googleplay/answer/2479637\"><bdi dir=\"ltr\">support.google.com/googleplay</bdi></a>."
 }
