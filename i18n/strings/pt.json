@@ -105,5 +105,5 @@
   "support.q7.q": "Como restauro a minha compra?",
   "support.q7.a": "Abra o ecrã de compra e toque em &ldquo;Restaurar compras&rdquo;, com o ID Apple ou a conta Google com que comprou. Funciona também depois de reinstalar a app ou num dispositivo novo.",
   "support.q8.q": "Posso pedir um reembolso?",
-  "support.q8.a": "Os reembolsos são tratados pela Apple nas compras da App Store e pela Google nas do Google Play. A Lumoxia não os pode conceder. Se algo correr mal com o próprio desbloqueio, escreva-nos e ajudamos. Apple: <a href=\"https://reportaproblem.apple.com/\"><bdi dir=\"ltr\">reportaproblem.apple.com</bdi></a>. Google: <a href=\"https://support.google.com/googleplay/answer/2479637\"><bdi dir=\"ltr\">support.google.com/googleplay</bdi></a>."
+  "support.q8.a": "Os reembolsos são tratados pela Apple nas compras da App Store e pela Google nas do Google Play. A Lumoxia não os pode conceder. Se algo correr mal com o próprio desbloqueio, escreva-nos e ajudamos. <bdi dir=\"ltr\">Apple:</bdi> <a href=\"https://reportaproblem.apple.com/\"><bdi dir=\"ltr\">reportaproblem.apple.com</bdi></a>. <bdi dir=\"ltr\">Google:</bdi> <a href=\"https://support.google.com/googleplay/answer/2479637\"><bdi dir=\"ltr\">support.google.com/googleplay</bdi></a>."
 }

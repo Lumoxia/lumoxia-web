@@ -105,5 +105,5 @@
   "support.q7.q": "كيف أستعيد مشترياتي؟",
   "support.q7.a": "افتح شاشة الشراء واضغط على &ldquo;استعادة المشتريات&rdquo; بعد تسجيل الدخول بمعرّف Apple أو حساب Google الذي اشتريت به. يعمل ذلك أيضًا بعد إعادة تثبيت التطبيق أو على جهاز جديد.",
   "support.q8.q": "هل يمكنني استرداد المبلغ؟",
-  "support.q8.a": "تتولى Apple معالجة المبالغ المستردة لمشتريات App Store، وتتولاها Google لمشتريات Google Play. لا تستطيع Lumoxia إصدارها. وإذا حدثت مشكلة في الفتح نفسه، فراسلنا وسنساعدك. Apple: <a href=\"https://reportaproblem.apple.com/\"><bdi dir=\"ltr\">reportaproblem.apple.com</bdi></a>. Google: <a href=\"https://support.google.com/googleplay/answer/2479637\"><bdi dir=\"ltr\">support.google.com/googleplay</bdi></a>."
+  "support.q8.a": "تتولى Apple معالجة المبالغ المستردة لمشتريات App Store، وتتولاها Google لمشتريات Google Play. لا تستطيع Lumoxia إصدارها. وإذا حدثت مشكلة في الفتح نفسه، فراسلنا وسنساعدك. <bdi dir=\"ltr\">Apple:</bdi> <a href=\"https://reportaproblem.apple.com/\"><bdi dir=\"ltr\">reportaproblem.apple.com</bdi></a>. <bdi dir=\"ltr\">Google:</bdi> <a href=\"https://support.google.com/googleplay/answer/2479637\"><bdi dir=\"ltr\">support.google.com/googleplay</bdi></a>."
 }
