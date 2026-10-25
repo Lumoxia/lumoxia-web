@@ -14,6 +14,8 @@
     "privacy.iap.h",
     "privacy.iap.p1",
     "privacy.iap.p2",
+    "privacy.keep.h",
+    "privacy.keep.p",
     "support.q6.q",
     "support.q6.a",
     "support.q7.q",

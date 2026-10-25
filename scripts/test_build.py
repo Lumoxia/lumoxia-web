@@ -115,7 +115,7 @@ class Generated(unittest.TestCase):
                 self.assertIn(prefix + rel, self.out)
         self.assertIn("sitemap.xml", self.out)
 
-    def undo_iap_changes(self, items):
+    def undo_iap_changes(self, items, page):
         """Put the pre-purchase English wording back in place of the intended in-app purchase edits."""
         spec = json.loads((BEFORE / "iap-changes.json").read_text("utf-8"))
         strings = self.site.strings["en"]
@@ -135,7 +135,9 @@ class Generated(unittest.TestCase):
             old = chunks(key, {key: old_text})
             items, _ = swap(items, new, old)  # a key may live on another page
         for key in spec["added"]:
-            items, _ = swap(items, chunks(key, strings), [])
+            items, found = swap(items, chunks(key, strings), [])
+            if key.startswith(page + "."):  # privacy.* lives on the privacy page, support.* on support
+                self.assertTrue(found, "%s not found on %s" % (key, page))
         return items
 
     def test_english_text_unchanged(self):
@@ -158,7 +160,7 @@ class Generated(unittest.TestCase):
                     if t:
                         cleaned.append(t)
                 after = cleaned
-            after = self.undo_iap_changes(after)
+            after = self.undo_iap_changes(after, name)
             if name == "privacy":
                 # the one intended addition: the "This website" section
                 i = after.index("This website")
@@ -173,9 +175,12 @@ class Generated(unittest.TestCase):
         self.assertIn("Apple or Google", text)
         support = " ".join(visible(self.out["royal-game-of-ur/support/index.html"]))
         self.assertIn("Restore purchases", support)
-        for rel, page in self.out.items():
-            if rel.endswith("privacy/index.html"):
-                self.assertIn("2026", page, rel)
+        for lang, strings in self.site.strings.items():
+            prefix = "" if lang == "en" else lang + "/"
+            page = self.out[prefix + "royal-game-of-ur/privacy/index.html"]
+            for key in ("privacy.iap.h", "privacy.keep.h"):
+                self.assertIn(strings[key], page, "%s %s" % (lang, key))
+            self.assertNotIn("21", strings["privacy.meta"], lang)  # the date of the old wording
 
     def test_android_and_store_attribution(self):
         home = " ".join(visible(self.out["index.html"]))
