@@ -53,7 +53,7 @@
   "footer.patreon": "Patreon",
   "privacy.h1": "Datenschutzerklärung",
   "privacy.meta": "{app:title} für iOS und Android. Zuletzt aktualisiert am 25. Oktober 2026.",
-  "privacy.short": "Kurz gesagt: {app:title} sammelt keine Daten über dich. Es gibt keine Konten, keine Werbung, keine Analyse und kein Tracking, und das Spiel funktioniert offline. Verkauft wird nur eine optionale Freischaltung, bezahlt über den App Store oder Google Play.",
+  "privacy.short": "Kurz gesagt: {app:title} sammelt keine Daten über dich. Es gibt keine Konten, keine Werbung, keine Analyse und kein Tracking, und das Spiel funktioniert offline. Es gibt einen optionalen Kauf, der alle Bretter und Steinfarben freischaltet, bezahlt über den App Store oder Google Play.",
   "privacy.stores.h": "Was die App auf deinem Gerät speichert",
   "privacy.stores.p1": "Die App speichert ein paar Dinge nur auf deinem Gerät, damit das Spiel sie sich fürs nächste Mal merkt:",
   "privacy.stores.l1": "deine Einstellungen: Spielernamen, Steinfarben, Brettdesign, Sprache, Ton und den Schalter für Schütteln zum Würfeln;",
@@ -75,7 +75,7 @@
   "privacy.links.h": "Links, die sich im Browser öffnen",
   "privacy.links.p": "Der Bereich Regeln enthält Links zu anderen Websites (zum Beispiel den Lumoxia-Seiten, einem Geschichtsvideo und den Quellenangaben zu den Tonwerkzeugen) und zu diesen Seiten. Wenn du einen antippst, öffnet ihn dein Browser. Diese Website behandelt dich dann nach ihrer eigenen Datenschutzerklärung, auf die Lumoxia keinen Einfluss hat.",
   "privacy.children.h": "Kinder",
-  "privacy.children.p": "Da die App keine persönlichen Daten sammelt, sammelt sie auch keine von Kindern. Käufe laufen über den App Store oder Google Play, daher entscheidet deren Kindersicherung, ob ein Kind kaufen kann. Lumoxia hat darauf keinen Einfluss.",
+  "privacy.children.p": "Da die App keine persönlichen Daten sammelt, sammelt sie auch keine von Kindern. Ob ein Kind kaufen kann, entscheidet die Kindersicherung von Apple und Google, Lumoxia hat darauf keinen Einfluss.",
   "privacy.site.h": "Diese Website",
   "privacy.site.p": "Wenn du eine Sprache wählst, merkt sich diese Website deine Wahl im Browser auf deinem eigenen Gerät. Sie wird nie irgendwohin gesendet. Die Website setzt keine Cookies.",
   "privacy.changes.h": "Änderungen an dieser Erklärung",
@@ -105,5 +105,5 @@
   "support.q7.q": "Wie stelle ich meinen Kauf wieder her?",
   "support.q7.a": "Öffne den Kaufbildschirm und tippe auf „Käufe wiederherstellen“, angemeldet mit der Apple-ID oder dem Google-Konto, mit dem du gekauft hast. Das funktioniert auch nach einer Neuinstallation oder auf einem neuen Gerät.",
   "support.q8.q": "Kann ich mein Geld zurückbekommen?",
-  "support.q8.a": "Rückerstattungen übernimmt Apple bei Käufen im App Store und Google bei Käufen in Google Play. Lumoxia kann keine erstatten. Wenn mit der Freischaltung selbst etwas schiefgeht, schreib uns, dann helfen wir dir."
+  "support.q8.a": "Rückerstattungen übernimmt Apple bei Käufen im App Store und Google bei Käufen in Google Play. Lumoxia kann keine erstatten. Wenn mit der Freischaltung selbst etwas schiefgeht, schreib uns, dann helfen wir dir. <bdi dir=\"ltr\">Apple:</bdi> <a href=\"https://reportaproblem.apple.com/\"><bdi dir=\"ltr\">reportaproblem.apple.com</bdi></a>. <bdi dir=\"ltr\">Google:</bdi> <a href=\"https://support.google.com/googleplay/answer/2479637\"><bdi dir=\"ltr\">support.google.com/googleplay</bdi></a>."
 }

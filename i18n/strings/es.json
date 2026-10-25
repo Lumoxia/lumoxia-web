@@ -53,7 +53,7 @@
   "footer.patreon": "Patreon",
   "privacy.h1": "Política de privacidad",
   "privacy.meta": "{app:title} para iOS y Android. Última actualización: 25 de octubre de 2026.",
-  "privacy.short": "En resumen: la app {app:title} no recopila ningún dato sobre ti. No tiene cuentas, ni anuncios, ni analítica, ni seguimiento, y el juego funciona sin conexión. Lo único que vende es un desbloqueo opcional, que se paga a través de la App Store o Google Play.",
+  "privacy.short": "En resumen: la app {app:title} no recopila ningún dato sobre ti. No tiene cuentas, ni anuncios, ni analítica, ni seguimiento, y el juego funciona sin conexión. Tiene una compra opcional que desbloquea todos los tableros y colores de fichas, que se paga a través de la App Store o Google Play.",
   "privacy.stores.h": "Lo que la app guarda en tu dispositivo",
   "privacy.stores.p1": "La app guarda unas pocas cosas solo en tu dispositivo, para que el juego las recuerde la próxima vez:",
   "privacy.stores.l1": "tus ajustes: nombres de los jugadores, colores de las fichas, diseño del tablero, idioma, sonido y el interruptor de agitar para tirar;",
@@ -75,7 +75,7 @@
   "privacy.links.h": "Enlaces que se abren en tu navegador",
   "privacy.links.p": "El panel de reglas tiene enlaces a otros sitios web (por ejemplo las páginas de Lumoxia, un vídeo sobre la historia y los créditos de las herramientas de sonido) y a estas páginas. Cuando pulsas uno, tu navegador lo abre. Ese sitio web te trata entonces según su propia política de privacidad, que Lumoxia no controla.",
   "privacy.children.h": "Niños",
-  "privacy.children.p": "Como la app no recopila información personal, tampoco la recopila de los niños. Las compras se hacen a través de la App Store o Google Play, así que su control parental decide si un niño puede comprar, y Lumoxia no lo controla.",
+  "privacy.children.p": "Como la app no recopila información personal, tampoco la recopila de los niños. El control parental de Apple y de Google decide si un niño puede comprar, y Lumoxia no tiene voz en eso.",
   "privacy.site.h": "Este sitio web",
   "privacy.site.p": "Si eliges un idioma, este sitio recuerda tu elección en tu navegador, en tu propio dispositivo. Nunca se envía a ningún sitio. El sitio no usa cookies.",
   "privacy.changes.h": "Cambios en esta política",
@@ -105,5 +105,5 @@
   "support.q7.q": "¿Cómo restauro mi compra?",
   "support.q7.a": "Abre la pantalla de compra y toca &ldquo;Restaurar compras&rdquo;, con el ID de Apple o la cuenta de Google con la que compraste. También funciona tras reinstalar la app o en un dispositivo nuevo.",
   "support.q8.q": "¿Puedo pedir un reembolso?",
-  "support.q8.a": "Los reembolsos los gestiona Apple en las compras de la App Store y Google en las de Google Play. Lumoxia no puede concederlos. Si algo falla con el propio desbloqueo, escríbenos y te ayudaremos."
+  "support.q8.a": "Los reembolsos los gestiona Apple en las compras de la App Store y Google en las de Google Play. Lumoxia no puede concederlos. Si algo falla con el propio desbloqueo, escríbenos y te ayudaremos. <bdi dir=\"ltr\">Apple:</bdi> <a href=\"https://reportaproblem.apple.com/\"><bdi dir=\"ltr\">reportaproblem.apple.com</bdi></a>. <bdi dir=\"ltr\">Google:</bdi> <a href=\"https://support.google.com/googleplay/answer/2479637\"><bdi dir=\"ltr\">support.google.com/googleplay</bdi></a>."
 }

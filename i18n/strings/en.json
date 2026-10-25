@@ -53,7 +53,7 @@
   "footer.patreon": "Patreon",
   "privacy.h1": "Privacy Policy",
   "privacy.meta": "{app:title} for iOS and Android. Last updated 25 October 2026.",
-  "privacy.short": "In short: {app:title} does not collect any data about you. It has no accounts, no ads, no analytics and no tracking, and the game works offline. The only thing it sells is one optional unlock, paid for through the App Store or Google Play.",
+  "privacy.short": "In short: {app:title} does not collect any data about you. It has no accounts, no ads, no analytics and no tracking, and the game works offline. It has one optional purchase that unlocks every board and stone colour, paid for through the App Store or Google Play.",
   "privacy.stores.h": "What the app stores on your device",
   "privacy.stores.p1": "The app keeps a few things on your device only, so the game remembers them next time:",
   "privacy.stores.l1": "your settings: player names, stone colours, board design, language, sound and the shake-to-roll switch;",
@@ -75,7 +75,7 @@
   "privacy.links.h": "Links that open in your browser",
   "privacy.links.p": "The Rules panel has links to other websites (for example the Lumoxia pages, a history video and the credits for the sound tools) and to these pages. When you tap one, your browser opens it. That website then deals with you under its own privacy policy, which Lumoxia does not control.",
   "privacy.children.h": "Children",
-  "privacy.children.p": "Because the app collects no personal information, it collects none from children either. Purchases are made through the App Store or Google Play, so their own parental controls decide whether a child can buy. Lumoxia does not control them.",
+  "privacy.children.p": "Because the app collects no personal information, it collects none from children either. Apple&rsquo;s and Google&rsquo;s parental controls decide whether a child can buy, and Lumoxia has no say in them.",
   "privacy.site.h": "This website",
   "privacy.site.p": "If you choose a language, this site remembers your choice in your browser on your own device. It is never sent anywhere. The site sets no cookies.",
   "privacy.changes.h": "Changes to this policy",
@@ -105,5 +105,5 @@
   "support.q7.q": "How do I restore my purchase?",
   "support.q7.a": "Open the purchase screen and tap &ldquo;Restore purchases&rdquo;, signed in to the Apple ID or Google account you bought with. This also works after reinstalling the app or on a new device.",
   "support.q8.q": "Can I get a refund?",
-  "support.q8.a": "Refunds are handled by Apple for App Store purchases and by Google for Google Play purchases. Lumoxia cannot issue them. If something went wrong with the unlock itself, write to us and we will help."
+  "support.q8.a": "Refunds are handled by Apple for App Store purchases and by Google for Google Play purchases. Lumoxia cannot issue them. If something went wrong with the unlock itself, write to us and we will help. <bdi dir=\"ltr\">Apple:</bdi> <a href=\"https://reportaproblem.apple.com/\"><bdi dir=\"ltr\">reportaproblem.apple.com</bdi></a>. <bdi dir=\"ltr\">Google:</bdi> <a href=\"https://support.google.com/googleplay/answer/2479637\"><bdi dir=\"ltr\">support.google.com/googleplay</bdi></a>."
 }
