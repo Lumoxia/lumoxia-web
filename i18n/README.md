@@ -40,6 +40,13 @@ The Music section and Patreon links use the keys `nav.music`, `music.*`, `contac
 To refresh `app-terms.json` after the app's strings change:
 `python3 scripts/sync_app_terms.py --app-repo ../royalgameofurl_mobile_app`.
 
+## Japanese and Korean app wording
+
+`app-terms.json` entries for `ja` and `ko` are drafted by hand, because the app does not ship these languages yet. The FAQ and
+privacy copy quote them as the app's real labels (Rules, Stats, Single Player, shake to roll, the app title). When the app adds
+Japanese or Korean, run `scripts/sync_app_terms.py`, remove the code from `PENDING_APP_CODES` in `scripts/check_i18n.py`, and
+re-read the pages that quote these terms, including the "Settings, Apps" path on the support page.
+
 ## Review status
 
 The translations were drafted with AI assistance and have **not** been reviewed by native speakers. Each file records this

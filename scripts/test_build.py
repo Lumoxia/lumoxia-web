@@ -281,6 +281,13 @@ class Generated(unittest.TestCase):
         self.assertEqual([l["code"] for l in self.langs],
                          ["en", "fr", "es", "de", "ar", "zh", "it", "hi", "tl", "tr", "ru", "he", "pt", "ja", "ko"])
 
+    def test_japanese_and_korean_script_fonts_and_locales(self):
+        ja, ko = self.out["ja/index.html"], self.out["ko/index.html"]
+        self.assertIn('<html lang="ja" dir="ltr" class="fs-kana"', ja)
+        self.assertIn('<html lang="ko" dir="ltr" class="fs-hangul"', ko)
+        self.assertIn("ja_JP", ja)
+        self.assertIn("ko_KR", ko)
+
     def test_hebrew_is_rtl_with_hebrew_font(self):
         html = self.out["he/index.html"]
         self.assertIn('dir="rtl"', html)
