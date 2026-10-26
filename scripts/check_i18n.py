@@ -10,9 +10,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-PINNED_CODES = ["en", "fr", "es", "de", "ar", "zh", "it", "hi", "tl", "tr", "ru", "he", "pt"]
+PINNED_CODES = ["en", "fr", "es", "de", "ar", "zh", "it", "hi", "tl", "tr", "ru", "he", "pt", "ja", "ko"]
 # Site languages the app does not ship yet; drop a code from here once the app has it.
-PENDING_APP_CODES = {"tr", "ru", "he", "pt"}
+PENDING_APP_CODES = {"tr", "ru", "he", "pt", "ja", "ko"}
 DASHES = ("—", "–")
 SIMPLE_TOKENS = {"base", "root", "lang", "dir", "htmllang", "canonical", "alternates", "langmenu", "fonts",
                  "detect", "fsclass", "oglocale", "path", "patreon"}

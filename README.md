@@ -7,7 +7,7 @@ Live site: **[lumoxia.art](https://lumoxia.art)** (served via GitHub Pages).
 
 ## Stack
 
-A dependency-free static site: HTML, CSS and a little inline SVG and JavaScript. It is available in thirteen languages
+A dependency-free static site: HTML, CSS and a little inline SVG and JavaScript. It is available in fifteen languages
 (the app's nine plus Turkish, Russian, Hebrew and Portuguese). Each language is a pre-generated page committed to the repository, so the deployed site
 needs no build step. The pages are generated from templates and translation files by a small Python script.
 

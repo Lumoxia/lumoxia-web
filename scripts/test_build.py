@@ -277,9 +277,9 @@ class Generated(unittest.TestCase):
             self.assertEqual(html.count('aria-current="true"'), 1)
             self.assertRegex(html, rf'aria-current="true"[^>]*data-lang="{l["code"]}"|data-lang="{l["code"]}"[^>]*aria-current="true"')
 
-    def test_thirteen_languages_in_order(self):
+    def test_fifteen_languages_in_order(self):
         self.assertEqual([l["code"] for l in self.langs],
-                         ["en", "fr", "es", "de", "ar", "zh", "it", "hi", "tl", "tr", "ru", "he", "pt"])
+                         ["en", "fr", "es", "de", "ar", "zh", "it", "hi", "tl", "tr", "ru", "he", "pt", "ja", "ko"])
 
     def test_hebrew_is_rtl_with_hebrew_font(self):
         html = self.out["he/index.html"]
