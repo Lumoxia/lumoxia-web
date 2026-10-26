@@ -154,5 +154,29 @@
     "soundLabel": "Som",
     "shakeLabel": "Agitar para lançar",
     "langLabel": "Idioma:"
+  },
+  "ja": {
+    "title": "ウルの王のゲーム",
+    "modeShortHvc": "1人用",
+    "modeShortHvh": "2人用",
+    "statsLabel": "統計",
+    "statsReset": "すべての統計をリセット",
+    "rules": "ルール",
+    "settingsLabel": "設定",
+    "soundLabel": "サウンド",
+    "shakeLabel": "シェイクで振る",
+    "langLabel": "言語："
+  },
+  "ko": {
+    "title": "우르의 왕실 게임",
+    "modeShortHvc": "1인 플레이",
+    "modeShortHvh": "2인 플레이",
+    "statsLabel": "통계",
+    "statsReset": "모든 통계 초기화",
+    "rules": "규칙",
+    "settingsLabel": "설정",
+    "soundLabel": "소리",
+    "shakeLabel": "흔들어서 굴리기",
+    "langLabel": "언어:"
   }
 }

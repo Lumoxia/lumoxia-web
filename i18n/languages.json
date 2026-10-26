@@ -11,5 +11,7 @@
   {"code": "tr", "htmlLang": "tr", "label": "Türkçe", "short": "TR", "dir": "ltr", "fontSet": "latin", "ogLocale": "tr_TR"},
   {"code": "ru", "htmlLang": "ru", "label": "Русский", "short": "RU", "dir": "ltr", "fontSet": "cyrillic", "ogLocale": "ru_RU"},
   {"code": "he", "htmlLang": "he", "label": "עברית", "short": "עב", "dir": "rtl", "fontSet": "hebrew", "ogLocale": "he_IL"},
-  {"code": "pt", "htmlLang": "pt", "label": "Português", "short": "PT", "dir": "ltr", "fontSet": "latin", "ogLocale": "pt_BR"}
+  {"code": "pt", "htmlLang": "pt", "label": "Português", "short": "PT", "dir": "ltr", "fontSet": "latin", "ogLocale": "pt_BR"},
+  {"code": "ja", "htmlLang": "ja", "label": "日本語", "short": "日", "dir": "ltr", "fontSet": "kana", "ogLocale": "ja_JP"},
+  {"code": "ko", "htmlLang": "ko", "label": "한국어", "short": "한", "dir": "ltr", "fontSet": "hangul", "ogLocale": "ko_KR"}
 ]

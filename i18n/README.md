@@ -1,12 +1,12 @@
 # Translations
 
-The site is available in thirteen languages: the nine of the app *The Royal Game of Ur*, in the app's order, then four
+The site is available in fifteen languages: the nine of the app *The Royal Game of Ur*, in the app's order, then six
 the site added first:
-English, Français, Español, Deutsch, العربية, 中文, Italiano, हिन्दी, Tagalog, Türkçe, Русский, עברית, Português.
+English, Français, Español, Deutsch, العربية, 中文, Italiano, हिन्दी, Tagalog, Türkçe, Русский, עברית, Português, 日本語, 한국어.
 
 The app's `LocaleInfo.all` in `ios/UrCore/Sources/UrCore/Localisation/Localisation.swift` in the app repository defines
-the first nine. The site is ahead of the app for Turkish, Russian, Hebrew and Portuguese, so the app-repo comparison below
-reports those four as missing from the app until the app ships them, and `sync_app_terms.py` cannot refresh their entries in
+the first nine. The site is ahead of the app for Turkish, Russian, Hebrew, Portuguese, Japanese and Korean, so the app-repo comparison below
+reports those six as missing from the app until the app ships them, and `sync_app_terms.py` cannot refresh their entries in
 `app-terms.json` (they are drafted by hand). The app repository is private, so CI cannot read it. On your own machine:
 
 ```bash
@@ -17,7 +17,7 @@ python3 scripts/check_i18n.py --app-repo ../royalgameofurl_mobile_app
 
 | File | What it is |
 |---|---|
-| `languages.json` | The thirteen languages: code, `lang` tag, native name, short label, direction, font set |
+| `languages.json` | The fifteen languages: code, `lang` tag, native name, short label, direction, font set |
 | `strings/<code>.json` | Every translatable string for one language. `en.json` is the source. Keys starting with `_` are notes |
 | `app-terms.json` | The app's own wording (name, Single Player, 2 Players, Stats, ...) per language |
 | `../templates/` | The page templates |
@@ -26,7 +26,7 @@ The generated pages (`/`, `/fr/`, `/ar/`, ...) are committed. Do not edit them b
 
 ## Changing a string
 
-1. Edit the key in `strings/en.json` and in the other twelve files (keys must match everywhere).
+1. Edit the key in `strings/en.json` and in the other fourteen files (keys must match everywhere).
 2. Run `python3 scripts/build.py`.
 3. Run `python3 scripts/check_i18n.py` and `python3 scripts/test_build.py`.
 4. Commit the strings and the generated pages together.
@@ -39,6 +39,13 @@ The Music section and Patreon links use the keys `nav.music`, `music.*`, `contac
 
 To refresh `app-terms.json` after the app's strings change:
 `python3 scripts/sync_app_terms.py --app-repo ../royalgameofurl_mobile_app`.
+
+## Japanese and Korean app wording
+
+`app-terms.json` entries for `ja` and `ko` are drafted by hand, because the app does not ship these languages yet. The FAQ and
+privacy copy quote them as the app's real labels (Rules, Stats, Single Player, shake to roll, the app title). When the app adds
+Japanese or Korean, run `scripts/sync_app_terms.py`, remove the code from `PENDING_APP_CODES` in `scripts/check_i18n.py`, and
+re-read the pages that quote these terms, including the "Settings, Apps" path on the support page.
 
 ## Review status
 
@@ -55,7 +62,7 @@ To submit a correction, edit the string file and run the steps above, or open an
 Portuguese is written to read naturally in both Brazil and Portugal, so a reviewer from either country should check it.
 Where the two differ (the iOS Settings app is Ajustes in Brazil and Definições in Portugal), both are named or a shared
 word is used; see its `_review` key. Hebrew uses plural or neutral phrasing where it can and masculine imperatives for
-buttons. The "Nine languages" line on the home page describes the app, which does not yet include the four new languages.
+buttons. The "Nine languages" line on the home page describes the app, which does not yet include the six new languages.
 
 ## Store attribution
 

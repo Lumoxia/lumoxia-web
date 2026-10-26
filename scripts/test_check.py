@@ -63,7 +63,7 @@ class StringChecks(unittest.TestCase):
 
 
 class LanguageChecks(unittest.TestCase):
-    PINNED = ["en", "fr", "es", "de", "ar", "zh", "it", "hi", "tl", "tr", "ru", "he", "pt"]
+    PINNED = ["en", "fr", "es", "de", "ar", "zh", "it", "hi", "tl", "tr", "ru", "he", "pt", "ja", "ko"]
 
     def langs(self, codes):
         return [{"code": k} for k in codes]

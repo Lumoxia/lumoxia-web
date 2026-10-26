@@ -1,7 +1,7 @@
 // Table test for assets/lang-detect.js. Run: node scripts/test_detect.js
 const detect = require('../assets/lang-detect.js');
 const assert = require('assert');
-const codes = ['en', 'fr', 'es', 'de', 'ar', 'zh', 'it', 'hi', 'tl', 'tr', 'ru', 'he', 'pt'];
+const codes = ['en', 'fr', 'es', 'de', 'ar', 'zh', 'it', 'hi', 'tl', 'tr', 'ru', 'he', 'pt', 'ja', 'ko'];
 const t = (saved, search, prefs) => detect(saved, search, prefs, codes);
 const cases = [
   [[null, '', ['fr-CA']], { target: 'fr', save: null }],
@@ -16,9 +16,11 @@ const cases = [
   [[null, '', ['iw']], { target: 'he', save: null }],
   [[null, '', ['he-IL']], { target: 'he', save: null }],
   [[null, '', ['iw-IL']], { target: 'he', save: null }],
-  [[null, '', ['ja', 'pt']], { target: 'pt', save: null }],
-  [[null, '', ['ja']], { target: null, save: null }],
-  [[null, '', ['ja', 'de']], { target: 'de', save: null }],
+  [[null, '', ['sv', 'pt']], { target: 'pt', save: null }],
+  [[null, '', ['sv']], { target: null, save: null }],
+  [[null, '', ['sv', 'de']], { target: 'de', save: null }],
+  [[null, '', ['ja-JP']], { target: 'ja', save: null }],
+  [[null, '', ['ko-KR']], { target: 'ko', save: null }],
   [['es', '', ['fr']], { target: 'es', save: null }],
   [['en', '', ['fr']], { target: 'en', save: null }],
   [[null, '?lang=en', ['fr']], { target: 'en', save: 'en' }],
