@@ -75,6 +75,24 @@ class Engine(unittest.TestCase):
         self.assertEqual(build.expand("{{patreon}}", self.ctx(simple={"patreon": build.PATREON_URL})),
                          "https://www.patreon.com/lumoxia_art")
 
+    def test_image_size_reads_svg_viewbox_and_png_header(self):
+        fx = ROOT / "scripts/fixtures/music"
+        self.assertEqual(build.image_size(fx / "ok.svg"), (120, 30))
+        self.assertEqual(build.image_size(fx / "ok.png"), (2, 1))
+        with self.assertRaises(build.BuildError):
+            build.image_size(fx / "no-viewbox.svg")
+
+    def test_missing_logo_fails_the_build(self):
+        site = build.Site()
+        svc = {"key": "x", "name": "X", "row": "main", "file": "nope.svg", "url": "https://example.com/"}
+        original = build.MUSIC_SERVICES
+        build.MUSIC_SERVICES = [svc]
+        try:
+            with self.assertRaises(build.BuildError):
+                site.albumlinks("en", "")
+        finally:
+            build.MUSIC_SERVICES = original
+
     def test_unknown_token_fails(self):
         with self.assertRaises(build.BuildError):
             build.expand("{{nope}}", self.ctx())
@@ -147,10 +165,14 @@ class Generated(unittest.TestCase):
             before = visible((BEFORE / PAGES[name]).read_text("utf-8"))
             after = visible(self.out[rel])
             if name == "index":
-                # the intended additions: Music section, Patreon button and footer link
+                # the intended additions: Music section with the album links, Patreon button and footer link
                 en = self.site.strings["en"]
-                added = [html.unescape(en[k]) for k in ("nav.music", "music.h", "music.p1", "music.p2", "music.btn",
-                                                        "contact.patreon", "contact.patreon.btn", "footer.patreon")]
+                album = lambda t: t.replace("{{album}}", build.ALBUM_TITLE)
+                added = [html.unescape(album(en[k])) for k in ("nav.music", "music.h", "music.p1", "music.p2",
+                                                               "music.links.label", "footer.music",
+                                                               "contact.patreon", "contact.patreon.btn", "footer.patreon")]
+                added.append(build.ALBUM_TITLE)
+                added += [album(en["music.link"]).replace("{service}", s["name"]) for s in build.MUSIC_SERVICES]
                 cleaned = []
                 for t in after:
                     if t == en["footer.patreon"] and cleaned and cleaned[-1] == "\u00b7":
@@ -200,7 +222,7 @@ class Generated(unittest.TestCase):
             self.assertLess(text.index('id="music"'), text.index('id="founder"'), l["code"])
             self.assertIn('href="#music"', text, l["code"])
             links = re.findall(r'<a [^>]*href="https://www\.patreon\.com/[^"]*"[^>]*>', text)
-            self.assertEqual(len(links), 3, l["code"])  # music button, contact button, footer link
+            self.assertEqual(len(links), 2, l["code"])  # contact button, footer link
             for a in links:
                 self.assertIn('href="https://www.patreon.com/lumoxia_art"', a)
                 self.assertIn('target="_blank"', a)
@@ -229,14 +251,84 @@ class Generated(unittest.TestCase):
         self.assertIn("justify-content: center", rule.group(2))
         self.assertNotRegex(css, r"\.(hero|cta-band) \.cta\b")
 
-    def test_music_cta_has_no_inline_style(self):
+    def music_section(self, code):
+        prefix = "" if code == "en" else code + "/"
+        text = self.out[prefix + "index.html"]
+        return text[text.index('id="music"'):text.index('id="founder"')]
+
+    def test_music_links(self):
+        expected = [s["url"] for s in build.MUSIC_SERVICES]
+        for l in self.langs:
+            music = self.music_section(l["code"])
+            anchors = re.findall(r"<a [^>]*>", music)
+            hrefs = [html.unescape(re.search(r'href="([^"]*)"', a).group(1)) for a in anchors]
+            self.assertEqual(hrefs, expected, l["code"])
+            for a, svc in zip(anchors, build.MUSIC_SERVICES):
+                self.assertIn('target="_blank"', a)
+                self.assertIn('rel="noopener"', a)
+                label = re.search(r'aria-label="([^"]*)"', a).group(1)
+                self.assertIn(svc["name"], label, l["code"])
+                self.assertIn(build.ALBUM_TITLE, label, l["code"])
+            for url in hrefs:
+                self.assertNotRegex(url, r"[?&](si|ref)=", l["code"])
+            self.assertEqual(len(re.findall(r'<img [^>]*alt=""', music)), len(expected), l["code"])
+            self.assertNotIn("style=", music, l["code"])
+        self.assertEqual([s["key"] for s in build.MUSIC_SERVICES][0], "apple")  # Apple asks for its badge first
+
+    def test_music_logos_exist_and_are_documented(self):
+        readme = (ROOT / "assets/music/README.md").read_text("utf-8")
+        for l in self.langs:
+            for src in re.findall(r'<img src="([^"]*assets/music/[^"]*)"', self.music_section(l["code"])):
+                self.assertTrue((ROOT / "assets/music" / src.split("assets/music/")[1]).is_file(), src)
+        for f in (ROOT / "assets/music").rglob("*"):
+            if f.is_file() and f.name != "README.md":
+                rel = str(f.relative_to(ROOT / "assets/music"))
+                key = rel if not rel.startswith("apple-music/") else "apple-music/<code>.svg"
+                self.assertRegex(readme, r"(?m)^\| `" + re.escape(key) + r"` \|", rel)  # one table row per file
+
+    def test_music_logo_files_are_safe(self):
+        for f in (ROOT / "assets/music").rglob("*.svg"):
+            text = f.read_text("utf-8").lower()
+            for bad in ("<script", "<foreignobject", "javascript:"):
+                self.assertNotIn(bad, text, f.name)
+            self.assertNotRegex(text, r"\son[a-z]+\s*=", f.name)
+            self.assertNotRegex(text, r"(xlink:)?href\s*=\s*[\"']https?:", f.name)
+
+    def test_listen_styles(self):
+        css = (ROOT / "styles.css").read_text()
+        row = re.search(r"(?m)^\.listen \{([^}]*)\}", css).group(1)
+        self.assertGreaterEqual(int(re.search(r"--svc-h:\s*(\d+)px", row).group(1)), 30)  # Apple badge minimum
+        self.assertRegex(css, r"\.listen a \{[^}]*min-height: 44px")
+        self.assertIn(".listen a:focus-visible", css)
+        yt = re.search(r"\.listen-youtube \{([^}]*)\}", css).group(1)
+        self.assertGreaterEqual(int(re.search(r"--svc-h:\s*(\d+)px", yt).group(1)), 100)  # YouTube minimum height
+        td = re.search(r"\.listen-tidal \{([^}]*)\}", css).group(1)
+        self.assertRegex(td, r"--svc-h:\s*min\(92px,")  # full size on wide screens, scaled down on narrow ones
+        self.assertRegex(td, r"--svc-clear:\s*calc\(var\(--svc-h\) \* 0\.69")  # twice the logo's height, proportional
+        narrow = re.search(r"@media \(max-width: 420px\) \{([^@]*)\}", css).group(1)
+        self.assertNotIn("listen-tidal", narrow)  # the narrow-screen padding exception is YouTube's only
+
+    def test_apple_credit_once(self):
+        credit = "Apple and Apple Music are trademarks of Apple Inc., registered in the U.S. and other countries."
         for l in self.langs:
             prefix = "" if l["code"] == "en" else l["code"] + "/"
-            text = self.out[prefix + "index.html"]
-            music = text[text.index('id="music"'):text.index('id="founder"')]
-            row = re.search(r'<div class="cta"[^>]*>', music)
-            self.assertIsNotNone(row, l["code"])
-            self.assertNotIn("style=", row.group(0), l["code"])
+            self.assertEqual(self.out[prefix + "index.html"].count(credit), 1, l["code"])
+
+    def test_apple_badge_is_localised_with_english_fallback(self):
+        apple = next(s for s in build.MUSIC_SERVICES if s["key"] == "apple")
+        for l in self.langs:
+            own = l["code"] not in apple["english_for"]
+            self.assertEqual(own, (ROOT / "assets/music/apple-music" / (l["code"] + ".svg")).is_file(), l["code"])
+            expected = f"assets/music/apple-music/{l['code'] if own else 'en'}.svg"
+            self.assertIn(expected, self.music_section(l["code"]), l["code"])
+        self.assertEqual(sorted(apple["english_for"]), ["ar", "hi"])
+
+    def test_missing_apple_badge_is_an_error_unless_listed(self):
+        site = build.Site()
+        apple = next(s for s in build.MUSIC_SERVICES if s["key"] == "apple")
+        self.assertEqual(site.logo_path(apple, "ar")[0], "apple-music/en.svg")
+        with self.assertRaises(build.BuildError):
+            site.logo_path(apple, "zz")
 
     def test_no_embeds(self):
         for rel, text in self.out.items():

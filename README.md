@@ -19,6 +19,7 @@ i18n/           # languages.json, strings/<code>.json, app-terms.json (see i18n/
 scripts/        # build.py (generator), check_i18n.py, tests
 styles.css      # Mesopotamian-inspired theme (the colours of the Lumoxia board: brown, sand and gold)
 assets/
+  music/        # official streaming-service logos for the album links, with their sources and rules (see its README)
   badges/       # official App Store and Google Play badges, stored but not shown until the listings exist (see its README)
   logo.svg      # full horizontal wordmark + emblem
   mark.svg      # square emblem (favicon / OG / avatar)
@@ -41,7 +42,7 @@ python3 scripts/test_build.py     # generated pages, links, language menu
 Commit the sources and the generated pages together. CI (`.github/workflows/check.yml`) fails a pull request if the
 committed pages differ from what the generator produces. Python 3 is the only requirement.
 
-The Patreon page URL lives in `scripts/build.py` as `PATREON_URL` and is used through the `{{patreon}}` token, so it is never typed into a template or string.
+The Patreon page URL lives in `scripts/build.py` as `PATREON_URL` and is used through the `{{patreon}}` token, so it is never typed into a template or string. The album's streaming links live there too, as `MUSIC_SERVICES`, and are drawn by the `{{albumlinks}}` token; a service is added only together with its official logo in `assets/music/`.
 
 ## Local preview
 

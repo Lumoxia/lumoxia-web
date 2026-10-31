@@ -7,6 +7,7 @@ import argparse
 import html
 import json
 import re
+import struct
 import sys
 import urllib.parse
 from dataclasses import dataclass, field
@@ -15,6 +16,25 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lumoxia.art"
 PATREON_URL = "https://www.patreon.com/lumoxia_art"
+ALBUM_TITLE = "Bronze and Hide"
+# Streaming services for the album, in display order. A service is listed only once its official logo is in
+# assets/music/ (see the README there). "row" groups services that share a line: YouTube and Tidal need
+# larger logos or more clear space than the others, so each has its own row.
+MUSIC_SERVICES = [
+    {"key": "apple", "name": "Apple Music", "row": "main", "file": "apple-music/{lang}.svg",
+     "english_for": ("ar", "hi"),  # Apple publishes no badge for these languages; any other missing badge is an error
+     "url": "https://music.apple.com/us/album/bronze-and-hide-from-the-royal-game-of-ur-world-edition/6827675162"},
+    {"key": "spotify", "name": "Spotify", "row": "main", "file": "spotify.svg",
+     "url": "https://open.spotify.com/album/3591BC0EX4SsGEkS4cTac6"},
+    {"key": "amazon", "name": "Amazon Music", "row": "main", "file": "amazon-music.png",
+     "url": "https://music.amazon.co.uk/albums/B0HPHDCLP1"},
+    {"key": "deezer", "name": "Deezer", "row": "main", "file": "deezer.png",
+     "url": "https://www.deezer.com/en/album/1132172601"},
+    {"key": "youtube", "name": "YouTube", "row": "youtube", "file": "youtube.png",
+     "url": "https://www.youtube.com/watch?v=C2Y9CObyl18&list=OLAK5uy_kZqkdtaxOQ-6__bOQfdZhl1vRiU-P_OhA"},
+    {"key": "tidal", "name": "Tidal", "row": "tidal", "file": "tidal.png", "url": "https://tidal.com/album/573680338"},
+]
+MUSIC_ROWS = ("main", "youtube", "tidal")
 PAGES = {  # page name -> (template, address inside a language tree)
     "index": ("index.html", ""),
     "privacy": ("privacy.html", "royal-game-of-ur/privacy/"),
@@ -97,6 +117,20 @@ def address(code, page_addr):
     return ("/" if code == "en" else f"/{code}/") + page_addr
 
 
+def image_size(path):
+    """Width and height of an SVG (from its viewBox) or PNG (from its header), rounded to whole pixels."""
+    data = path.read_bytes()
+    if path.suffix == ".png":
+        if data[:8] != b"\x89PNG\r\n\x1a\n":
+            raise BuildError(f"{path.name} is not a PNG")
+        w, h = struct.unpack(">II", data[16:24])
+        return w, h
+    m = re.search(rb'viewBox="\s*[-\d.]+[ ,]+[-\d.]+[ ,]+([\d.]+)[ ,]+([\d.]+)\s*"', data)
+    if not m:
+        raise BuildError(f"{path.name} has no viewBox")
+    return round(float(m.group(1))), round(float(m.group(2)))
+
+
 def strip_colon(label):
     return label.rstrip(":\uff1a\u00a0 ").strip()
 
@@ -130,6 +164,8 @@ class Site:
             "alternates": self.alternates(addr), "fonts": self.fonts(lang["fontSet"]),
             "detect": self.detect() if code == "en" else "",
             "langmenu": self.langmenu(code, addr, button), "patreon": PATREON_URL,
+            "album": ALBUM_TITLE,
+            "albumlinks": self.albumlinks(code, root_prefix(rel)) if page == "index" else "",
         }
         strings = dict(self.strings[code])
         ctx = Context(strings=strings, app=app, simple=simple, partials=self.partials)
@@ -138,6 +174,37 @@ class Site:
         out = re.sub(r"\n[ \t]*\n(?=</head>)", "\n", out)
         first, rest = out.split("\n", 1)
         return first + "\n" + HEADER + "\n" + rest.rstrip("\n") + "\n", rel
+
+    def logo_path(self, service, code):
+        """The logo file for a service in a language. Apple's badge is localised; only the languages a service
+        lists in english_for use the English file, so a deleted or misspelt badge fails the build."""
+        name = service["file"].replace("{lang}", code)
+        if "{lang}" in service["file"] and code in service.get("english_for", ()):
+            name = service["file"].replace("{lang}", "en")
+        path = self.root / "assets/music" / name
+        if not path.is_file():
+            raise BuildError(f"missing logo file assets/music/{name}")
+        return name, path
+
+    def albumlinks(self, code, root):
+        """One centred list of logo links per row of MUSIC_SERVICES."""
+        strings = self.strings[code]
+        rows = []
+        for row in MUSIC_ROWS:
+            items = []
+            for svc in (s for s in MUSIC_SERVICES if s["row"] == row):
+                name, path = self.logo_path(svc, code)
+                w, h = image_size(path)
+                label = strings["music.link"].replace("{{album}}", ALBUM_TITLE).replace("{service}", svc["name"])
+                items.append(
+                    f'    <li class="svc-{svc["key"]}"><a href="{html.escape(svc["url"], quote=True)}" target="_blank" rel="noopener" '
+                    f'aria-label="{html.escape(label, quote=True)}"><img src="{root}assets/music/{name}" alt="" '
+                    f'width="{w}" height="{h}" loading="lazy" /></a></li>')
+            if items:
+                cls = "listen" if row == "main" else f"listen listen-{row}"
+                rows.append(f'<ul class="{cls}" aria-label="{html.escape(strings["music.links.label"], quote=True)}">\n'
+                            + "\n".join(items) + "\n</ul>")
+        return "\n".join(rows)
 
     def alternates(self, addr):
         lines = [f'  <link rel="alternate" hreflang="{l["htmlLang"]}" href="{SITE}{address(l["code"], addr)}" />'

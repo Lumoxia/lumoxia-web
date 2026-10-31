@@ -131,6 +131,25 @@ a:hover { color: var(--gold-500); }
 }
 .cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
+/* ---- Album links: official streaming logos, shown unaltered ---- */
+.album-title { font-family: var(--serif); text-align: center; letter-spacing: 1px; margin: 32px 0 12px; }
+/* --svc-clear is the padding (clear space) around each logo: half of Spotify's icon height at 32px, which is the
+   largest of the row's vendor requirements. YouTube's logo must be 100px high; Tidal needs twice its height. */
+.listen { --svc-h: 32px; --svc-clear: 16px; list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.listen a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px;
+  padding: var(--svc-clear); border-radius: 12px; transition: background 0.15s ease, transform 0.15s ease; }
+.listen a:hover { background: rgba(232, 198, 106, 0.14); transform: translateY(-2px); }
+.listen a:focus-visible { outline: 2px solid var(--gold-400); outline-offset: 2px; }
+.listen img { display: block; height: var(--svc-h); width: auto; max-width: none; }
+.svc-deezer img { height: 56px; } /* the vertical lockup (heart and wordmark) is taller so its wordmark stays legible */
+.listen-youtube { --svc-h: 100px; --svc-clear: 32px; margin-top: 8px; }
+/* Tidal's file has its own black margin, so the 92px image shows a logo about 32px high; clear space is twice that */
+.listen-tidal { --svc-h: min(92px, calc((100vw - 48px) / 4.77)); --svc-clear: calc(var(--svc-h) * 0.696); margin-top: 8px; }
+/* on narrow screens the Tidal logo scales down so its row (logo plus twice-height clear space) still fits the 24px-padded container */
+@media (max-width: 420px) { .listen-youtube a { padding-inline: 0; } } /* only the page edge is near, and the logo stays 100px high */
+@media (prefers-reduced-motion: reduce) { .listen a { transition: none; } .listen a:hover { transform: none; } }
+
 /* ---- Section scaffolding ---- */
 section { padding: 72px 0; }
 .section-title {
