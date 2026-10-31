@@ -142,8 +142,11 @@ a:hover { color: var(--gold-500); }
 .listen a:hover { background: rgba(232, 198, 106, 0.14); transform: translateY(-2px); }
 .listen a:focus-visible { outline: 2px solid var(--gold-400); outline-offset: 2px; }
 .listen img { display: block; height: var(--svc-h); width: auto; max-width: none; }
+.svc-deezer img { height: 56px; } /* the vertical lockup (heart and wordmark) is taller so its wordmark stays legible */
 .listen-youtube { --svc-h: 100px; --svc-clear: 32px; margin-top: 8px; }
-@media (max-width: 420px) { .listen-youtube a { padding-inline: 0; } } /* only the page edge is near, and the logo stays 100px high */
+/* Tidal's file has its own black margin, so the 92px image shows a logo about 32px high; clear space is twice that */
+.listen-tidal { --svc-h: 92px; --svc-clear: 64px; margin-top: 8px; }
+@media (max-width: 420px) { .listen-youtube a, .listen-tidal a { padding-inline: 0; } } /* only the page edge is near, and the logo stays 100px high */
 @media (prefers-reduced-motion: reduce) { .listen a { transition: none; } .listen a:hover { transform: none; } }
 
 /* ---- Section scaffolding ---- */

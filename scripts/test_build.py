@@ -302,6 +302,8 @@ class Generated(unittest.TestCase):
         self.assertIn(".listen a:focus-visible", css)
         yt = re.search(r"\.listen-youtube \{([^}]*)\}", css).group(1)
         self.assertGreaterEqual(int(re.search(r"--svc-h:\s*(\d+)px", yt).group(1)), 100)  # YouTube minimum height
+        td = re.search(r"\.listen-tidal \{([^}]*)\}", css).group(1)
+        self.assertGreaterEqual(int(re.search(r"--svc-clear:\s*(\d+)px", td).group(1)), 64)  # twice a 32px logo
 
     def test_apple_credit_once(self):
         credit = "Apple and Apple Music are trademarks of Apple Inc., registered in the U.S. and other countries."

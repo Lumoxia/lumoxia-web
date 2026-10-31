@@ -25,8 +25,13 @@ MUSIC_SERVICES = [
      "url": "https://music.apple.com/us/album/bronze-and-hide-from-the-royal-game-of-ur-world-edition/6827675162"},
     {"key": "spotify", "name": "Spotify", "row": "main", "file": "spotify.svg",
      "url": "https://open.spotify.com/album/3591BC0EX4SsGEkS4cTac6"},
+    {"key": "amazon", "name": "Amazon Music", "row": "main", "file": "amazon-music.png",
+     "url": "https://music.amazon.co.uk/albums/B0HPHDCLP1"},
+    {"key": "deezer", "name": "Deezer", "row": "main", "file": "deezer.png",
+     "url": "https://www.deezer.com/en/album/1132172601"},
     {"key": "youtube", "name": "YouTube", "row": "youtube", "file": "youtube.png",
      "url": "https://www.youtube.com/watch?v=C2Y9CObyl18&list=OLAK5uy_kZqkdtaxOQ-6__bOQfdZhl1vRiU-P_OhA"},
+    {"key": "tidal", "name": "Tidal", "row": "tidal", "file": "tidal.png", "url": "https://tidal.com/album/573680338"},
 ]
 MUSIC_ROWS = ("main", "youtube", "tidal")
 PAGES = {  # page name -> (template, address inside a language tree)
@@ -190,7 +195,7 @@ class Site:
                 w, h = image_size(path)
                 label = strings["music.link"].replace("{{album}}", ALBUM_TITLE).replace("{service}", svc["name"])
                 items.append(
-                    f'    <li><a href="{html.escape(svc["url"], quote=True)}" target="_blank" rel="noopener" '
+                    f'    <li class="svc-{svc["key"]}"><a href="{html.escape(svc["url"], quote=True)}" target="_blank" rel="noopener" '
                     f'aria-label="{html.escape(label, quote=True)}"><img src="{root}assets/music/{name}" alt="" '
                     f'width="{w}" height="{h}" loading="lazy" /></a></li>')
             if items:
