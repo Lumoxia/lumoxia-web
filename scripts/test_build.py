@@ -283,8 +283,8 @@ class Generated(unittest.TestCase):
         for f in (ROOT / "assets/music").rglob("*"):
             if f.is_file() and f.name != "README.md":
                 rel = str(f.relative_to(ROOT / "assets/music"))
-                key = rel if not rel.startswith("apple-music/") else "apple-music"
-                self.assertIn(key, readme, rel)
+                key = rel if not rel.startswith("apple-music/") else "apple-music/<code>.svg"
+                self.assertRegex(readme, r"(?m)^\| `" + re.escape(key) + r"` \|", rel)  # one table row per file
 
     def test_music_logo_files_are_safe(self):
         for f in (ROOT / "assets/music").rglob("*.svg"):
@@ -303,7 +303,10 @@ class Generated(unittest.TestCase):
         yt = re.search(r"\.listen-youtube \{([^}]*)\}", css).group(1)
         self.assertGreaterEqual(int(re.search(r"--svc-h:\s*(\d+)px", yt).group(1)), 100)  # YouTube minimum height
         td = re.search(r"\.listen-tidal \{([^}]*)\}", css).group(1)
-        self.assertGreaterEqual(int(re.search(r"--svc-clear:\s*(\d+)px", td).group(1)), 64)  # twice a 32px logo
+        self.assertRegex(td, r"--svc-h:\s*min\(92px,")  # full size on wide screens, scaled down on narrow ones
+        self.assertRegex(td, r"--svc-clear:\s*calc\(var\(--svc-h\) \* 0\.69")  # twice the logo's height, proportional
+        narrow = re.search(r"@media \(max-width: 420px\) \{([^@]*)\}", css).group(1)
+        self.assertNotIn("listen-tidal", narrow)  # the narrow-screen padding exception is YouTube's only
 
     def test_apple_credit_once(self):
         credit = "Apple and Apple Music are trademarks of Apple Inc., registered in the U.S. and other countries."
@@ -312,8 +315,20 @@ class Generated(unittest.TestCase):
             self.assertEqual(self.out[prefix + "index.html"].count(credit), 1, l["code"])
 
     def test_apple_badge_is_localised_with_english_fallback(self):
-        self.assertIn("assets/music/apple-music/fr.svg", self.music_section("fr"))
-        self.assertIn("assets/music/apple-music/en.svg", self.music_section("ar"))  # Apple has no Arabic badge
+        apple = next(s for s in build.MUSIC_SERVICES if s["key"] == "apple")
+        for l in self.langs:
+            own = l["code"] not in apple["english_for"]
+            self.assertEqual(own, (ROOT / "assets/music/apple-music" / (l["code"] + ".svg")).is_file(), l["code"])
+            expected = f"assets/music/apple-music/{l['code'] if own else 'en'}.svg"
+            self.assertIn(expected, self.music_section(l["code"]), l["code"])
+        self.assertEqual(sorted(apple["english_for"]), ["ar", "hi"])
+
+    def test_missing_apple_badge_is_an_error_unless_listed(self):
+        site = build.Site()
+        apple = next(s for s in build.MUSIC_SERVICES if s["key"] == "apple")
+        self.assertEqual(site.logo_path(apple, "ar")[0], "apple-music/en.svg")
+        with self.assertRaises(build.BuildError):
+            site.logo_path(apple, "zz")
 
     def test_no_embeds(self):
         for rel, text in self.out.items():

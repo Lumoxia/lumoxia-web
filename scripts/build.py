@@ -22,6 +22,7 @@ ALBUM_TITLE = "Bronze and Hide"
 # larger logos or more clear space than the others, so each has its own row.
 MUSIC_SERVICES = [
     {"key": "apple", "name": "Apple Music", "row": "main", "file": "apple-music/{lang}.svg",
+     "english_for": ("ar", "hi"),  # Apple publishes no badge for these languages; any other missing badge is an error
      "url": "https://music.apple.com/us/album/bronze-and-hide-from-the-royal-game-of-ur-world-edition/6827675162"},
     {"key": "spotify", "name": "Spotify", "row": "main", "file": "spotify.svg",
      "url": "https://open.spotify.com/album/3591BC0EX4SsGEkS4cTac6"},
@@ -175,9 +176,10 @@ class Site:
         return first + "\n" + HEADER + "\n" + rest.rstrip("\n") + "\n", rel
 
     def logo_path(self, service, code):
-        """The logo file for a service in a language (Apple's badge is localised, with an English fallback)."""
+        """The logo file for a service in a language. Apple's badge is localised; only the languages a service
+        lists in english_for use the English file, so a deleted or misspelt badge fails the build."""
         name = service["file"].replace("{lang}", code)
-        if not (self.root / "assets/music" / name).is_file():
+        if "{lang}" in service["file"] and code in service.get("english_for", ()):
             name = service["file"].replace("{lang}", "en")
         path = self.root / "assets/music" / name
         if not path.is_file():

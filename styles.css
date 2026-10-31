@@ -145,8 +145,9 @@ a:hover { color: var(--gold-500); }
 .svc-deezer img { height: 56px; } /* the vertical lockup (heart and wordmark) is taller so its wordmark stays legible */
 .listen-youtube { --svc-h: 100px; --svc-clear: 32px; margin-top: 8px; }
 /* Tidal's file has its own black margin, so the 92px image shows a logo about 32px high; clear space is twice that */
-.listen-tidal { --svc-h: 92px; --svc-clear: 64px; margin-top: 8px; }
-@media (max-width: 420px) { .listen-youtube a, .listen-tidal a { padding-inline: 0; } } /* only the page edge is near, and the logo stays 100px high */
+.listen-tidal { --svc-h: min(92px, calc((100vw - 48px) / 4.77)); --svc-clear: calc(var(--svc-h) * 0.696); margin-top: 8px; }
+/* on narrow screens the Tidal logo scales down so its row (logo plus twice-height clear space) still fits the 24px-padded container */
+@media (max-width: 420px) { .listen-youtube a { padding-inline: 0; } } /* only the page edge is near, and the logo stays 100px high */
 @media (prefers-reduced-motion: reduce) { .listen a { transition: none; } .listen a:hover { transform: none; } }
 
 /* ---- Section scaffolding ---- */
