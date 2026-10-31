@@ -52,6 +52,13 @@ class StringChecks(unittest.TestCase):
         bad = 'Voir <a href="x/">ceci</a> et {app:title}'
         self.assertTrue(any("tags" in e or "tokens" in e for e in self.errs(good(**{"a.link": bad}))))
 
+    def test_missing_service_token(self):
+        en = dict(EN, **{"m.link": "Listen to {{album}} on {service}"})
+        ok = good(**{"m.link": "Écouter {{album}} sur {service}"})
+        bad = good(**{"m.link": "Écouter {{album}} sur Spotify"})
+        self.assertEqual(c.check_strings({"en": en, "fr": ok}), [])
+        self.assertTrue(any("tokens" in e for e in c.check_strings({"en": en, "fr": bad})))
+
     def test_em_dash(self):
         self.assertTrue(any("dash" in e for e in self.errs(good(**{"a.text": "a — b <strong>c</strong>"}))))
 

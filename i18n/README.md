@@ -35,7 +35,7 @@ Strings may contain a few inline tags (`<a href>`, `<strong>`, `<small>`, `<bdi>
 language's root) and `{app:key}` (the app's own wording from `app-terms.json`). Tags and tokens must match English.
 Em dashes and en dashes are not allowed.
 
-The Music section and Patreon links use the keys `nav.music`, `music.*`, `contact.patreon`, `contact.patreon.btn` and `footer.patreon`. "Patreon" is not translated. The URL itself is not in the strings: it is the `{{patreon}}` token.
+The Music section uses `nav.music` and `music.*`; the Patreon links use `contact.patreon`, `contact.patreon.btn` and `footer.patreon`. "Patreon" is not translated. The URL itself is not in the strings: it is the `{{patreon}}` token. The album's service links are built by `scripts/build.py`: `music.link` is the accessible name of each link and must keep `{{album}}` and `{service}` (replaced by the album title and the service name, neither translated). `footer.music` is the vendors' credit line and stays in English.
 
 To refresh `app-terms.json` after the app's strings change:
 `python3 scripts/sync_app_terms.py --app-repo ../royalgameofurl_mobile_app`.
