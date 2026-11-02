@@ -1,0 +1,28 @@
+{
+ "decisions": [
+  {
+   "id": "ios-icloud",
+   "title": "Should the policy also name iCloud for iPhone and iPad, or only the Google Account on Android?",
+   "options": [
+    "Name both Google Account (Android) and iCloud (iOS)",
+    "Android and Google Account only, leave iOS wording as is"
+   ],
+   "recommended": "Name both Google Account (Android) and iCloud (iOS)",
+   "answer": "Name both Google Account (Android) and iCloud (iOS)"
+  },
+  {
+   "id": "translations",
+   "title": "Update all 14 translations now (AI-drafted, marked unreviewed)?",
+   "options": [
+    "Yes, all 15 languages in one change",
+    "English only"
+   ],
+   "recommended": "Yes, all 15 languages in one change",
+   "answer": "Yes, all 15 languages in one change"
+  }
+ ],
+ "blocking": null,
+ "context": {
+  "template": "update-the-lumoxia-website-to"
+ }
+}

@@ -204,6 +204,18 @@ class Generated(unittest.TestCase):
                 self.assertIn(strings[key], page, "%s %s" % (lang, key))
             self.assertNotIn("21", strings["privacy.meta"], lang)  # the date of the old wording
 
+    def test_privacy_says_backup_can_copy_data(self):
+        for lang, strings in self.site.strings.items():
+            prefix = "" if lang == "en" else lang + "/"
+            page = self.out[prefix + "royal-game-of-ur/privacy/index.html"]
+            for key in ("privacy.stores.l3", "privacy.stores.p2", "privacy.stores.p3", "privacy.keep.p"):
+                ctx = build.Context(strings=dict(strings), app=self.site.app[lang], simple={"base": "", "root": ""})
+                self.assertIn(build.expand("{{t:%s}}" % key, ctx), page, "%s %s" % (lang, key))
+            self.assertNotIn("25", strings["privacy.meta"], lang)  # the date of the wording before backup
+        text = " ".join(visible(self.out["royal-game-of-ur/privacy/index.html"]))
+        self.assertNotIn("never leaves your device", text)
+        self.assertNotIn("removes everything", text)
+
     def test_android_and_store_attribution(self):
         home = " ".join(visible(self.out["index.html"]))
         self.assertIn("to iOS and Android", home)
