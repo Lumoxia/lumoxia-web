@@ -13,6 +13,11 @@ import build
 
 ROOT = Path(__file__).resolve().parent.parent
 BEFORE = ROOT / "scripts/fixtures/english-before"
+# The "Last updated" date the Privacy page carried before the backup wording, per language.
+OLD_DATES = {"en": "25 October 2026", "fr": "25 octobre 2026", "es": "25 de octubre de 2026", "de": "25. Oktober 2026",
+             "ar": "25 أكتوبر 2026", "zh": "2026年10月25日", "it": "25 ottobre 2026", "hi": "25 अक्टूबर 2026",
+             "tl": "25 Oktubre 2026", "tr": "25 Ekim 2026", "ru": "25 октября 2026", "he": "25 באוקטובר 2026",
+             "pt": "25 de outubro de 2026", "ja": "2026年10月25日", "ko": "2026년 10월 25일"}
 PAGES = {"index": "index.html", "privacy": "privacy.html", "support": "support.html"}
 
 
@@ -203,6 +208,18 @@ class Generated(unittest.TestCase):
             for key in ("privacy.iap.h", "privacy.keep.h"):
                 self.assertIn(strings[key], page, "%s %s" % (lang, key))
             self.assertNotIn("21", strings["privacy.meta"], lang)  # the date of the old wording
+
+    def test_privacy_says_backup_can_copy_data(self):
+        for lang, strings in self.site.strings.items():
+            prefix = "" if lang == "en" else lang + "/"
+            page = self.out[prefix + "royal-game-of-ur/privacy/index.html"]
+            for key in ("privacy.stores.l3", "privacy.stores.p2", "privacy.stores.p3", "privacy.keep.p"):
+                ctx = build.Context(strings=dict(strings), app=self.site.app[lang], simple={"base": "", "root": ""})
+                self.assertIn(build.expand("{{t:%s}}" % key, ctx), page, "%s %s" % (lang, key))
+            self.assertNotIn(OLD_DATES[lang], strings["privacy.meta"], lang)  # the date of the wording before backup
+        text = " ".join(visible(self.out["royal-game-of-ur/privacy/index.html"]))
+        self.assertNotIn("never leaves your device", text)
+        self.assertNotIn("removes everything", text)
 
     def test_android_and_store_attribution(self):
         home = " ".join(visible(self.out["index.html"]))
