@@ -2,6 +2,7 @@
 import html
 import json
 import re
+import urllib.parse
 import subprocess
 import sys
 import unittest
@@ -19,6 +20,8 @@ OLD_DATES = {"en": "25 October 2026", "fr": "25 octobre 2026", "es": "25 de octu
              "tl": "25 Oktubre 2026", "tr": "25 Ekim 2026", "ru": "25 октября 2026", "he": "25 באוקטובר 2026",
              "pt": "25 de outubro de 2026", "ja": "2026年10月25日", "ko": "2026년 10월 25일"}
 PAGES = {"index": "index.html", "privacy": "privacy.html", "support": "support.html"}
+AGE = "royal-game-of-ur/age-suitability/"
+AGE_FACT_KEYS = ["age.content.l%d" % i for i in range(1, 7)] + ["age.buy.p1", "age.privacy.p", "age.region.p", "age.changes.p"]
 
 
 class Visible(HTMLParser):
@@ -134,7 +137,8 @@ class Generated(unittest.TestCase):
     def test_expected_files(self):
         for l in self.langs:
             prefix = "" if l["code"] == "en" else l["code"] + "/"
-            for rel in ("index.html", "royal-game-of-ur/privacy/index.html", "royal-game-of-ur/support/index.html"):
+            for rel in ("index.html", "royal-game-of-ur/privacy/index.html", "royal-game-of-ur/support/index.html",
+                        AGE + "index.html"):
                 self.assertIn(prefix + rel, self.out)
         self.assertIn("sitemap.xml", self.out)
 
@@ -187,6 +191,12 @@ class Generated(unittest.TestCase):
                     if t:
                         cleaned.append(t)
                 after = cleaned
+            en = self.site.strings["en"]
+            if en["footer.age"] in after:  # the new footer link to the Age Suitability page and its separator
+                i = after.index(en["footer.age"])
+                after = after[:i] + after[i + 1:]
+                if after[i - 1] == "\u00b7":
+                    after.pop(i - 1)
             after = self.undo_iap_changes(after, name)
             if name == "privacy":
                 # the one intended addition: the "This website" section
@@ -365,6 +375,50 @@ class Generated(unittest.TestCase):
                           ("support", "royal-game-of-ur/support/index.html")]:
             before = len((BEFORE / PAGES[name]).read_bytes())
             self.assertLess(len(self.out[rel].encode()) - before, 15 * 1024, name)
+
+    def age_page(self, code):
+        return self.out[("" if code == "en" else code + "/") + AGE + "index.html"]
+
+    def test_age_page_states_the_content_facts(self):
+        en = self.site.strings["en"]
+        for l in self.langs:
+            code = l["code"]
+            strings = self.site.strings[code]
+            page = self.age_page(code)
+            ctx = build.Context(strings=dict(strings), app=self.site.app[code],
+                                simple={"base": "../../", "root": ""})
+            text = " ".join(visible(page))
+            for key in AGE_FACT_KEYS:
+                rendered = " ".join(visible("<p>" + build.expand("{{t:%s}}" % key, ctx) + "</p>"))
+                self.assertIn(rendered, text, code + " " + key)
+                if code != "en":
+                    self.assertNotEqual(strings[key], en[key], code + " " + key + " is not translated")
+            subject = strings["age.subject"].replace("{app:title}", self.site.app[code]["title"])
+            self.assertIn("mailto:rgur-support@lumoxia.art?subject=" + urllib.parse.quote(subject, safe=""), page, code)
+
+    def test_age_page_does_not_state_a_rating(self):
+        for l in self.langs:
+            text = " ".join(visible(self.age_page(l["code"])))
+            self.assertIsNone(re.search(r"\b(4|9|13|16|18)\s*\+", text), l["code"])
+
+    def test_age_page_is_linked_from_the_footer_not_the_top_navigation(self):
+        for l in self.langs:
+            prefix = "" if l["code"] == "en" else l["code"] + "/"
+            for rel in ("index.html", "royal-game-of-ur/privacy/index.html", "royal-game-of-ur/support/index.html",
+                        AGE + "index.html"):
+                text = self.out[prefix + rel]
+                footer = text[text.index('<footer'):]
+                links = re.search(r'<div class="nav-links">(.*?)</div>', text, re.S).group(1)
+                self.assertRegex(footer, r'href="(\.\./)*' + re.escape(AGE) + '"', prefix + rel)
+                self.assertNotIn("age-suitability", links, prefix + rel)
+
+    def test_sitemap_has_the_age_pages(self):
+        sitemap = self.out["sitemap.xml"]
+        entries = re.findall(r"<url>(.*?)</url>", sitemap, re.S)
+        age = [e for e in entries if re.search(r"<loc>[^<]*" + re.escape(AGE) + "</loc>", e)]
+        self.assertEqual(len(age), len(self.langs))
+        for e in age:
+            self.assertEqual(len(re.findall(r"<xhtml:link ", e)), len(self.langs) + 1)
 
     def test_lang_dir_canonical_alternates(self):
         for l in self.langs:

@@ -13,7 +13,7 @@ needs no build step. The pages are generated from templates and translation file
 
 ```
 index.html      # generated: landing page (English). Other languages: fr/ es/ de/ ar/ zh/ it/ hi/ tl/ tr/ ru/ he/ pt/
-royal-game-of-ur/  # generated: Privacy and Support pages (English)
+royal-game-of-ur/  # generated: Privacy, Support and Age Suitability pages (English)
 templates/      # page templates the pages are generated from
 i18n/           # languages.json, strings/<code>.json, app-terms.json (see i18n/README.md)
 scripts/        # build.py (generator), check_i18n.py, tests
@@ -41,6 +41,8 @@ python3 scripts/test_build.py     # generated pages, links, language menu
 
 Commit the sources and the generated pages together. CI (`.github/workflows/check.yml`) fails a pull request if the
 committed pages differ from what the generator produces. Python 3 is the only requirement.
+
+The Age Suitability page (`royal-game-of-ur/age-suitability/`) is the page whose English address is entered in the "Age Suitability URL (Optional)" field of App Store Connect (App Information, Age Rating). It describes the app's content and states no rating tier. Update it, with its date, before any app change (online play, chat, ads) that makes it untrue.
 
 The Patreon page URL lives in `scripts/build.py` as `PATREON_URL` and is used through the `{{patreon}}` token, so it is never typed into a template or string. The album's streaming links live there too, as `MUSIC_SERVICES`, and are drawn by the `{{albumlinks}}` token; a service is added only together with its official logo in `assets/music/`.
 
