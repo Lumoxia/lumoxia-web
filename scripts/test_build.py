@@ -192,11 +192,15 @@ class Generated(unittest.TestCase):
                         cleaned.append(t)
                 after = cleaned
             en = self.site.strings["en"]
-            if en["footer.age"] in after:  # the new footer link to the Age Suitability page and its separator
-                i = after.index(en["footer.age"])
-                after = after[:i] + after[i + 1:]
-                if after[i - 1] == "\u00b7":
-                    after.pop(i - 1)
+            # the new footer link to the Age Suitability page and the separator in front of it
+            self.assertIn(en["footer.age"], after, name)
+            i = after.index(en["footer.age"])
+            self.assertGreater(i, 0, name)
+            after = after[:i] + after[i + 1:]
+            self.assertEqual(after[i - 1][-1:], "\u00b7", name)
+            after[i - 1] = after[i - 1][:-1].rstrip()
+            if not after[i - 1]:
+                after.pop(i - 1)
             after = self.undo_iap_changes(after, name)
             if name == "privacy":
                 # the one intended addition: the "This website" section
@@ -399,7 +403,8 @@ class Generated(unittest.TestCase):
     def test_age_page_does_not_state_a_rating(self):
         for l in self.langs:
             text = " ".join(visible(self.age_page(l["code"])))
-            self.assertIsNone(re.search(r"\b(4|9|13|16|18)\s*\+", text), l["code"])
+            # any number followed by a plus (\d also matches Arabic-Indic and Devanagari digits), such as 4+, 12+ or 17+
+            self.assertIsNone(re.search(r"\d\s*\+", text), l["code"])
 
     def test_age_page_is_linked_from_the_footer_not_the_top_navigation(self):
         for l in self.langs:
