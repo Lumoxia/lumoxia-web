@@ -10,7 +10,8 @@
     "support.meta": "{app:title} for iOS and Android. Last updated 21 October 2026.",
     "support.q5.a": "No. It works offline and collects no data. See the <a href=\"{{base}}royal-game-of-ur/privacy/\">Privacy Policy</a>.",
     "privacy.stores.p1": "The app keeps a few things on your device only, so the game remembers them next time:",
-    "privacy.stores.p2": "This information never leaves your device. Lumoxia cannot see it. You can erase the statistics at any time with &ldquo;{app:statsReset}&rdquo; in the Stats panel, and deleting the app removes everything."
+    "privacy.stores.p2": "This information never leaves your device. Lumoxia cannot see it. You can erase the statistics at any time with &ldquo;{app:statsReset}&rdquo; in the Stats panel, and deleting the app removes everything.",
+    "privacy.links.p": "The Rules panel has links to other websites (for example the Lumoxia pages, a history video and the credits for the sound tools) and to these pages. When you tap one, your browser opens it. That website then deals with you under its own privacy policy, which Lumoxia does not control."
   },
   "added": [
     "privacy.iap.h",

@@ -18,6 +18,11 @@ OLD_DATES = {"en": "25 October 2026", "fr": "25 octobre 2026", "es": "25 de octu
              "ar": "25 أكتوبر 2026", "zh": "2026年10月25日", "it": "25 ottobre 2026", "hi": "25 अक्टूबर 2026",
              "tl": "25 Oktubre 2026", "tr": "25 Ekim 2026", "ru": "25 октября 2026", "he": "25 באוקטובר 2026",
              "pt": "25 de outubro de 2026", "ja": "2026年10月25日", "ko": "2026년 10월 25일"}
+# The "Last updated" date the Privacy page carried before the link list was completed (2 November 2026), per language.
+LINKS_OLD_DATES = {"en": "2 November 2026", "fr": "2 novembre 2026", "es": "2 de noviembre de 2026", "de": "2. November 2026",
+                   "ar": "2 نوفمبر 2026", "zh": "2026年11月2日", "it": "2 novembre 2026", "hi": "2 नवंबर 2026",
+                   "tl": "2 Nobyembre 2026", "tr": "2 Kasım 2026", "ru": "2 ноября 2026", "he": "2 בנובמבר 2026",
+                   "pt": "2 de novembro de 2026", "ja": "2026年11月2日", "ko": "2026년 11월 2일"}
 PAGES = {"index": "index.html", "privacy": "privacy.html", "support": "support.html"}
 
 
@@ -220,6 +225,15 @@ class Generated(unittest.TestCase):
         text = " ".join(visible(self.out["royal-game-of-ur/privacy/index.html"]))
         self.assertNotIn("never leaves your device", text)
         self.assertNotIn("removes everything", text)
+
+    def test_privacy_links_name_the_music_service(self):
+        for lang, strings in self.site.strings.items():
+            prefix = "" if lang == "en" else lang + "/"
+            page = self.out[prefix + "royal-game-of-ur/privacy/index.html"]
+            ctx = build.Context(strings=dict(strings), app=self.site.app[lang], simple={"base": "", "root": ""})
+            self.assertIn(build.expand("{{t:privacy.links.p}}", ctx), page, lang)
+            self.assertIn("Spotify", strings["privacy.links.p"], lang)  # the album and the per-board tracks open on Spotify
+            self.assertNotIn(LINKS_OLD_DATES[lang], strings["privacy.meta"], lang)  # the date of the incomplete list
 
     def test_android_and_store_attribution(self):
         home = " ".join(visible(self.out["index.html"]))
