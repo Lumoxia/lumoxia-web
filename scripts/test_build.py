@@ -19,6 +19,11 @@ OLD_DATES = {"en": "25 October 2026", "fr": "25 octobre 2026", "es": "25 de octu
              "ar": "25 أكتوبر 2026", "zh": "2026年10月25日", "it": "25 ottobre 2026", "hi": "25 अक्टूबर 2026",
              "tl": "25 Oktubre 2026", "tr": "25 Ekim 2026", "ru": "25 октября 2026", "he": "25 באוקטובר 2026",
              "pt": "25 de outubro de 2026", "ja": "2026年10月25日", "ko": "2026년 10월 25일"}
+# The "Last updated" date the Privacy page carries now, per language. Update it together with the date in privacy.meta.
+PRIVACY_DATES = {"en": "3 November 2026", "fr": "3 novembre 2026", "es": "3 de noviembre de 2026", "de": "3. November 2026",
+                 "ar": "3 نوفمبر 2026", "zh": "2026年11月3日", "it": "3 novembre 2026", "hi": "3 नवंबर 2026",
+                 "tl": "3 Nobyembre 2026", "tr": "3 Kasım 2026", "ru": "3 ноября 2026", "he": "3 בנובמבר 2026",
+                 "pt": "3 de novembro de 2026", "ja": "2026年11月3日", "ko": "2026년 11월 3일"}
 PAGES = {"index": "index.html", "privacy": "privacy.html", "support": "support.html"}
 AGE = "royal-game-of-ur/age-suitability/"
 AGE_FACT_KEYS = ["age.content.l%d" % i for i in range(1, 7)] + ["age.buy.p1", "age.privacy.p", "age.region.p", "age.changes.p"]
@@ -234,6 +239,19 @@ class Generated(unittest.TestCase):
         text = " ".join(visible(self.out["royal-game-of-ur/privacy/index.html"]))
         self.assertNotIn("never leaves your device", text)
         self.assertNotIn("removes everything", text)
+
+    def test_privacy_links_name_every_service_the_app_opens(self):
+        for lang, strings in self.site.strings.items():
+            prefix = "" if lang == "en" else lang + "/"
+            page = self.out[prefix + "royal-game-of-ur/privacy/index.html"]
+            ctx = build.Context(strings=dict(strings), app=self.site.app[lang], simple={"base": "", "root": ""})
+            para = strings["privacy.links.p"]
+            self.assertIn(build.expand("{{t:privacy.links.p}}", ctx), page, lang)
+            for name in ("GitHub", "YouTube", "ElevenLabs"):
+                self.assertIn(name, para, lang + " " + name)
+            self.assertGreaterEqual(para.count("Spotify"), 3, lang)  # the album, each board's track, and another app such as Spotify
+            self.assertIn(PRIVACY_DATES[lang], strings["privacy.meta"], lang)
+        self.assertNotIn("browser", self.site.strings["en"]["privacy.links.h"])  # links can open in another app
 
     def test_android_and_store_attribution(self):
         home = " ".join(visible(self.out["index.html"]))
