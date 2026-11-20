@@ -13,7 +13,7 @@ needs no build step. The pages are generated from templates and translation file
 
 ```
 index.html      # generated: landing page (English). Other languages: fr/ es/ de/ ar/ zh/ it/ hi/ tl/ tr/ ru/ he/ pt/
-royal-game-of-ur/  # generated: Privacy, Support and Age Suitability pages (English)
+royal-game-of-ur/  # generated: Privacy, Support, Age Suitability and Terms of Service pages (English)
 templates/      # page templates the pages are generated from
 i18n/           # languages.json, strings/<code>.json, app-terms.json (see i18n/README.md)
 scripts/        # build.py (generator), check_i18n.py, tests
@@ -43,6 +43,8 @@ Commit the sources and the generated pages together. CI (`.github/workflows/chec
 committed pages differ from what the generator produces. Python 3 is the only requirement.
 
 The Age Suitability page (`royal-game-of-ur/age-suitability/`) is the page whose English address is entered in the "Age Suitability URL (Optional)" field of App Store Connect (App Information, Age Rating). It describes the app's content and states no rating tier. Update it, with its date, before any app change (online play, chat, ads) that makes it untrue.
+
+The Terms of Service page (`royal-game-of-ur/terms/`) is the one page for both the iOS and the Android app. Its address, `https://lumoxia.art/royal-game-of-ur/terms/`, is what to enter in App Store Connect (App Information, License Agreement, Custom) and in the Play Console listing. Who offers the terms and where notices go live in `scripts/build.py` as `PUBLISHER_NAME` and `NOTICE_EMAIL`, are used through the `{{publisher}}` and `{{noticeemail}}` tokens, and the build fails if either is empty. The text is not legal advice: have a lawyer read the English version before the store listings link to it, and revise it, with its date, before any app change (online play, chat, ads, accounts, a subscription) that makes it untrue. No postal address is published; if a store or a regulator asks for one, add it as a constant and a token in the same way.
 
 The Patreon page URL lives in `scripts/build.py` as `PATREON_URL` and is used through the `{{patreon}}` token, so it is never typed into a template or string. The album's streaming links live there too, as `MUSIC_SERVICES`, and are drawn by the `{{albumlinks}}` token; a service is added only together with its official logo in `assets/music/`.
 

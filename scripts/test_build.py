@@ -46,6 +46,15 @@ PRIVACY_DATES = {"en": "3 November 2026", "fr": "3 novembre 2026", "es": "3 de n
                  "ar": "3 نوفمبر 2026", "zh": "2026年11月3日", "it": "3 novembre 2026", "hi": "3 नवंबर 2026",
                  "tl": "3 Nobyembre 2026", "tr": "3 Kasım 2026", "ru": "3 ноября 2026", "he": "3 בנובמבר 2026",
                  "pt": "3 de novembro de 2026", "ja": "2026年11月3日", "ko": "2026년 11월 3일"}
+# The "Last updated" date of the Terms page, per language: 20 November 2026 in each language's own format.
+TERMS_DATES = {"en": "20 November 2026", "fr": "20 novembre 2026", "es": "20 de noviembre de 2026", "de": "20. November 2026",
+               "ar": "20 نوفمبر 2026", "zh": "2026年11月20日", "it": "20 novembre 2026", "hi": "20 नवंबर 2026",
+               "tl": "20 Nobyembre 2026", "tr": "20 Kasım 2026", "ru": "20 ноября 2026", "he": "20 בנובמבר 2026",
+               "pt": "20 de novembro de 2026", "ja": "2026年11月20日", "ko": "2026년 11월 20일"}
+TERMS = "royal-game-of-ur/terms/"
+TERMS_SECTIONS = ["agree", "licence", "use", "ip", "purchase", "rights", "warranty", "liability", "links", "privacy",
+                  "updates", "changes", "publisher", "law", "disputes", "general", "apple", "google", "export", "end",
+                  "age", "contact"]
 PAGES = {"index": "index.html", "privacy": "privacy.html", "support": "support.html"}
 AGE = "royal-game-of-ur/age-suitability/"
 AGE_FACT_KEYS = ["age.content.l%d" % i for i in range(1, 7)] + ["age.buy.p1", "age.privacy.p", "age.region.p", "age.changes.p"]
@@ -88,6 +97,14 @@ def visible(html):
     p = Visible()
     p.feed(html)
     return p.items
+
+
+def remove_run(items, run):
+    """items without the first stretch that equals run (the text of one added paragraph)."""
+    for i in range(len(items) - len(run) + 1):
+        if items[i:i + len(run)] == run:
+            return items[:i] + items[i + len(run):]
+    raise AssertionError("added text not found: %r" % run)
 
 
 class StoreLinks(HTMLParser):
@@ -153,6 +170,17 @@ class Engine(unittest.TestCase):
         finally:
             build.MUSIC_SERVICES = original
 
+    def test_the_terms_need_a_publisher_and_a_notice_address(self):
+        site = build.Site()
+        for name in ("PUBLISHER_NAME", "NOTICE_EMAIL"):
+            original = getattr(build, name)
+            setattr(build, name, "")
+            try:
+                with self.assertRaises(build.BuildError):
+                    site.render_page("en", "terms")
+            finally:
+                setattr(build, name, original)
+
     def test_unknown_token_fails(self):
         with self.assertRaises(build.BuildError):
             build.expand("{{nope}}", self.ctx())
@@ -190,7 +218,7 @@ class Generated(unittest.TestCase):
         for l in self.langs:
             prefix = "" if l["code"] == "en" else l["code"] + "/"
             for rel in ("index.html", "royal-game-of-ur/privacy/index.html", "royal-game-of-ur/support/index.html",
-                        AGE + "index.html"):
+                        AGE + "index.html", TERMS + "index.html"):
                 self.assertIn(prefix + rel, self.out)
         self.assertIn("sitemap.xml", self.out)
 
@@ -264,6 +292,18 @@ class Generated(unittest.TestCase):
                         cleaned.append(t)
                 after = cleaned
             en = self.site.strings["en"]
+            # the Terms of Service additions: the cross-reference sentence, the nav link and the footer link
+            if name == "privacy":
+                after = remove_run(after, visible(en["privacy.terms.p"].replace("{{base}}", "")))
+            if name != "index":
+                after.remove(en["nav.terms"])
+            self.assertIn(en["footer.terms"], after, name)
+            i = after.index(en["footer.terms"])
+            after = after[:i] + after[i + 1:]
+            self.assertEqual(after[i - 1][-1:], "\u00b7", name)
+            after[i - 1] = after[i - 1][:-1].rstrip()
+            if not after[i - 1]:
+                after.pop(i - 1)
             # the new footer link to the Age Suitability page and the separator in front of it
             self.assertIn(en["footer.age"], after, name)
             i = after.index(en["footer.age"])
@@ -471,7 +511,8 @@ class Generated(unittest.TestCase):
             if not rel.endswith("index.html"):
                 continue
             self.assertNotIn("google-play", text, rel)
-            self.assertNotIn("play.google.com", text, rel)
+            # the Terms link to Google's Play Terms of Service, which is not a link to a store listing
+            self.assertNotIn("play.google.com", text.replace("https://play.google.com/about/play-terms/", ""), rel)
             links = store_links(text)
             if "royal-game-of-ur/" in rel:
                 self.assertNotIn("apps.apple.com", text, rel)  # privacy, support and age pages carry no store link
@@ -644,8 +685,79 @@ class Generated(unittest.TestCase):
         sm = self.out["sitemap.xml"]
         for l in self.langs:
             prefix = "" if l["code"] == "en" else l["code"] + "/"
-            for rel in ("", "royal-game-of-ur/privacy/", "royal-game-of-ur/support/"):
+            for rel in ("", "royal-game-of-ur/privacy/", "royal-game-of-ur/support/", TERMS):
                 self.assertIn(f"<loc>https://lumoxia.art/{prefix}{rel}</loc>", sm)
+
+    def terms_page(self, lang):
+        return self.out[("" if lang == "en" else lang + "/") + TERMS + "index.html"]
+
+    def test_terms_page_in_every_language(self):
+        template = (ROOT / "templates/terms.html").read_text("utf-8")
+        for key in (k for k in self.site.strings["en"] if k.startswith("terms.")):
+            self.assertIn("{{t:%s}}" % key, template, key)  # no string is written but never shown
+        for lang, strings in self.site.strings.items():
+            page = self.terms_page(lang)
+            positions = []
+            for sec in TERMS_SECTIONS:
+                self.assertIn("terms.%s.h" % sec, strings, lang)
+                positions.append(page.find("<h2>%s</h2>" % strings["terms.%s.h" % sec].replace("&", "&amp;")))
+            self.assertNotIn(-1, positions, lang)
+            self.assertEqual(positions, sorted(positions), lang)  # sections in the designed order
+            self.assertIn(TERMS_DATES[lang], strings["terms.meta"], lang)
+
+    def test_terms_names_the_publisher_and_the_notice_address(self):
+        for lang in self.site.strings:
+            page = self.terms_page(lang)
+            self.assertIn(build.PUBLISHER_NAME, page, lang)
+            self.assertIn('href="mailto:%s"' % build.NOTICE_EMAIL, page, lang)
+
+    def test_terms_carry_the_store_clauses_in_every_language(self):
+        for lang, strings in self.site.strings.items():
+            for key in ["terms.apple.l%d" % i for i in range(1, 9)] + ["terms.google.p", "terms.export.p"]:
+                self.assertIn(key, strings, lang)
+        en = self.site.strings["en"]
+        apple = " ".join(en["terms.apple.l%d" % i] for i in range(1, 9))
+        for phrase in ("third-party beneficiar", "embargo", "not Apple", "refund the purchase price"):
+            self.assertIn(phrase, apple)
+
+    def test_terms_keep_the_consumer_floor_and_leave_out_forced_arbitration(self):
+        en = self.site.strings["en"]
+        text = " ".join(v for k, v in en.items() if k.startswith("terms."))
+        for word in ("arbitrat", "class action", "class-action", " we ", " our "):
+            self.assertNotIn(word, text.lower())
+        page = self.terms_page("en")
+        rights, warranty, liability = (page.find(en["terms.%s.h" % k]) for k in ("rights", "warranty", "liability"))
+        self.assertTrue(0 < rights < warranty < liability)
+        carve = " ".join(en["terms.liability.l%d" % i] for i in range(1, 5))
+        for phrase in ("death or personal injury", "fraud", "gross negligence", "wilful misconduct"):
+            self.assertIn(phrase, carve)
+        self.assertIn("Subject to your rights above", en["terms.liability.p1"])
+        self.assertIn("England and Wales", en["terms.law.p"])
+        self.assertIn("the courts of the country where the consumer lives", en["terms.law.p"])
+        self.assertNotIn("EU Online Dispute", text)
+
+    def test_terms_are_linked_from_every_page(self):
+        for lang in self.site.strings:
+            prefix = "" if lang == "en" else lang + "/"
+            for rel in ("index.html", "royal-game-of-ur/privacy/index.html", "royal-game-of-ur/support/index.html",
+                        AGE + "index.html", TERMS + "index.html"):
+                page = self.out[prefix + rel]
+                depth = len(Path(rel).parts) - 1
+                link = 'href="%s%s"' % ("../" * depth, TERMS)
+                self.assertIn(link, page, prefix + rel)
+                footer = page[page.index('<footer'):]
+                self.assertIn(link, footer, prefix + rel + " footer")
+                if rel != "index.html":
+                    nav = page[page.index('class="nav-links"'):page.index("</div>", page.index('class="nav-links"'))]
+                    self.assertIn(link, nav, prefix + rel + " nav")
+
+    def test_terms_cross_references_leave_the_facts_alone(self):
+        for lang, strings in self.site.strings.items():
+            prefix = "" if lang == "en" else lang + "/"
+            for rel, key in (("royal-game-of-ur/privacy/", "privacy.terms.p"), (AGE, "age.terms.p")):
+                self.assertIn('href="../../%s"' % TERMS, self.out[prefix + rel + "index.html"], lang)
+                self.assertIn(key, strings)
+            self.assertIn(PRIVACY_DATES[lang], strings["privacy.meta"], lang)  # the privacy facts did not change
 
     def test_committed_output_is_current(self):
         for path, text in self.out.items():

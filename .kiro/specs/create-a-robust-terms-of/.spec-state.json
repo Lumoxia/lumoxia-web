@@ -1,0 +1,49 @@
+{
+ "decisions": [
+  {
+   "id": "legal-identity-law",
+   "title": "Which legal name, postal address, governing law and courts should the Terms name?",
+   "options": [
+    "England and Wales law and courts, with a consumer home-court exception; owner supplies legal name and address",
+    "Law of the owner's country of residence, with a consumer home-court exception",
+    "Delaware or California law, with a consumer home-court exception"
+   ],
+   "recommended": "England and Wales law and courts, with a consumer home-court exception; owner supplies legal name and address",
+   "answer": "England and Wales law and courts; publisher Lumoxia.Art; notices to info@lumoxia.art; no postal address"
+  },
+  {
+   "id": "arbitration",
+   "title": "Include an arbitration clause and class-action waiver?",
+   "options": [
+    "No arbitration and no class waiver (courts plus informal resolution)",
+    "US-only arbitration with class waiver and 30-day opt-out"
+   ],
+   "recommended": "No arbitration and no class waiver (courts plus informal resolution)",
+   "answer": "No arbitration and no class waiver (courts plus informal resolution)"
+  },
+  {
+   "id": "translations",
+   "title": "Translate the Terms into all 15 languages now, marked unreviewed, with English prevailing?",
+   "options": [
+    "Yes, all 15 languages in one change, English prevails",
+    "English only"
+   ],
+   "recommended": "Yes, all 15 languages in one change, English prevails",
+   "answer": "Yes, all 15 languages in one change, English prevails"
+  },
+  {
+   "id": "publisher-identity-build-constants",
+   "title": "Store the publisher name and notices email as build-time constants that fail the build when empty?",
+   "options": [
+    "Yes, constants in scripts/build.py, build fails closed",
+    "Put them in each language's strings"
+   ],
+   "recommended": "Yes, constants in scripts/build.py, build fails closed",
+   "answer": "Yes, constants in scripts/build.py, build fails closed"
+  }
+ ],
+ "blocking": null,
+ "context": {
+  "template": "update-the-lumoxia-web-privacy-policy"
+ }
+}

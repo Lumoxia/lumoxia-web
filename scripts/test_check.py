@@ -103,6 +103,16 @@ class TemplateChecks(unittest.TestCase):
     def test_known(self):
         self.assertEqual(c.check_templates({"index": "{{t:a.text}} {{base}}"}, {"a.text"}), [])
 
+    def test_publisher_tokens_are_known(self):
+        self.assertEqual(c.check_templates({"terms": "{{publisher}} {{noticeemail}}"}, set()), [])
+        self.assertTrue(c.check_templates({"terms": "{{publisher:x}}"}, set()))
+
+    def test_publisher_tokens_must_match_in_translations(self):
+        en = {"a": "By {{publisher}}, write to {{noticeemail}}."}
+        self.assertEqual(c.check_strings({"en": en, "fr": {"a": "Par {{publisher}}, ecrire a {{noticeemail}}."}}), [])
+        e = c.check_strings({"en": en, "fr": {"a": "Par {{publisher}}."}})
+        self.assertTrue(any("tokens" in x for x in e))
+
     def test_dash_in_template(self):
         e = c.check_templates({"index": "a — b"}, set())
         self.assertTrue(any("dash" in x for x in e))
