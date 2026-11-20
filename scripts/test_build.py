@@ -90,6 +90,31 @@ def visible(html):
     return p.items
 
 
+class StoreLinks(HTMLParser):
+    """Collects each link to the App Store with the first image inside it, whatever the attribute order or spacing."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.found, self.open = [], None
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if tag == "a" and "apps.apple.com" in (a.get("href") or ""):
+            self.open = [a, None]
+            self.found.append(self.open)
+        elif tag == "img" and self.open and self.open[1] is None:
+            self.open[1] = a
+
+    def handle_endtag(self, tag):
+        if tag == "a":
+            self.open = None
+
+
+def store_links(text):
+    p = StoreLinks()
+    p.feed(text)
+    return [tuple(f) for f in p.found]
+
+
 class Engine(unittest.TestCase):
     def ctx(self, **kw):
         base = dict(strings={"a": "Hello {app:title}", "b": 'x "q" & y'}, app={"title": "Ur"},
@@ -402,6 +427,14 @@ class Generated(unittest.TestCase):
         narrow = re.search(r"@media \(max-width: 420px\) \{([^@]*)\}", css).group(1)
         self.assertNotIn("listen-tidal", narrow)  # the narrow-screen padding exception is YouTube's only
 
+    def test_store_styles(self):
+        css = (ROOT / "styles.css").read_text()
+        self.assertRegex(css, r"\.store a \{[^}]*min-height: 44px")
+        self.assertRegex(css, r"\.store a \{[^}]*padding: 10px")  # a quarter of the 40px badge: Apple's clear space
+        self.assertRegex(css, r"\.store img \{[^}]*height: 40px")  # Apple's minimum height onscreen
+        self.assertIn(".store a:focus-visible", css)
+        self.assertIn(".store a:hover", css)
+
     def test_apple_credit_once(self):
         credit = "Apple and Apple Music are trademarks of Apple Inc., registered in the U.S. and other countries."
         for l in self.langs:
@@ -438,21 +471,21 @@ class Generated(unittest.TestCase):
                 continue
             self.assertNotIn("google-play", text, rel)
             self.assertNotIn("play.google.com", text, rel)
-            links = re.findall(r'<a href="([^"]*apps\.apple\.com[^"]*)"([^>]*)><img ([^>]*)/></a>', text)
+            links = store_links(text)
             if "royal-game-of-ur/" in rel:
                 self.assertNotIn("apps.apple.com", text, rel)  # privacy, support and age pages carry no store link
                 continue
             self.assertEqual(len(links), 1, rel)
-            href, attrs, img = links[0]
-            self.assertEqual(href, build.APPSTORE_URL, rel)
-            self.assertIn('target="_blank"', attrs, rel)
-            self.assertIn('rel="noopener"', attrs, rel)
-            label = re.search(r'aria-label="([^"]+)"', attrs).group(1)
+            a, img = links[0]
+            self.assertEqual(a["href"], build.APPSTORE_URL, rel)
+            self.assertEqual(a.get("target"), "_blank", rel)
+            self.assertEqual(a.get("rel"), "noopener", rel)
+            label = a.get("aria-label", "")
             self.assertIn("App Store", label, rel)
             code = rel.split("/")[0] if "/" in rel else "en"
-            self.assertIn(html.escape(self.site.app[code]["title"], quote=True), label, rel)
-            self.assertIn('alt=""', img, rel)
-            src = re.search(r'src="([^"]+)"', img).group(1)
+            self.assertIn(self.site.app[code]["title"], label, rel)
+            self.assertEqual(img.get("alt"), "", rel)
+            src = img["src"]
             self.assertTrue((ROOT / rel).parent.joinpath(src).resolve().is_file(), rel)
             expected = "en" if code in build.APPSTORE_BADGE["english_for"] else code
             self.assertTrue(src.endswith(f"assets/badges/app-store/{expected}.svg"), rel)

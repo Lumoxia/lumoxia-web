@@ -15,10 +15,7 @@ Apple publishes no badge for Arabic (`ar-sa`) or Hindi (`hi-in`): the toolbox an
 missing file fails the build. `app-store/en.svg` is the US-UK badge that was stored here before it was shown, and is
 byte-identical to the toolbox file.
 
-Rules to keep: do not redraw, recolour, crop or add effects. Keep Apple's clear space (one quarter of the badge height)
-on every side; the page gives the badge 10 px of padding at 40 px high. Apple's minimum height is 40 px. These rules
-were carried over from this file's earlier version and were not re-read on Apple's page when the localised files were
-fetched. The trademark line is in the footer (`footer.trademarks`).
+Rules to keep: do not redraw, recolour, crop or add effects. Apple's badge guidelines (`https://developer.apple.com/app-store/marketing/guidelines/`, read 2026-11-20) say: minimum clear space is one quarter of the badge height, with no photos, typography or graphics inside it; minimum badge height is 40 px onscreen. The site shows every badge 40 px high (the Hebrew file's own viewBox is 42 px high and is scaled to 40) with 10 px of padding on each side. The trademark line is in the footer (`footer.trademarks`).
 
 ## Google (stored, not shown)
 
