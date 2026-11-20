@@ -98,7 +98,7 @@ class StoreLinks(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
-        if tag == "a" and "apps.apple.com" in (a.get("href") or ""):
+        if tag == "a" and urllib.parse.urlparse(a.get("href") or "").hostname == "apps.apple.com":
             self.open = [a, None]
             self.found.append(self.open)
         elif tag == "img" and self.open and self.open[1] is None:
