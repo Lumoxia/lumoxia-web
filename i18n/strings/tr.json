@@ -145,7 +145,7 @@
   "privacy.terms.p": "Uygulamayı kullanma şartları <a href=\"{{base}}royal-game-of-ur/terms/\">Hizmet Şartları</a> sayfasındadır.",
   "age.terms.p": "Uygulamayı kullanma şartları <a href=\"{{base}}royal-game-of-ur/terms/\">Hizmet Şartları</a> sayfasındadır.",
   "terms.h1": "Hizmet Şartları",
-  "terms.meta": "iOS ve Android için {app:title}. Son güncelleme: 20 Kasım 2026.",
+  "terms.meta": "iOS ve Android için {app:title}. Son güncelleme: 20 Kasım 2026. Bu sayfa otomatik olarak çevrilmiştir; çeviri ile İngilizce sürüm arasında fark olursa İngilizce sürüm geçerlidir.",
   "terms.short": "Kısacası: {app:title}, kendi cihazlarınızda, aileniz ve arkadaşlarınızla oynamanız için bir oyundur. Uygulama Lumoxia’ya aittir, ama dayandığı antik oyun ona ait değildir. İsteğe bağlı tek satın almayı Apple veya Google satar ve yürütür. Bu şartlar, yasanın size verdiği hiçbir hakkı asla ortadan kaldırmaz.",
   "terms.prevails": "Bu şartlar İngilizce yazılmıştır. Bir çeviri İngilizce metinden farklıysa, ülkenizin hukuku aksini söylemediği durumlar dışında İngilizce metin geçerlidir.",
   "terms.agree.h": "Bu şartları kabul etmek",

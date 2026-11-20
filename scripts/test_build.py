@@ -705,6 +705,11 @@ class Generated(unittest.TestCase):
             self.assertNotIn(-1, positions, lang)
             self.assertEqual(positions, sorted(positions), lang)  # sections in the designed order
             self.assertIn(TERMS_DATES[lang], strings["terms.meta"], lang)
+            note = strings["terms.meta"].split(TERMS_DATES[lang], 1)[1].strip(" .\u3002\u0964")
+            if lang == "en":
+                self.assertEqual(note, "", lang)
+            else:  # every translation says, in its own language, that it was machine made and that English prevails
+                self.assertGreater(len(note), 15, lang)
 
     def test_terms_names_the_publisher_and_the_notice_address(self):
         for lang in self.site.strings:
