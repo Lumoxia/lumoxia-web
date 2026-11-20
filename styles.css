@@ -148,7 +148,7 @@ a:hover { color: var(--gold-500); }
 .listen-tidal { --svc-h: min(92px, calc((100vw - 48px) / 4.77)); --svc-clear: calc(var(--svc-h) * 0.696); margin-top: 8px; }
 /* on narrow screens the Tidal logo scales down so its row (logo plus twice-height clear space) still fits the 24px-padded container */
 @media (max-width: 420px) { .listen-youtube a { padding-inline: 0; } } /* only the page edge is near, and the logo stays 100px high */
-@media (prefers-reduced-motion: reduce) { .listen a { transition: none; } .listen a:hover { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .listen a, .store a { transition: none; } .listen a:hover, .store a:hover { transform: none; } }
 
 /* ---- Section scaffolding ---- */
 section { padding: 72px 0; }
@@ -326,6 +326,13 @@ section { padding: 72px 0; }
 .soon span { display: flex; flex-direction: column; line-height: 1.2; text-align: start; }
 .soon strong { font-family: var(--serif); letter-spacing: 2px; text-transform: uppercase; font-size: 1.05rem; color: var(--gold-400); }
 .soon small { color: var(--muted); font-size: 0.85rem; }
+/* App Store badge: Apple's clear space is one quarter of the badge height (10px at 40px high) */
+.store { margin: 20px 0 14px; }
+.store a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px;
+  padding: 10px; border-radius: 12px; transition: background 0.15s ease, transform 0.15s ease; }
+.store a:hover { background: rgba(232, 198, 106, 0.14); transform: translateY(-2px); }
+.store a:focus-visible { outline: 2px solid var(--gold-400); outline-offset: 2px; }
+.store img { display: block; height: 40px; width: auto; max-width: 100%; }
 .phone { position: relative; }
 .ribbon {
   position: absolute;

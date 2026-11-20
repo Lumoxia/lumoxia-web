@@ -16,6 +16,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lumoxia.art"
 PATREON_URL = "https://www.patreon.com/lumoxia_art"
+APPSTORE_URL = "https://apps.apple.com/us/app/royal-game-of-ur-world-ed/id6829337933"
+# Apple's "Download on the App Store" badge, black, one file per language in assets/badges/app-store/ (see the README
+# there). A language in english_for has no Apple badge and uses en.svg; any other missing file is an error.
+APPSTORE_BADGE = {"file": "app-store/{lang}.svg", "english_for": ("ar", "hi")}
 ALBUM_TITLE = "Bronze and Hide"
 # Streaming services for the album, in display order. A service is listed only once its official logo is in
 # assets/music/ (see the README there). "row" groups services that share a line: YouTube and Tidal need
@@ -166,6 +170,7 @@ class Site:
             "detect": self.detect() if code == "en" else "",
             "langmenu": self.langmenu(code, addr, button), "patreon": PATREON_URL,
             "album": ALBUM_TITLE,
+            "appstore": self.appstore(code, root_prefix(rel)) if page == "index" else "",
             "albumlinks": self.albumlinks(code, root_prefix(rel)) if page == "index" else "",
         }
         strings = dict(self.strings[code])
@@ -176,16 +181,25 @@ class Site:
         first, rest = out.split("\n", 1)
         return first + "\n" + HEADER + "\n" + rest.rstrip("\n") + "\n", rel
 
-    def logo_path(self, service, code):
-        """The logo file for a service in a language. Apple's badge is localised; only the languages a service
+    def logo_path(self, service, code, folder="assets/music"):
+        """The logo file for a service in a language. Apple's badges are localised; only the languages a service
         lists in english_for use the English file, so a deleted or misspelt badge fails the build."""
         name = service["file"].replace("{lang}", code)
         if "{lang}" in service["file"] and code in service.get("english_for", ()):
             name = service["file"].replace("{lang}", "en")
-        path = self.root / "assets/music" / name
+        path = self.root / folder / name
         if not path.is_file():
-            raise BuildError(f"missing logo file assets/music/{name}")
+            raise BuildError(f"missing logo file {folder}/{name}")
         return name, path
+
+    def appstore(self, code, root):
+        """The App Store badge link for the home page's game section."""
+        label = self.strings[code]["game.store.link"].replace("{app:title}", self.app[code]["title"])
+        name, path = self.logo_path(APPSTORE_BADGE, code, "assets/badges")
+        w, h = image_size(path)
+        return (f'<p class="store"><a href="{html.escape(APPSTORE_URL, quote=True)}" target="_blank" rel="noopener" '
+                f'aria-label="{html.escape(label, quote=True)}"><img src="{root}assets/badges/{name}" alt="" '
+                f'width="{w}" height="{h}" /></a></p>')
 
     def albumlinks(self, code, root):
         """One centred list of logo links per row of MUSIC_SERVICES."""
