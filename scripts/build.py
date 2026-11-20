@@ -165,7 +165,7 @@ class Site:
         rel = (f"{code}/" if code != "en" else "") + addr + "index.html" if addr else (f"{code}/" if code != "en" else "") + "index.html"
         lang_dir = None if code == "en" else code
         app = self.app[code]
-        if not PUBLISHER_NAME.strip() or not NOTICE_EMAIL.strip():
+        if page == "terms" and (not PUBLISHER_NAME.strip() or not NOTICE_EMAIL.strip()):
             raise BuildError("PUBLISHER_NAME and NOTICE_EMAIL must be set: the Terms must name who offers them")
         button = strip_colon(app["langLabel"])
         simple = {

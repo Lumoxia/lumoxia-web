@@ -178,6 +178,7 @@ class Engine(unittest.TestCase):
             try:
                 with self.assertRaises(build.BuildError):
                     site.render_page("en", "terms")
+                site.render_page("en", "privacy")  # only the Terms need the publisher
             finally:
                 setattr(build, name, original)
 
@@ -723,8 +724,9 @@ class Generated(unittest.TestCase):
     def test_terms_keep_the_consumer_floor_and_leave_out_forced_arbitration(self):
         en = self.site.strings["en"]
         text = " ".join(v for k, v in en.items() if k.startswith("terms."))
-        for word in ("arbitrat", "class action", "class-action", " we ", " our "):
+        for word in ("arbitrat", "class action", "class-action"):
             self.assertNotIn(word, text.lower())
+        self.assertEqual(re.findall(r"\b(?:we|our|ours)\b", text, re.I), [])  # the studio says Lumoxia, never "we"
         page = self.terms_page("en")
         rights, warranty, liability = (page.find(en["terms.%s.h" % k]) for k in ("rights", "warranty", "liability"))
         self.assertTrue(0 < rights < warranty < liability)
