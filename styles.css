@@ -329,8 +329,9 @@ section { padding: 72px 0; }
 /* App Store badge: Apple's clear space is one quarter of the badge height (10px at 40px high) */
 .store { margin: 20px 0 14px; }
 .store a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px;
-  padding: 10px; border-radius: 12px; transition: background 0.15s ease, transform 0.15s ease; }
-.store a:hover { background: rgba(232, 198, 106, 0.14); transform: translateY(-2px); }
+  padding: 10px; border-radius: 12px; transition: transform 0.15s ease; }
+/* no background on hover: the padding is Apple's clear space and must stay empty */
+.store a:hover { transform: translateY(-2px); }
 .store a:focus-visible { outline: 2px solid var(--gold-400); outline-offset: 2px; }
 .store img { display: block; height: 40px; width: auto; max-width: 100%; }
 .phone { position: relative; }

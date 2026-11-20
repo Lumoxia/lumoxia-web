@@ -433,7 +433,8 @@ class Generated(unittest.TestCase):
         self.assertRegex(css, r"\.store a \{[^}]*padding: 10px")  # a quarter of the 40px badge: Apple's clear space
         self.assertRegex(css, r"\.store img \{[^}]*height: 40px")  # Apple's minimum height onscreen
         self.assertIn(".store a:focus-visible", css)
-        self.assertIn(".store a:hover", css)
+        hover = re.search(r"\.store a:hover \{([^}]*)\}", css).group(1)
+        self.assertNotIn("background", hover)  # the padding is Apple's clear space: nothing may be drawn in it
 
     def test_apple_credit_once(self):
         credit = "Apple and Apple Music are trademarks of Apple Inc., registered in the U.S. and other countries."
