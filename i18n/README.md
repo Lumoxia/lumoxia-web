@@ -37,6 +37,8 @@ Em dashes and en dashes are not allowed.
 
 The Age Suitability page uses `meta.age.*`, `age.*` and `footer.age`; its two inline links (to the Privacy and Support pages) keep `{{base}}` and translate only the link text. The page states no age rating, only what the app contains.
 
+The App Store badge in the game section uses `game.now` (the ribbon on the phone), `game.store.link` (the badge link's accessible name, keeping `{app:title}`) and, around it, `game.eyebrow`, `game.soon` and `game.platforms` (the Android pill). The listing URL and the badge files are in `scripts/build.py` and `assets/badges/app-store/`.
+
 The Music section uses `nav.music` and `music.*`; the Patreon links use `contact.patreon`, `contact.patreon.btn` and `footer.patreon`. "Patreon" is not translated. The URL itself is not in the strings: it is the `{{patreon}}` token. The album's service links are built by `scripts/build.py`: `music.link` is the accessible name of each link and must keep `{{album}}` and `{service}` (replaced by the album title and the service name, neither translated). `footer.music` is the vendors' credit line and stays in English.
 
 To refresh `app-terms.json` after the app's strings change:

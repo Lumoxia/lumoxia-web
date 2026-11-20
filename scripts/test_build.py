@@ -19,6 +19,28 @@ OLD_DATES = {"en": "25 October 2026", "fr": "25 octobre 2026", "es": "25 de octu
              "ar": "25 أكتوبر 2026", "zh": "2026年10月25日", "it": "25 ottobre 2026", "hi": "25 अक्टूबर 2026",
              "tl": "25 Oktubre 2026", "tr": "25 Ekim 2026", "ru": "25 октября 2026", "he": "25 באוקטובר 2026",
              "pt": "25 de outubro de 2026", "ja": "2026年10月25日", "ko": "2026년 10월 25일"}
+# The home page wording before the App Store link: the English strings that were reworded (for the unchanged-text
+# test) and, per language, the old eyebrow and Contact heading (for the no-coming-soon-for-iOS test).
+OLD_STORE_EN = {"game.now": "Coming soon", "game.eyebrow": "First app, coming soon", "game.platforms": "to iOS and Android",
+                "contact.h": "{app:title} is coming soon",
+                "contact.lead": "It is not in the App Store or on Google Play yet. Follow the work on GitHub."}
+OLD_COMING_SOON = {
+    "en": ("First app, coming soon", "{app:title} is coming soon"),
+    "fr": ("Première app, bientôt disponible", "{app:title} arrive bientôt"),
+    "es": ("Primera app, próximamente", "{app:title} llega pronto"),
+    "de": ("Erste App, bald verfügbar", "{app:title}: bald verfügbar"),
+    "ar": ("التطبيق الأول، قريبًا", "{app:title} قادم قريبًا"),
+    "zh": ("首款应用，即将推出", "{app:title} 即将推出"),
+    "it": ("Prima app, in arrivo", "{app:title}: in arrivo"),
+    "hi": ("पहला ऐप, जल्द आ रहा है", "{app:title} जल्द आ रहा है"),
+    "tl": ("Unang app, malapit na", "Malapit na ang {app:title}"),
+    "tr": ("İlk uygulama, çok yakında", "{app:title} çok yakında"),
+    "ru": ("Первое приложение, скоро", "{app:title} скоро выйдет"),
+    "he": ("האפליקציה הראשונה, בקרוב", "{app:title} בקרוב"),
+    "pt": ("Primeiro app, em breve", "{app:title} chega em breve"),
+    "ja": ("最初のアプリ、近日公開", "{app:title} は近日公開"),
+    "ko": ("첫 번째 앱, 출시 예정", "{app:title}, 출시 예정"),
+}
 # The "Last updated" date the Privacy page carries now, per language. Update it together with the date in privacy.meta.
 PRIVACY_DATES = {"en": "3 November 2026", "fr": "3 novembre 2026", "es": "3 de noviembre de 2026", "de": "3. November 2026",
                  "ar": "3 نوفمبر 2026", "zh": "2026年11月3日", "it": "3 novembre 2026", "hi": "3 नवंबर 2026",
@@ -66,6 +88,31 @@ def visible(html):
     p = Visible()
     p.feed(html)
     return p.items
+
+
+class StoreLinks(HTMLParser):
+    """Collects each link to the App Store with the first image inside it, whatever the attribute order or spacing."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.found, self.open = [], None
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if tag == "a" and urllib.parse.urlparse(a.get("href") or "").hostname == "apps.apple.com":
+            self.open = [a, None]
+            self.found.append(self.open)
+        elif tag == "img" and self.open and self.open[1] is None:
+            self.open[1] = a
+
+    def handle_endtag(self, tag):
+        if tag == "a":
+            self.open = None
+
+
+def store_links(text):
+    p = StoreLinks()
+    p.feed(text)
+    return [tuple(f) for f in p.found]
 
 
 class Engine(unittest.TestCase):
@@ -147,6 +194,26 @@ class Generated(unittest.TestCase):
                 self.assertIn(prefix + rel, self.out)
         self.assertIn("sitemap.xml", self.out)
 
+    def undo_store_changes(self, items):
+        """Put the pre-App Store English wording back in place of the intended home page edits."""
+        strings = self.site.strings["en"]
+
+        def chunks(key, text):
+            ctx = build.Context(strings={key: text}, app=self.site.app["en"], simple={"base": "", "root": ""})
+            return visible("<p>" + build.expand("{{t:%s}}" % key, ctx) + "</p>")
+
+        for key, old_text in OLD_STORE_EN.items():
+            new, old = chunks(key, strings[key]), chunks(key, old_text)
+            for i in range(len(items) - len(new) + 1):
+                if items[i:i + len(new)] == new:
+                    items = items[:i] + old + items[i + len(new):]
+                    break
+            else:
+                self.fail(f"{key} not found on the home page")
+        label = chunks("game.store.link", strings["game.store.link"])  # the badge link's accessible name is new
+        i = items.index(label[0])
+        return items[:i] + items[i + len(label):]
+
     def undo_iap_changes(self, items, page):
         """Put the pre-purchase English wording back in place of the intended in-app purchase edits."""
         spec = json.loads((BEFORE / "iap-changes.json").read_text("utf-8"))
@@ -207,6 +274,8 @@ class Generated(unittest.TestCase):
             if not after[i - 1]:
                 after.pop(i - 1)
             after = self.undo_iap_changes(after, name)
+            if name == "index":
+                after = self.undo_store_changes(after)
             if name == "privacy":
                 # the one intended addition: the "This website" section
                 i = after.index("This website")
@@ -255,8 +324,9 @@ class Generated(unittest.TestCase):
 
     def test_android_and_store_attribution(self):
         home = " ".join(visible(self.out["index.html"]))
-        self.assertIn("to iOS and Android", home)
-        self.assertIn("It is not in the App Store or on Google Play yet.", home)
+        self.assertIn("to Android", home)
+        self.assertNotIn("to iOS and Android", home)
+        self.assertNotIn("It is not in the App Store or on Google Play yet.", home)
         for rel in ("royal-game-of-ur/privacy/index.html", "royal-game-of-ur/support/index.html"):
             self.assertIn("for iOS and Android", " ".join(visible(self.out[rel])), rel)
         for rel, text in self.out.items():
@@ -357,6 +427,15 @@ class Generated(unittest.TestCase):
         narrow = re.search(r"@media \(max-width: 420px\) \{([^@]*)\}", css).group(1)
         self.assertNotIn("listen-tidal", narrow)  # the narrow-screen padding exception is YouTube's only
 
+    def test_store_styles(self):
+        css = (ROOT / "styles.css").read_text()
+        self.assertRegex(css, r"\.store a \{[^}]*min-height: 44px")
+        self.assertRegex(css, r"\.store a \{[^}]*padding: 10px")  # a quarter of the 40px badge: Apple's clear space
+        self.assertRegex(css, r"\.store img \{[^}]*height: 40px")  # Apple's minimum height onscreen
+        self.assertIn(".store a:focus-visible", css)
+        hover = re.search(r"\.store a:hover \{([^}]*)\}", css).group(1)
+        self.assertNotIn("background", hover)  # the padding is Apple's clear space: nothing may be drawn in it
+
     def test_apple_credit_once(self):
         credit = "Apple and Apple Music are trademarks of Apple Inc., registered in the U.S. and other countries."
         for l in self.langs:
@@ -386,11 +465,58 @@ class Generated(unittest.TestCase):
                 self.assertNotIn("<iframe", text, rel)
                 self.assertEqual(re.findall(r'<script[^>]+src="https?://[^"]*"', text), [], rel)
 
-    def test_badges_stored_but_not_shown(self):
-        for name in ("app-store.svg", "google-play.png"):
-            self.assertTrue((ROOT / "assets/badges" / name).is_file(), name)
+    def test_app_store_badge_shown_and_google_play_not(self):
+        self.assertTrue((ROOT / "assets/badges/google-play.png").is_file())
         for rel, text in self.out.items():
-            self.assertNotIn("assets/badges", text, rel)
+            if not rel.endswith("index.html"):
+                continue
+            self.assertNotIn("google-play", text, rel)
+            self.assertNotIn("play.google.com", text, rel)
+            links = store_links(text)
+            if "royal-game-of-ur/" in rel:
+                self.assertNotIn("apps.apple.com", text, rel)  # privacy, support and age pages carry no store link
+                continue
+            self.assertEqual(len(links), 1, rel)
+            a, img = links[0]
+            self.assertEqual(a["href"], build.APPSTORE_URL, rel)
+            self.assertEqual(a.get("target"), "_blank", rel)
+            self.assertEqual(a.get("rel"), "noopener", rel)
+            label = a.get("aria-label", "")
+            self.assertIn("App Store", label, rel)
+            code = rel.split("/")[0] if "/" in rel else "en"
+            self.assertIn(self.site.app[code]["title"], label, rel)
+            self.assertEqual(img.get("alt"), "", rel)
+            src = img["src"]
+            self.assertTrue((ROOT / rel).parent.joinpath(src).resolve().is_file(), rel)
+            expected = "en" if code in build.APPSTORE_BADGE["english_for"] else code
+            self.assertTrue(src.endswith(f"assets/badges/app-store/{expected}.svg"), rel)
+            self.assertEqual(text.count("apps.apple.com"), 1, rel)
+
+    def test_no_coming_soon_for_ios(self):
+        for l in self.langs:
+            code = l["code"]
+            prefix = "" if code == "en" else code + "/"
+            text = self.out[prefix + "index.html"]
+            app = self.site.app[code]
+            for old in OLD_COMING_SOON[code]:
+                self.assertNotIn(html.escape(old.replace("{app:title}", app["title"]), quote=False), text, code)
+            now = html.escape(self.site.strings[code]["game.now"], quote=False)
+            self.assertEqual(text.count(f'<span class="ribbon">{now}</span>'), 1, code)
+
+    def test_app_store_url_in_one_place(self):
+        self.assertEqual((ROOT / "scripts/build.py").read_text("utf-8").count(build.APPSTORE_URL), 1)
+        for folder in ("templates", "i18n/strings"):
+            for f in (ROOT / folder).rglob("*"):
+                if f.is_file():
+                    self.assertNotIn("apps.apple.com", f.read_text("utf-8"), str(f))
+
+    def test_app_store_badge_resolution(self):
+        site = build.Site()
+        badge = dict(build.APPSTORE_BADGE)
+        self.assertEqual(site.logo_path(badge, "fr", "assets/badges")[0], "app-store/fr.svg")
+        with self.assertRaises(build.BuildError):
+            site.logo_path(badge, "zz", "assets/badges")
+        self.assertEqual(site.logo_path(dict(badge, english_for=("zz",)), "zz", "assets/badges")[0], "app-store/en.svg")
 
     def test_english_growth_under_15kb(self):
         for name, rel in [("index", "index.html"), ("privacy", "royal-game-of-ur/privacy/index.html"),
