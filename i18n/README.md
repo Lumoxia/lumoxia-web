@@ -39,7 +39,7 @@ The Age Suitability page uses `meta.age.*`, `age.*` and `footer.age`; its two in
 
 The Terms of Service page uses `meta.terms.*`, `terms.*`, `nav.terms` and `footer.terms`, and the one-line pointers `privacy.terms.p` and `age.terms.p`. The tokens `{{publisher}}` and `{{noticeemail}}` (set in `scripts/build.py`) must stay in the strings that use them and are never translated. The page is in English first and every translation says the English text prevails. Every translated `terms.meta` ends with a sentence saying the translation was made automatically and that English prevails; English has none. A reviewer should read these keys first, because they carry legal force: `terms.licence`, `terms.warranty`, `terms.liability`, `terms.law` and `terms.apple` (Apple requires its eight points, so none may be dropped).
 
-The App Store badge in the game section uses `game.now` (the ribbon on the phone), `game.store.link` (the badge link's accessible name, keeping `{app:title}`) and, around it, `game.eyebrow`, `game.soon` and `game.platforms` (the Android pill). The listing URL and the badge files are in `scripts/build.py` and `assets/badges/app-store/`.
+The store badges in the game section use `game.now` (the ribbon on the phone, which names iOS and Android), `game.store.link` and `game.play.link` (the accessible names of the App Store and Google Play badge links, keeping `{app:title}`) and, around them, `game.eyebrow`. The Contact band names both stores in `contact.h`. "iOS", "Android", "App Store" and "Google Play" stay in Latin script. The listing URLs and the badge files are in `scripts/build.py`, `assets/badges/app-store/` and `assets/badges/google-play/`.
 
 The Music section uses `nav.music` and `music.*`; the Patreon links use `contact.patreon`, `contact.patreon.btn` and `footer.patreon`. "Patreon" is not translated. The URL itself is not in the strings: it is the `{{patreon}}` token. The album's service links are built by `scripts/build.py`: `music.link` is the accessible name of each link and must keep `{{album}}` and `{service}` (replaced by the album title and the service name, neither translated). `footer.music` is the vendors' credit line and stays in English.
 
@@ -72,4 +72,4 @@ buttons. The "Nine languages" line on the home page describes the app, which doe
 
 ## Store attribution
 
-`footer.trademarks` (Apple and Google trademark lines) is kept in English in every language on purpose. The App Store and Google Play badges live in `assets/badges/` and are not shown yet; see `assets/badges/README.md` for how to add them once the listings exist.
+`footer.trademarks` (Apple and Google trademark lines) is kept in English in every language on purpose. The App Store and Google Play badges live in `assets/badges/` and are shown in the game section; see `assets/badges/README.md` for their sources and rules.

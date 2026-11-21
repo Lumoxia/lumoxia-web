@@ -1,11 +1,14 @@
 """Tests for scripts/build.py and the generated site. Run: python3 scripts/test_build.py"""
+import hashlib
 import html
 import json
 import re
+import struct
 import urllib.parse
 import subprocess
 import sys
 import unittest
+import zlib
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -21,9 +24,22 @@ OLD_DATES = {"en": "25 October 2026", "fr": "25 octobre 2026", "es": "25 de octu
              "pt": "25 de outubro de 2026", "ja": "2026年10月25日", "ko": "2026년 10월 25일"}
 # The home page wording before the App Store link: the English strings that were reworded (for the unchanged-text
 # test) and, per language, the old eyebrow and Contact heading (for the no-coming-soon-for-iOS test).
-OLD_STORE_EN = {"game.now": "Coming soon", "game.eyebrow": "First app, coming soon", "game.platforms": "to iOS and Android",
+OLD_STORE_EN = {"game.now": "Coming soon", "game.eyebrow": "First app, coming soon",
                 "contact.h": "{app:title} is coming soon",
                 "contact.lead": "It is not in the App Store or on Google Play yet. Follow the work on GitHub."}
+# The two visible items of the "Coming soon, to iOS and Android" pill that stood under the App Store badge.
+OLD_PILL = ["Coming soon", "to iOS and Android"]
+# The Android sentence the Contact lead carried before the Google Play link, per language (captured from HEAD).
+OLD_ANDROID_SENTENCE = {
+    "en": "The Android version is coming soon.", "ar": "إصدار Android قادم قريبًا.",
+    "de": "Die Android-Version kommt bald.", "es": "La versión para Android llegará pronto.",
+    "fr": "La version Android arrive bientôt.", "he": "גרסת Android בקרוב.",
+    "hi": "Android संस्करण जल्द आ रहा है।", "it": "La versione Android è in arrivo.",
+    "ja": "Android 版は近日公開です。", "ko": "Android 버전은 출시 예정입니다.",
+    "pt": "A versão para Android chega em breve.", "ru": "Версия для Android скоро выйдет.",
+    "tl": "Malapit na ang bersyon para sa Android.", "tr": "Android sürümü çok yakında.",
+    "zh": "Android 版即将推出。",
+}
 OLD_COMING_SOON = {
     "en": ("First app, coming soon", "{app:title} is coming soon"),
     "fr": ("Première app, bientôt disponible", "{app:title} arrive bientôt"),
@@ -108,14 +124,15 @@ def remove_run(items, run):
 
 
 class StoreLinks(HTMLParser):
-    """Collects each link to the App Store with the first image inside it, whatever the attribute order or spacing."""
-    def __init__(self):
+    """Collects each link to a store listing (host) with the first image inside it, whatever the attribute order or
+    spacing, in page order."""
+    def __init__(self, host):
         super().__init__(convert_charrefs=True)
-        self.found, self.open = [], None
+        self.host, self.found, self.open = host, [], None
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
-        if tag == "a" and urllib.parse.urlparse(a.get("href") or "").hostname == "apps.apple.com":
+        if tag == "a" and urllib.parse.urlparse(a.get("href") or "").hostname == self.host:
             self.open = [a, None]
             self.found.append(self.open)
         elif tag == "img" and self.open and self.open[1] is None:
@@ -126,10 +143,59 @@ class StoreLinks(HTMLParser):
             self.open = None
 
 
-def store_links(text):
-    p = StoreLinks()
+def store_links(text, host="apps.apple.com"):
+    p = StoreLinks(host)
     p.feed(text)
     return [tuple(f) for f in p.found]
+
+
+# Terms link to Google's Play Terms of Service: not a link to a store listing
+PLAY_TERMS = "https://play.google.com/about/play-terms/"
+
+
+def play_links(text):
+    return store_links(text.replace(PLAY_TERMS, ""), "play.google.com")
+
+
+def opaque_rows(path):
+    """First and last row (and the row count) of a PNG that hold a non-transparent pixel. Plain Python, no imaging
+    library: 8-bit, non-interlaced, RGBA or palette with a tRNS chunk, which is what Google distributes."""
+    data = path.read_bytes()
+    pos, idat, plte, trns, hdr = 8, b"", b"", b"", None
+    while pos < len(data):
+        n, kind = struct.unpack(">I4s", data[pos:pos + 8])
+        body = data[pos + 8:pos + 8 + n]
+        if kind == b"IHDR":
+            hdr = struct.unpack(">IIBBBBB", body)
+        elif kind == b"IDAT":
+            idat += body
+        elif kind == b"tRNS":
+            trns = body
+        pos += 12 + n
+    w, h, depth, ctype, _, _, interlace = hdr
+    assert depth == 8 and interlace == 0 and ctype in (3, 6), (path.name, hdr)
+    bpp = 4 if ctype == 6 else 1
+    raw, stride, rows, prev = zlib.decompress(idat), w * bpp, [], bytearray(w * bpp)
+    for y in range(h):
+        f, line = raw[y * (stride + 1)], bytearray(raw[y * (stride + 1) + 1:(y + 1) * (stride + 1)])
+        for i in range(stride):
+            a = line[i - bpp] if i >= bpp else 0
+            b = prev[i]
+            c = prev[i - bpp] if i >= bpp else 0
+            if f == 1: line[i] = (line[i] + a) & 255
+            elif f == 2: line[i] = (line[i] + b) & 255
+            elif f == 3: line[i] = (line[i] + (a + b) // 2) & 255
+            elif f == 4:
+                pa, pb, pc = abs(b - c), abs(a - c), abs(a + b - 2 * c)
+                line[i] = (line[i] + (a if pa <= pb and pa <= pc else b if pb <= pc else c)) & 255
+        rows.append(line)
+        prev = line
+    def alpha(line):
+        if ctype == 6:
+            return line[3::4]
+        return bytes(trns[v] if v < len(trns) else 255 for v in line)
+    opaque = [y for y, line in enumerate(rows) if any(alpha(line))]
+    return opaque[0], opaque[-1], h
 
 
 class Engine(unittest.TestCase):
@@ -239,9 +305,11 @@ class Generated(unittest.TestCase):
                     break
             else:
                 self.fail(f"{key} not found on the home page")
-        label = chunks("game.store.link", strings["game.store.link"])  # the badge link's accessible name is new
-        i = items.index(label[0])
-        return items[:i] + items[i + len(label):]
+        for key in ("game.store.link", "game.play.link"):  # the badge links' accessible names are new
+            label = chunks(key, strings[key])
+            i = items.index(label[0])
+            items = items[:i] + items[i + len(label):]
+        return items
 
     def undo_iap_changes(self, items, page):
         """Put the pre-purchase English wording back in place of the intended in-app purchase edits."""
@@ -317,6 +385,7 @@ class Generated(unittest.TestCase):
             after = self.undo_iap_changes(after, name)
             if name == "index":
                 after = self.undo_store_changes(after)
+                before = remove_run(before, OLD_PILL)  # the "Coming soon, to iOS and Android" pill is gone
             if name == "privacy":
                 # the one intended addition: the "This website" section
                 i = after.index("This website")
@@ -365,8 +434,9 @@ class Generated(unittest.TestCase):
 
     def test_android_and_store_attribution(self):
         home = " ".join(visible(self.out["index.html"]))
-        self.assertIn("to Android", home)
+        self.assertNotIn("to Android", home)
         self.assertNotIn("to iOS and Android", home)
+        self.assertIn("Now on iOS and Android", home)
         self.assertNotIn("It is not in the App Store or on Google Play yet.", home)
         for rel in ("royal-game-of-ur/privacy/index.html", "royal-game-of-ur/support/index.html"):
             self.assertIn("for iOS and Android", " ".join(visible(self.out[rel])), rel)
@@ -473,6 +543,8 @@ class Generated(unittest.TestCase):
         self.assertRegex(css, r"\.store a \{[^}]*min-height: 44px")
         self.assertRegex(css, r"\.store a \{[^}]*padding: 10px")  # a quarter of the 40px badge: Apple's clear space
         self.assertRegex(css, r"\.store img \{[^}]*height: 40px")  # Apple's minimum height onscreen
+        self.assertRegex(css, r"\.store \{[^}]*display: flex[^}]*flex-wrap: wrap")  # the two badges wrap on narrow screens
+        self.assertNotRegex(css, r"\.soon\b")  # the "Coming soon, to Android" pill is gone
         self.assertIn(".store a:focus-visible", css)
         hover = re.search(r"\.store a:hover \{([^}]*)\}", css).group(1)
         self.assertNotIn("background", hover)  # the padding is Apple's clear space: nothing may be drawn in it
@@ -506,44 +578,90 @@ class Generated(unittest.TestCase):
                 self.assertNotIn("<iframe", text, rel)
                 self.assertEqual(re.findall(r'<script[^>]+src="https?://[^"]*"', text), [], rel)
 
-    def test_app_store_badge_shown_and_google_play_not(self):
-        self.assertTrue((ROOT / "assets/badges/google-play.png").is_file())
+    def test_store_badges_shown(self):
         for rel, text in self.out.items():
             if not rel.endswith("index.html"):
                 continue
-            self.assertNotIn("google-play", text, rel)
-            # the Terms link to Google's Play Terms of Service, which is not a link to a store listing
-            self.assertNotIn("play.google.com", text.replace("https://play.google.com/about/play-terms/", ""), rel)
-            links = store_links(text)
+            apple, play = store_links(text), play_links(text)
             if "royal-game-of-ur/" in rel:
-                self.assertNotIn("apps.apple.com", text, rel)  # privacy, support and age pages carry no store link
+                # privacy, support, age and Terms pages carry no store link
+                self.assertNotIn("apps.apple.com", text, rel)
+                self.assertEqual(play, [], rel)
+                self.assertNotIn(build.PLAY_URL, text, rel)
                 continue
-            self.assertEqual(len(links), 1, rel)
-            a, img = links[0]
+            code = rel.split("/")[0] if "/" in rel else "en"
+            title = self.site.app[code]["title"]
+            self.assertEqual(len(apple), 1, rel)
+            a, img = apple[0]
             self.assertEqual(a["href"], build.APPSTORE_URL, rel)
             self.assertEqual(a.get("target"), "_blank", rel)
             self.assertEqual(a.get("rel"), "noopener", rel)
-            label = a.get("aria-label", "")
-            self.assertIn("App Store", label, rel)
-            code = rel.split("/")[0] if "/" in rel else "en"
-            self.assertIn(self.site.app[code]["title"], label, rel)
+            self.assertIn("App Store", a.get("aria-label", ""), rel)
+            self.assertIn(title, a.get("aria-label", ""), rel)
             self.assertEqual(img.get("alt"), "", rel)
-            src = img["src"]
-            self.assertTrue((ROOT / rel).parent.joinpath(src).resolve().is_file(), rel)
+            self.assertTrue((ROOT / rel).parent.joinpath(img["src"]).resolve().is_file(), rel)
             expected = "en" if code in build.APPSTORE_BADGE["english_for"] else code
-            self.assertTrue(src.endswith(f"assets/badges/app-store/{expected}.svg"), rel)
+            self.assertTrue(img["src"].endswith(f"assets/badges/app-store/{expected}.svg"), rel)
             self.assertEqual(text.count("apps.apple.com"), 1, rel)
+            # Google Play: exactly one link, exact URL, safe attributes, localised badge, after Apple's
+            self.assertEqual(len(play), 1, rel)
+            a, img = play[0]
+            self.assertEqual(a["href"], build.PLAY_URL, rel)
+            self.assertEqual(a.get("target"), "_blank", rel)
+            self.assertEqual(a.get("rel"), "noopener", rel)
+            self.assertIn("Google Play", a.get("aria-label", ""), rel)
+            self.assertIn(title, a.get("aria-label", ""), rel)
+            self.assertEqual(img.get("alt"), "", rel)
+            self.assertTrue((ROOT / rel).parent.joinpath(img["src"]).resolve().is_file(), rel)
+            expected = "en" if code in build.PLAYSTORE_BADGE["english_for"] else code
+            self.assertTrue(img["src"].endswith(f"assets/badges/google-play/{expected}.png"), rel)
+            self.assertNotIn("utm_", a["href"], rel)
+            self.assertNotIn("hl=", a["href"], rel)
+            self.assertEqual(text.count(build.PLAY_URL), 1, rel)
+            row = re.search(r'<p class="store">(.*?)</p>', text, re.S)
+            self.assertIsNotNone(row, rel)
+            self.assertLess(row.group(1).index("apps.apple.com"), row.group(1).index("play.google.com"), rel)
 
-    def test_no_coming_soon_for_ios(self):
+    def test_no_coming_soon(self):
+        old_keys = ("game.soon", "game.platforms")
         for l in self.langs:
             code = l["code"]
             prefix = "" if code == "en" else code + "/"
+            strings = self.site.strings[code]
+            for key in old_keys:
+                self.assertNotIn(key, strings, code)
             text = self.out[prefix + "index.html"]
             app = self.site.app[code]
             for old in OLD_COMING_SOON[code]:
                 self.assertNotIn(html.escape(old.replace("{app:title}", app["title"]), quote=False), text, code)
-            now = html.escape(self.site.strings[code]["game.now"], quote=False)
+            self.assertNotIn(OLD_ANDROID_SENTENCE[code], strings["contact.lead"], code)
+            self.assertNotIn(html.escape(OLD_ANDROID_SENTENCE[code], quote=False), text, code)
+            now = html.escape(strings["game.now"], quote=False)
             self.assertEqual(text.count(f'<span class="ribbon">{now}</span>'), 1, code)
+            self.assertIn(html.escape(strings["game.eyebrow"], quote=False), text, code)
+        for rel, text in self.out.items():
+            if rel.endswith(".html"):
+                self.assertNotIn('class="soon"', text, rel)
+
+    def test_ribbon_and_eyebrow_strings(self):
+        en = self.site.strings["en"]
+        self.assertEqual(en["game.now"], "Now on iOS and Android")
+        self.assertEqual(en["game.eyebrow"], "First app, out now on iOS and Android")
+        self.assertEqual(en["contact.h"], "{app:title} is on the App Store and Google Play")
+        self.assertEqual(en["contact.lead"], "Follow the work on GitHub.")
+        self.assertEqual(en["game.play.link"], "Get {app:title} on Google Play")
+        for l in self.langs:
+            strings = self.site.strings[l["code"]]
+            for key in ("game.now", "game.eyebrow"):
+                self.assertIn("iOS", strings[key], l["code"] + key)
+                self.assertIn("Android", strings[key], l["code"] + key)
+            for dash in ("\u2014", "\u2013"):
+                self.assertNotIn(dash, strings["game.now"], l["code"])
+            self.assertIn("App Store", strings["contact.h"], l["code"])
+            self.assertIn("Google Play", strings["contact.h"], l["code"])
+            self.assertIn("{app:title}", strings["contact.h"], l["code"])
+            self.assertIn("Google Play", strings["game.play.link"], l["code"])
+            self.assertIn("{app:title}", strings["game.play.link"], l["code"])
 
     def test_app_store_url_in_one_place(self):
         self.assertEqual((ROOT / "scripts/build.py").read_text("utf-8").count(build.APPSTORE_URL), 1)
@@ -552,6 +670,14 @@ class Generated(unittest.TestCase):
                 if f.is_file():
                     self.assertNotIn("apps.apple.com", f.read_text("utf-8"), str(f))
 
+    def test_play_url_in_one_place(self):
+        self.assertEqual(build.PLAY_URL, "https://play.google.com/store/apps/details?id=art.lumoxia.royalgameofur")
+        self.assertEqual((ROOT / "scripts/build.py").read_text("utf-8").count(build.PLAY_URL), 1)
+        for folder in ("templates", "i18n/strings"):
+            for f in (ROOT / folder).rglob("*"):
+                if f.is_file():
+                    self.assertNotIn("art.lumoxia.royalgameofur", f.read_text("utf-8"), str(f))
+
     def test_app_store_badge_resolution(self):
         site = build.Site()
         badge = dict(build.APPSTORE_BADGE)
@@ -559,6 +685,50 @@ class Generated(unittest.TestCase):
         with self.assertRaises(build.BuildError):
             site.logo_path(badge, "zz", "assets/badges")
         self.assertEqual(site.logo_path(dict(badge, english_for=("zz",)), "zz", "assets/badges")[0], "app-store/en.svg")
+
+    def test_play_badge_resolution(self):
+        site = build.Site()
+        badge = dict(build.PLAYSTORE_BADGE)
+        self.assertEqual(site.logo_path(badge, "fr", "assets/badges")[0], "google-play/fr.png")
+        with self.assertRaises(build.BuildError):
+            site.logo_path(badge, "zz", "assets/badges")
+        self.assertEqual(site.logo_path(dict(badge, english_for=("zz",)), "zz", "assets/badges")[0], "google-play/en.png")
+        for l in self.langs:
+            code = l["code"]
+            self.assertEqual(site.logo_path(badge, code, "assets/badges")[0],
+                             "google-play/%s.png" % ("en" if code in badge["english_for"] else code), code)
+        self.assertFalse((ROOT / "assets/badges/google-play.png").exists())  # moved to google-play/en.png
+
+    def test_play_badges_are_distinct_files(self):
+        """Each language resolves to its own existing PNG; the 15 files differ; README records the locale mapping."""
+        site = build.Site()
+        badge = dict(build.PLAYSTORE_BADGE)
+        digests = {}
+        for l in self.langs:
+            code = l["code"]
+            rel = site.logo_path(badge, code, "assets/badges")[0]
+            path = ROOT / "assets/badges" / rel
+            self.assertTrue(path.is_file(), code)
+            digests[code] = hashlib.sha256(path.read_bytes()).hexdigest()
+        self.assertEqual(len(digests), 15)
+        self.assertEqual(len(set(digests.values())), len(digests), "two languages share the same badge file")
+        readme = (ROOT / "assets/badges/README.md").read_text(encoding="utf-8")
+        for site_code, google_code in (("tl", "fil"), ("he", "iw"), ("pt", "pt-br"), ("zh", "zh-cn")):
+            self.assertIn("%s to `%s`" % (site_code, google_code), readme)
+
+    def test_play_badge_height(self):
+        """Every displayed Google badge shows at least 40px of opaque badge (Apple's is 40px), not just 40px of canvas."""
+        heights = build.PLAYSTORE_BADGE["height"]
+        for l in self.langs:
+            code = l["code"]
+            name = "en" if code in build.PLAYSTORE_BADGE["english_for"] else code
+            first, last, canvas = opaque_rows(ROOT / "assets/badges/google-play" / (name + ".png"))
+            visible_px = (last - first + 1) * heights[name] / canvas
+            self.assertGreaterEqual(visible_px, 40, code)
+            self.assertLess(visible_px, 44, code)  # matches Apple's badge, not far larger
+            tag = self.site.playstore(code, "")
+            self.assertIn('height="%d"' % heights[name], tag, code)
+        self.assertEqual(sorted(heights), sorted(l["code"] for l in self.langs))
 
     def test_english_growth_under_15kb(self):
         for name, rel in [("index", "index.html"), ("privacy", "royal-game-of-ur/privacy/index.html"),
