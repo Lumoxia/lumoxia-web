@@ -20,6 +20,15 @@ APPSTORE_URL = "https://apps.apple.com/us/app/royal-game-of-ur-world-ed/id682933
 # Apple's "Download on the App Store" badge, black, one file per language in assets/badges/app-store/ (see the README
 # there). A language in english_for has no Apple badge and uses en.svg; any other missing file is an error.
 APPSTORE_BADGE = {"file": "app-store/{lang}.svg", "english_for": ("ar", "hi")}
+PLAY_URL = "https://play.google.com/store/apps/details?id=art.lumoxia.royalgameofur"
+# Google's "Get it on Google Play" badge, one PNG per language in assets/badges/google-play/ (see the README there).
+# A language in english_for has no Google badge and uses en.png; any other missing file is an error.
+# height is the displayed height in px, per file. Google's PNGs carry transparent margin and the margin differs
+# (en, ar and he show 168 opaque px of 250, the others 192 of 250), so each height makes the opaque badge about 40px
+# high, like Apple's. The margin is kept as clear space; the image is never cropped.
+PLAYSTORE_BADGE = {"file": "google-play/{lang}.png", "english_for": (),
+                   "height": {"en": 60, "ar": 60, "he": 60, "fr": 53, "es": 53, "de": 53, "zh": 53, "it": 53, "hi": 53,
+                              "tl": 53, "tr": 53, "ru": 53, "pt": 53, "ja": 53, "ko": 53}}
 ALBUM_TITLE = "Bronze and Hide"
 # Who offers the Terms of Service and where notices go. They are facts, not translations, so they enter the Terms
 # through the {{publisher}} and {{noticeemail}} tokens. The build fails if either is empty.
@@ -179,6 +188,7 @@ class Site:
             "publisher": html.escape(PUBLISHER_NAME), "noticeemail": html.escape(NOTICE_EMAIL),
             "album": ALBUM_TITLE,
             "appstore": self.appstore(code, root_prefix(rel)) if page == "index" else "",
+            "playstore": self.playstore(code, root_prefix(rel)) if page == "index" else "",
             "albumlinks": self.albumlinks(code, root_prefix(rel)) if page == "index" else "",
         }
         strings = dict(self.strings[code])
@@ -205,9 +215,21 @@ class Site:
         label = self.strings[code]["game.store.link"].replace("{app:title}", self.app[code]["title"])
         name, path = self.logo_path(APPSTORE_BADGE, code, "assets/badges")
         w, h = image_size(path)
-        return (f'<p class="store"><a href="{html.escape(APPSTORE_URL, quote=True)}" target="_blank" rel="noopener" '
+        return (f'<a href="{html.escape(APPSTORE_URL, quote=True)}" target="_blank" rel="noopener" '
                 f'aria-label="{html.escape(label, quote=True)}"><img src="{root}assets/badges/{name}" alt="" '
-                f'width="{w}" height="{h}" /></a></p>')
+                f'width="{w}" height="{h}" /></a>')
+
+    def playstore(self, code, root):
+        """The Google Play badge link for the home page's game section, beside the App Store badge."""
+        label = self.strings[code]["game.play.link"].replace("{app:title}", self.app[code]["title"])
+        name, path = self.logo_path(PLAYSTORE_BADGE, code, "assets/badges")
+        w, h = image_size(path)
+        shown = PLAYSTORE_BADGE["height"].get(Path(name).stem)
+        if shown is None:
+            raise BuildError(f"no displayed height for the Google Play badge {name}")
+        return (f'<a class="play" href="{html.escape(PLAY_URL, quote=True)}" target="_blank" rel="noopener" '
+                f'aria-label="{html.escape(label, quote=True)}"><img src="{root}assets/badges/{name}" alt="" '
+                f'width="{round(shown * w / h)}" height="{shown}" style="height:{shown}px" /></a>')
 
     def albumlinks(self, code, root):
         """One centred list of logo links per row of MUSIC_SERVICES."""

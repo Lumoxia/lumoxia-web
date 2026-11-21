@@ -311,29 +311,19 @@ section { padding: 72px 0; }
 .doc-meta { color: var(--muted); margin: 0 0 1.5rem; }
 .doc-contact { margin: 1.2rem 0; }
 
-/* ---- Coming soon badge and ribbon ---- */
-.soon {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  padding: 10px 22px 10px 14px;
-  border: 1px solid var(--gold-500);
-  border-radius: 999px;
-  background: linear-gradient(180deg, rgba(90, 59, 34, 0.5), rgba(42, 37, 31, 0.8));
-  box-shadow: inset 0 0 0 3px rgba(29, 26, 22, 0.6), 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-.soon img { display: block; }
-.soon span { display: flex; flex-direction: column; line-height: 1.2; text-align: start; }
-.soon strong { font-family: var(--serif); letter-spacing: 2px; text-transform: uppercase; font-size: 1.05rem; color: var(--gold-400); }
-.soon small { color: var(--muted); font-size: 0.85rem; }
-/* App Store badge: Apple's clear space is one quarter of the badge height (10px at 40px high) */
-.store { margin: 20px 0 14px; }
+/* ---- Store badges and ribbon ---- */
+/* Store badges: Apple's clear space is one quarter of the badge height (10px at 40px high); Google's is the transparent
+   margin inside its PNG, so the Google link adds no padding. The row wraps when the container is narrow. */
+.store { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 20px 0 14px; }
 .store a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px;
   padding: 10px; border-radius: 12px; transition: transform 0.15s ease; }
 /* no background on hover: the padding is Apple's clear space and must stay empty */
 .store a:hover { transform: translateY(-2px); }
 .store a:focus-visible { outline: 2px solid var(--gold-400); outline-offset: 2px; }
 .store img { display: block; height: 40px; width: auto; max-width: 100%; }
+/* Google's badge: its height is set per file in the img style (see PLAYSTORE_BADGE in scripts/build.py) */
+.store a.play { padding: 0; }
+.store a.play img { object-fit: contain; }
 .phone { position: relative; }
 .ribbon {
   position: absolute;
