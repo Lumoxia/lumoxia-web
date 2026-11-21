@@ -1,4 +1,5 @@
 """Tests for scripts/build.py and the generated site. Run: python3 scripts/test_build.py"""
+import hashlib
 import html
 import json
 import re
@@ -697,6 +698,23 @@ class Generated(unittest.TestCase):
             self.assertEqual(site.logo_path(badge, code, "assets/badges")[0],
                              "google-play/%s.png" % ("en" if code in badge["english_for"] else code), code)
         self.assertFalse((ROOT / "assets/badges/google-play.png").exists())  # moved to google-play/en.png
+
+    def test_play_badges_are_distinct_files(self):
+        """Each language resolves to its own existing PNG; the 15 files differ; README records the locale mapping."""
+        site = build.Site()
+        badge = dict(build.PLAYSTORE_BADGE)
+        digests = {}
+        for l in self.langs:
+            code = l["code"]
+            rel = site.logo_path(badge, code, "assets/badges")[0]
+            path = ROOT / "assets/badges" / rel
+            self.assertTrue(path.is_file(), code)
+            digests[code] = hashlib.sha256(path.read_bytes()).hexdigest()
+        self.assertEqual(len(digests), 15)
+        self.assertEqual(len(set(digests.values())), len(digests), "two languages share the same badge file")
+        readme = (ROOT / "assets/badges/README.md").read_text(encoding="utf-8")
+        for site_code, google_code in (("tl", "fil"), ("he", "iw"), ("pt", "pt-br"), ("zh", "zh-cn")):
+            self.assertIn("%s to `%s`" % (site_code, google_code), readme)
 
     def test_play_badge_height(self):
         """Every displayed Google badge shows at least 40px of opaque badge (Apple's is 40px), not just 40px of canvas."""

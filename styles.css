@@ -312,8 +312,10 @@ section { padding: 72px 0; }
 .doc-contact { margin: 1.2rem 0; }
 
 /* ---- Store badges and ribbon ---- */
-/* Store badges: Apple's clear space is one quarter of the badge height (10px at 40px high); Google's is the transparent
-   margin inside its PNG, so the Google link adds no padding. The row wraps when the container is narrow. */
+/* Store badges: Apple's clear space is one quarter of the badge height (10px at 40px high). Google's PNGs keep their own
+   transparent margin, unaltered; it differs between files (in 12 of 15 the side margin is 0), so the Google link adds no
+   padding and the separation from Apple's badge is the Apple link's 10px padding plus the 8px gap. The badge is never
+   cropped or recoloured. The row wraps when the container is narrow. */
 .store { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 20px 0 14px; }
 .store a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px;
   padding: 10px; border-radius: 12px; transition: transform 0.15s ease; }
@@ -323,7 +325,6 @@ section { padding: 72px 0; }
 .store img { display: block; height: 40px; width: auto; max-width: 100%; }
 /* Google's badge: its height is set per file in the img style (see PLAYSTORE_BADGE in scripts/build.py) */
 .store a.play { padding: 0; }
-.store a.play img { object-fit: contain; }
 .phone { position: relative; }
 .ribbon {
   position: absolute;

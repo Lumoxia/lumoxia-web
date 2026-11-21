@@ -48,6 +48,9 @@ if a displayed badge is under 40 px.
 Rules to keep: do not redraw, recolour, crop, stretch or add effects. Google's badge guidelines (the page above, read
 2026-11-21) say: the badge height is at least 28 px on screen; when shown with other store badges, Google's must be the
 same size or larger; clear space is one quarter of the badge height, on a solid or simple background; use the localised
-badge for a page in another language; use current artwork from the Partner Marketing Hub. The site keeps the PNG's
-own transparent margin as clear space and the Google link adds no padding of its own. Google asks for no extra credit
+badge for a page in another language; use current artwork from the Partner Marketing Hub. The transparent margins are part
+of Google's own files and are not altered; they differ between files (see the table above), and in 12 of the 15 files the
+side margin is 0, so the margin alone is not a quarter-height clear space. The separation from the Apple badge comes from
+the Apple link's 10 px padding plus the 8 px gap of the row; the Google link adds no padding of its own. The badge is
+never cropped or recoloured. Google asks for no extra credit
 line; the trademark line is in the footer (`footer.trademarks`).
